@@ -1,0 +1,60 @@
+<?php
+return [
+    'default' => [
+        'debug' => true,
+    ],
+
+    'database' => [
+        'driver'    => 'sqlite',
+        'host'      => '',
+        'username'  => '',
+        'password'  => '',
+        'database'  => './data/default.sqlite',
+        'charset'   => 'utf8',
+        'collation' => 'utf8_general_ci',
+        'prefix'    => 'hws_',
+    ],
+
+    'cookie' => [
+        'secret_key' => 'Your Key Here',
+        'life_time'  => '20 minutes',
+        'path'       => '/',
+        'domain'     => null,
+        'secure'     => false,
+        'httponly'   => false,
+        'name'       => 'user_session'
+    ],
+
+    'remember' => [
+        'name'      => 'remember_token',
+        'life_time' => 315360000
+    ],
+
+    'item' => [
+        'category' => [
+            1 => 'Book',
+            2 => 'Phone',
+            3 => 'Food',
+            4 => 'Others',
+        ],
+        'property' => [
+            1 => 'New',
+            2 => '2 Hand',
+            3 => 'Promo',
+            4 => 'Free'
+        ],
+        'delivery' => [
+            1 => 'Bank transfer and Pickup',
+            2 => 'Bank transfer and Send by post',
+            3 => 'MTR Station',
+            4 => 'Other'
+        ],
+    ],
+
+    'upload' => [
+        'item' => [
+            'root' => STATIC_ROOT.'/attachment/item',
+            'www'  => basename(STATIC_ROOT).'/attachment/item',
+        ]
+    ]
+];

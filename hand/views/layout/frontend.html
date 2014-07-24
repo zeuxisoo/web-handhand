@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Hand</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="{{ baseUrl() }}/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+<link href="{{ baseUrl() }}/static/css/default.css" rel="stylesheet" media="screen">
+<script src="{{ baseUrl() }}/static/vendor/jquery/jquery.min.js"></script>
+<script src="{{ baseUrl() }}/static/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="{{ baseUrl() }}/static/vendor/bootstrap.file-input.js"></script>
+<script src="{{ baseUrl() }}/static/js/default.js"></script>
+</head>
+<body>
+<div class="navbar navbar-default" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">On/Off Navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{{ urlFor('index.index') }}">Hand</a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="{{ urlFor('index.index') }}">Home</a></li>
+                {% if session.user is empty %}
+                {% else %}
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Item</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ urlFor('item.create') }}">Create Items</a></li>
+                            <li><a href="{{ urlFor('item.manage') }}">Manage Items</a></li>
+                        </ul>
+                    </li>
+                {% endif %}
+            </ul>
+            <ul class="nav navbar-nav pull-right">
+                {% if session.user is empty %}
+                    <li><a href="{{ urlFor('index.signup') }}">Sign up</a></li>
+                    <li><a href="{{ urlFor('index.signin') }}">Sign in</a></li>
+                {% else %}
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ session.user.username }} <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ urlFor('user.account') }}">Account</a></li>
+                            <li><a href="{{ urlFor('user.password') }}">Password</a></li>
+                            <li class="divider"></li>
+                            <li><a href="{{ urlFor('index.signout') }}">Logout</a></li>
+                        </ul>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="container">
+    {% include "shared/flash-message.html" %}
+
+    {% block container %}
+    {% endblock %}
+</div>
+</body>
+</html>

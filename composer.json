@@ -1,0 +1,26 @@
+{
+    "name": "zeuxisoo/2hand",
+    "description": "Call me 2hand application",
+    "require": {
+        "php": ">=5.4",
+        "slim/slim": "2.4.*",
+        "slim/views": "0.1.*",
+        "slim/extras": "2.0.3",
+        "twig/twig": "v1.16.0",
+        "illuminate/database": "4.2.6",
+        "pimple/pimple": "2.1.0",
+        "davedevelopment/phpmig": "dev-master",
+        "zeuxisoo/core-validator": "dev-master",
+        "ircmaxell/password-compat": "1.0.*"
+    },
+    "require-dev": {
+    },
+    "autoload": {
+    },
+    "authors": [
+        {
+            "name": "Zeuxis Lo",
+            "email": "seekstudio@gmail.com"
+        }
+    ]
+}

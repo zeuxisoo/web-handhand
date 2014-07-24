@@ -1,0 +1,36 @@
+{% extends 'layout/frontend.html' %}
+
+{% block container %}
+<div id="item-manage">
+    <p class="lead">Manage Item</p>
+    <hr>
+    <div class="row">
+        {% for item in items %}
+            <div class="col-md-2">
+                <div class="panel panel-default">
+                    <div class="panel-body panel-body-has-thumbnail">
+                        <a class="thumbnail thumbnail-in-panel" href="#">
+                            <img src="{{ itemImageUrl(item.user_id, item.images.get(0).image, '200x200') }}" data-src="" alt="">
+                        </a>
+                    </div>
+                    <div class="panel-footer text-center">
+                        <a href="{{ urlFor('item.edit.detail', { item_id: item.id }) }}" class="btn btn-xs btn-info">Modify</a>
+                        <a href="{{ urlFor('item.delete', { item_id: item.id }) }}" class="btn btn-xs btn-danger" delete="delete">
+                            <span class="glyphicon glyphicon-trash"></span> Delete
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="col-md-12">
+                <div class="alert alert-info" role="alert">No item on the list, Please create item first.</div>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            {{ paginate | raw }}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'layout/frontend.html' %}
+
+{% block container %}
+<div id="item-edit">
+    <p class="lead">Modify Item</p>
+    <hr>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="alert alert-info well-sm" role="alert"><strong>Title!</strong> {{ item.title }}</div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li><a href="{{ urlFor('item.edit.detail', { item_id: item.id }) }}">Detail</a></li>
+                        <li><a href="{{ urlFor('item.edit.image.upload', { item_id: item.id }) }}">Image Upload</a></li>
+                        <li><a href="{{ urlFor('item.edit.image.manage', { item_id: item.id }) }}">Image Manage</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-10">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    {% block container_edit %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
