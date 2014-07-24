@@ -15,7 +15,7 @@ class Item extends Controller {
         parent::__construct();
 
         $this->app_config        = $this->slim->config('app.config');
-        $this->upload_base_root  = $this->app_config['upload']['item']['root'].'/'.$_SESSION['user']['id'];
+        $this->upload_base_root  = $this->app_config['upload']['item']['root'];
         $this->upload_size_root  = [
             '200x200' => $this->upload_base_root.'/200x200',
             '250x250' => $this->upload_base_root.'/250x250',

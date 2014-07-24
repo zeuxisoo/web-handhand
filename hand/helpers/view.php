@@ -25,11 +25,11 @@ class View extends \Twig_Extension {
         ];
     }
 
-    public function itemImageUrl($user_id, $filename, $folder = '') {
+    public function itemImageUrl($filename, $folder = '') {
         $request = $this->slim->request();
         $prefix  = $this->slim->config('app.config')['upload']['item']['www'];
 
-        return join('/', [$request->getUrl(), $prefix, $user_id, $folder, $filename]);
+        return join('/', [$request->getUrl(), $prefix, $folder, $filename]);
     }
 
     public function cutString($string, $max = 25) {

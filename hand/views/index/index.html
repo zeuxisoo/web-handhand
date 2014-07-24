@@ -10,7 +10,7 @@
                 <div class="panel panel-default">
                     <div class="panel-body panel-body-has-thumbnail">
                         <a class="thumbnail thumbnail-in-panel" href="#">
-                            <img src="{{ itemImageUrl(item.user_id, item.images.first().image, '250x250') }}" data-src="" alt="">
+                            <img src="{{ itemImageUrl(item.images.first().image, '250x250') }}" data-src="" alt="">
                         </a>
                     </div>
                     <div class="panel-footer text-center">{{ item.title | cutString(30) }}</div>
