@@ -9,6 +9,6 @@ config/default.php
 docs
 cache/view
 vendor
-static/attachment/item/*
+public/static/attachment/item
 
 *.sqlite

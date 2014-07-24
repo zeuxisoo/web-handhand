@@ -30,8 +30,8 @@ class App {
 
             $filename_underscore = preg_replace('/\B([A-Z])/', '_$1', $path_info['filename']);
 
-            $class_file_normal     = $directory.DIRECTORY_SEPARATOR.$path_info['filename'].'.php';
-            $class_file_underscore = $directory.DIRECTORY_SEPARATOR.$filename_underscore.'.php';
+            $class_file_normal     = WWW_ROOT.'/'.$directory.DIRECTORY_SEPARATOR.$path_info['filename'].'.php';
+            $class_file_underscore = WWW_ROOT.'/'.$directory.DIRECTORY_SEPARATOR.$filename_underscore.'.php';
 
             if (is_file($class_file_normal) === true) {
                 require_once $class_file_normal;

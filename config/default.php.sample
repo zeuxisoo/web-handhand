@@ -9,7 +9,7 @@ return [
         'host'      => '',
         'username'  => '',
         'password'  => '',
-        'database'  => './data/default.sqlite',
+        'database'  => DATA_ROOT.'/default.sqlite',
         'charset'   => 'utf8',
         'collation' => 'utf8_general_ci',
         'prefix'    => 'hws_',
