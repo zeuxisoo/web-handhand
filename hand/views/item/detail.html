@@ -21,14 +21,14 @@
             </div>
             <div class="row">
                 {% for item_image in item.images %}
-                <div class="col-md-4">
-                    <a class="thumbnail thumbnail-blur" href="#">
-                        <img src="{{ itemImageUrl(item_image.image, '200x200') }}">
-                    </a>
-                </div>
+                    <div class="col-md-4">
+                        <a class="thumbnail thumbnail-blur" href="#">
+                            <img src="{{ itemImageUrl(item_image.image, '200x200') }}">
+                        </a>
+                    </div>
                 {% endfor %}
             </div>
-            <div class="panel panel-default">
+            <div class="panel panel-default panel-height-370">
                 <div class="panel-body">
                     <p class="row">
                         <div class="col-md-3 text-info"><strong>Seller</strong></div>

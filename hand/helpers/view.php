@@ -16,6 +16,7 @@ class View extends \Twig_Extension {
     public function getFunctions() {
         return [
             new \Twig_SimpleFunction('itemImageUrl', [$this, 'itemImageUrl']),
+            new \Twig_SimpleFunction('urlForExtra', [$this, 'urlForExtra']),
         ];
     }
 
@@ -54,6 +55,10 @@ class View extends \Twig_Extension {
         }
 
         return $final_string;
+    }
+
+    public function urlForExtra($name, $params = [], $queryStrings = []) {
+        return $this->slim->urlFor($name, $params).'?'.http_build_query($queryStrings);
     }
 
 }

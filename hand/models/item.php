@@ -20,4 +20,8 @@ class Item extends Eloquent\Model {
         return $this->hasMany('Hand\Models\ItemComment');
     }
 
+    public function scopeStatus($query, $status) {
+        return $this->where('status', $status);
+    }
+
 }

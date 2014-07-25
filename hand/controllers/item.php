@@ -7,13 +7,13 @@ use Hand\Models;
 class Item extends Controller {
 
     public function detail($item_id) {
-        $item = Models\Item::with('user', 'images')->find($item_id);
+        $item = Models\Item::status('publish')->with('user', 'images')->find($item_id);
 
         if (empty($item) === true) {
             $this->slim->flash('error', 'Can not found item');
             $this->slim->redirect($this->slim->urlFor('index.index'));
         }else{
-            $item_comments = Models\ItemComment::with('user')->where('user_id', $_SESSION['user']['id'])->where('item_id', $item_id)->orderBy('created_at', 'asc')->get();
+            $item_comments = Models\ItemComment::with('user')->where('item_id', $item_id)->orderBy('created_at', 'asc')->get();
 
             $this->slim->render('item/detail.html', [
                 'item'          => $item,
@@ -23,7 +23,7 @@ class Item extends Controller {
     }
 
     public function detail_comment($item_id) {
-        $item        = Models\Item::find($item_id);
+        $item        = Models\Item::status('publish')->find($item_id);
         $content     = $this->slim->request->post('content');
         $redirect_to = $this->slim->urlFor('item.detail', ['item_id' => $item_id]);
 

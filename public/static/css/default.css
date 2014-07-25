@@ -15,6 +15,10 @@
     opacity: 0.9;
 }
 
+.panel-height-370 {
+    min-height: 370px;
+}
+
 .panel-body-has-thumbnail {
     padding: 0px;
 }

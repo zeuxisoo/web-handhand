@@ -22,10 +22,19 @@
         $(this).on('mouseleave', function() {
             $(this).addClass('thumbnail-blur');
         });
-    })
+    });
 
     $(function() {
         $('.file-input').bootstrapFileInput();
+
+        $('#user-item-manage a[data-status]').each(function() {
+            var btn_status = $(this).data('status');
+            var url_status = $.parseParams(window.location.href.split('?')[1]).status;
+
+            if (btn_status == url_status) {
+                $(this).addClass('active');
+            }
+        });
     });
 
 })(jQuery);

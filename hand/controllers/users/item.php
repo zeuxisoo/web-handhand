@@ -21,7 +21,7 @@ class Item extends Controller {
             '250x250' => $this->upload_base_root.'/250x250',
             '525x525' => $this->upload_base_root.'/525x525'
         ];
-        $this->upload_max_images = 3;
+        $this->upload_max_images = $this->app_config['default']['item']['upload_max_images'];
     }
 
     function create() {
@@ -74,6 +74,7 @@ class Item extends Controller {
                     'description' => $description,
                     'price'       => $price,
                     'delivery'    => $delivery,
+                    'status'      => $this->app_config['default']['item']['create_status'],
                 ]);
 
                 foreach($uploaded_paths as $uploaded_path) {
@@ -98,9 +99,10 @@ class Item extends Controller {
     }
 
     function manage() {
+        $status   = $this->slim->request->get('status', 'hide');
         $total    = Models\Item::where('user_id', $_SESSION['user']['id'])->count();
         $paginate = Paginate::instance(['count' => $total, 'size' => 12]);
-        $items    = Models\Item::with('images')->where('user_id', $_SESSION['user']['id'])->take(12)->skip($paginate->offset)->get();
+        $items    = Models\Item::status($status)->where('user_id', $_SESSION['user']['id'])->take(12)->skip($paginate->offset)->with('images')->get();
 
         $this->slim->render('user/item/manage.html', [
             'items' => $items,
@@ -111,7 +113,7 @@ class Item extends Controller {
     }
 
     function delete($item_id) {
-        $item = Models\Item::where('user_id', $_SESSION['user']['id'])->find($item_id);
+        $item = Models\Item::where('user_id', $_SESSION['user']['id'])->with('images', 'comments')->find($item_id);
 
         $valid_type    = 'error';
         $valid_message = '';
@@ -120,16 +122,15 @@ class Item extends Controller {
             $valid_message = 'Can not found the item';
         }else{
             $item_title  = $item->title;
-            $item_images = Models\ItemImage::where('user_id', $_SESSION['user']['id'])->where('item_id', $item_id)->get();
 
-            foreach($item_images as $item_image) {
+            foreach($item->images as $item_image) {
                 @unlink($this->upload_size_root['200x200'].'/'.$item_image->image);
                 @unlink($this->upload_size_root['250x250'].'/'.$item_image->image);
                 @unlink($this->upload_size_root['525x525'].'/'.$item_image->image);
-
-                $item_image->delete();
             }
 
+            $item->comments()->delete();
+            $item->images()->delete();
             $item->delete();
 
             $valid_type    = 'success';
@@ -154,6 +155,7 @@ class Item extends Controller {
                 $description = $this->slim->request->post('description');
                 $price       = $this->slim->request->post('price');
                 $delivery    = $this->slim->request->post('delivery');
+                $status      = $this->slim->request->post('status');
 
                 $valdiator = Validator::factory($this->slim->request->post());
                 $valdiator->add('title', 'Please enter title')->rule('required')
@@ -174,6 +176,8 @@ class Item extends Controller {
                     $valid_message = 'Property not exists';
                 }else if (array_key_exists($delivery, $this->app_config['item']['delivery']) === false) {
                     $valid_message = 'Delivery not exists.';
+                }else if (array_key_exists($status, $this->app_config['item']['status']['user']) === false) {
+                    $valid_message = 'Status not exists.';
                 }else if (is_numeric($price) === false) {
                     $valid_message = 'Invalid price format.';
                 }else{
@@ -184,6 +188,7 @@ class Item extends Controller {
                         'description' => $description,
                         'price'       => $price,
                         'delivery'    => $delivery,
+                        'status'      => $status,
                     ]);
 
                     $valid_type    = 'success';
@@ -202,20 +207,18 @@ class Item extends Controller {
     }
 
     function edit_image_upload($item_id) {
-        $item = Models\Item::where('user_id', $_SESSION['user']['id'])->find($item_id);
+        $item = Models\Item::where('user_id', $_SESSION['user']['id'])->with('images')->find($item_id);
 
         if (empty($item) === true) {
             $this->slim->flash('error', 'Can not found item');
             $this->slim->redirect($this->slim->urlFor('user.item.edit.image.upload', ['item_id' => $item_id]));
         }else{
             if ($this->slim->request->isPost() === true) {
-                $item_images = Models\ItemImage::where('user_id', $_SESSION['user']['id'])->where('item_id', $item_id)->get();
-
                 $valid_type    = 'error';
                 $valid_message = '';
 
-                if (count($item_images) >= $this->upload_max_images) {
-                    $valid_message = 'Only allow upload 3 images in each item';
+                if ($item->images->count() >= $this->upload_max_images) {
+                    $valid_message = 'Only allow upload '.$this->upload_max_images.' images in each item';
                 }else{
                     $uploaded_infos = Upload::instance([
                         'save_root' =>  $this->upload_size_root['525x525'],
@@ -250,17 +253,15 @@ class Item extends Controller {
     }
 
     function edit_image_manage($item_id) {
-        $item = Models\Item::where('user_id', $_SESSION['user']['id'])->find($item_id);
+        $item = Models\Item::where('user_id', $_SESSION['user']['id'])->with('images')->find($item_id);
 
         if (empty($item) === true) {
             $this->slim->flash('error', 'Can not found item');
             $this->slim->redirect($this->slim->urlFor('user.item.manage'));
         }else{
-            $item_images = Models\ItemImage::where('user_id', $_SESSION['user']['id'])->where('item_id', $item_id)->get();
-
             $this->slim->render('user/item/edit-image-manage.html', [
                 'item'        => $item,
-                'item_images' => $item_images
+                'item_images' => $item->images
             ]);
         }
     }

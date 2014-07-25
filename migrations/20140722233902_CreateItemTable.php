@@ -19,6 +19,7 @@ class CreateItemTable extends Migration
             $table->text('description');
             $table->float('price');
             $table->tinyInteger('delivery');
+            $table->enum('status', ['review', 'hide', 'publish', 'trade', 'done'])->default('hide');
             $table->timestamps();
         });
     }
