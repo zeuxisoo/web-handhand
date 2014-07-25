@@ -91,7 +91,7 @@ class Item extends Controller {
             $this->slim->flash($valid_type, $valid_message);
             $this->slim->redirect($this->slim->urlFor('user.item.create'));
         }else{
-            $this->slim->render('item/create.html', [
+            $this->slim->render('user/item/create.html', [
                 'config' => $this->app_config
             ]);
         }
@@ -103,7 +103,7 @@ class Item extends Controller {
         $items    = Models\Item::where('user_id', $_SESSION['user']['id'])->take(12)->skip($paginate->offset)->get();
         $items    = Models\Item::fillItemImage($items);
 
-        $this->slim->render('item/manage.html', [
+        $this->slim->render('user/item/manage.html', [
             'items' => $items,
             'paginate' => $paginate->buildPageBar([
                 'type' => Paginate::TYPE_BACK_NEXT,
@@ -194,7 +194,7 @@ class Item extends Controller {
                 $this->slim->flash($valid_type, $valid_message);
                 $this->slim->redirect($this->slim->urlFor('user.item.edit.detail', ['item_id' => $item_id]));
             }else{
-                $this->slim->render('item/edit-detail.html', [
+                $this->slim->render('user/item/edit-detail.html', [
                     'item'   => $item,
                     'config' => $this->app_config,
                 ]);
@@ -243,7 +243,7 @@ class Item extends Controller {
                 $this->slim->flash($valid_type, $valid_message);
                 $this->slim->redirect($this->slim->urlFor('user.item.edit.image.upload', ['item_id' => $item_id]));
             }else{
-                $this->slim->render('item/edit-image-upload.html', [
+                $this->slim->render('user/item/edit-image-upload.html', [
                     'item' => $item
                 ]);
             }
@@ -259,7 +259,7 @@ class Item extends Controller {
         }else{
             $item_images = Models\ItemImage::where('user_id', $_SESSION['user']['id'])->where('item_id', $item_id)->get();
 
-            $this->slim->render('item/edit-image-manage.html', [
+            $this->slim->render('user/item/edit-image-manage.html', [
                 'item'        => $item,
                 'item_images' => $item_images
             ]);
