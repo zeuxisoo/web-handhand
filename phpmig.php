@@ -5,6 +5,9 @@ define('WWW_ROOT',    dirname(__FILE__));
 define('APP_ROOT',    WWW_ROOT.'/hand');
 define('CONFIG_ROOT', WWW_ROOT.'/config');
 define('VENDOR_ROOT', WWW_ROOT.'/vendor');
+define('DATA_ROOT',   WWW_ROOT.'/data');
+define('PUBLIC_ROOT', WWW_ROOT.'/public');
+define('STATIC_ROOT', PUBLIC_ROOT.'/static');
 
 require VENDOR_ROOT.'/autoload.php';
 require APP_ROOT.'/app.php';
