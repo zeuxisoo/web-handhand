@@ -2,13 +2,22 @@
 namespace Hand\Models;
 
 use Illuminate\Database\Eloquent;
-use Hand\Mixins;
 
 class Item extends Eloquent\Model {
 
     protected $table   = 'item';
     protected $guarded = array('id');
 
-    use Mixins\ItemRelation;
+    public function user() {
+        return $this->belongsTo('Hand\Models\User');
+    }
+
+    public function images() {
+        return $this->hasMany('Hand\Models\ItemImage');
+    }
+
+    public function comments() {
+        return $this->hasMany('Hand\Models\ItemComment');
+    }
 
 }

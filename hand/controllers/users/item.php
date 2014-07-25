@@ -100,8 +100,7 @@ class Item extends Controller {
     function manage() {
         $total    = Models\Item::where('user_id', $_SESSION['user']['id'])->count();
         $paginate = Paginate::instance(['count' => $total, 'size' => 12]);
-        $items    = Models\Item::where('user_id', $_SESSION['user']['id'])->take(12)->skip($paginate->offset)->get();
-        $items    = Models\Item::fillItemImage($items);
+        $items    = Models\Item::with('images')->where('user_id', $_SESSION['user']['id'])->take(12)->skip($paginate->offset)->get();
 
         $this->slim->render('user/item/manage.html', [
             'items' => $items,

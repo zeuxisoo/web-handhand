@@ -14,8 +14,7 @@ class Index extends Controller {
     public function index() {
         $total    = Models\Item::count();
         $paginate = Paginate::instance(['count' => $total, 'size' => 12]);
-        $items    = Models\Item::take(12)->skip($paginate->offset)->get();
-        $items    = Models\Item::fillItemImage($items);
+        $items    = Models\Item::with('images')->take(12)->skip($paginate->offset)->get();
 
         $this->slim->render('index/index.html', [
             'items' => $items,
