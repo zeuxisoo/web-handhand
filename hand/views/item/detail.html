@@ -1,0 +1,119 @@
+{% extends 'layout/frontend.html' %}
+
+{% block container %}
+<div class="item-detail">
+    <p class="lead">{{ item.title }}</p>
+    <hr>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <img src="{{ itemImageUrl(item.images.first().image, '525x525') }}" class="preview">
+                </div>
+            </div>
+            {% include 'shared/addthis.html' %}
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <a class="btn btn-default">Bookmark</a>
+                </div>
+            </div>
+            <div class="row">
+                {% for item_image in item.images %}
+                <div class="col-md-4">
+                    <a class="thumbnail thumbnail-blur" href="#">
+                        <img src="{{ itemImageUrl(item_image.image, '200x200') }}">
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <p class="row">
+                        <div class="col-md-3 text-info"><strong>Seller</strong></div>
+                        <div class="col-md-9">{{ item.user.username }}</div>
+                    </p>
+                    <p class="row">
+                        <div class="col-md-3 text-info"><strong>Category</strong></div>
+                        <div class="col-md-9">{{ config.item.category[item.category] }}</div>
+                    </p>
+                    <p class="row">
+                        <div class="col-md-3 text-info"><strong>Property</strong></div>
+                        <div class="col-md-9">{{ config.item.property[item.property] }}</div>
+                    </p>
+                    <p class="row">
+                        <div class="col-md-3 text-info"><strong>Price</strong></div>
+                        <div class="col-md-9 text-danger"><strong>{{ item.price | number_format(2, '.', ',') }}</strong></div>
+                    </p>
+                    <p class="row">
+                        <div class="col-md-3 text-info"><strong>Delivery</strong></div>
+                        <div class="col-md-9">{{ config.item.delivery[item.delivery] }}</div>
+                    </p>
+                    <p class="row">
+                        <div class="col-md-3 text-info"><strong>Description</strong></div>
+                        <div class="col-md-9">{{ item.description | cutString(450) | nl2br }}</div>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="container">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    {{ item_comments | length }} comments
+                </div>
+                <div class="panel-body">
+                    {% if item_comments | length <= 0 %}
+                        <div class="alert alert-info alert-comment-zero">No comments yet.</div>
+                    {% else %}
+                        {% for item_comment in item_comments %}
+                            {% if loop.index > 1 %}
+                                <hr>
+                            {% endif %}
+                            <div class="media" id="item-detail-comment-id-{{ item_comment.id }}">
+                                <a class="pull-left" href="#">
+                                    <img class="media-object img-rounded" src="{{ item_comment.user.avatar() }}">
+                                </a>
+                                <div class="media-body">
+                                    <h4 class="media-heading">
+                                        <a href="#">{{ item_comment.user.username }}</a>
+                                        <small>
+                                            <time datetime="{{ item_comment.created_at.toDateTimeString() }}" pubdate>
+                                                {{ item_comment.created_at.diffForHumans() }}
+                                            </time>
+                                        </small>
+                                    </h4>
+                                    <p class="comment-content">
+                                        {{ item_comment.content | cutString(450) | nl2br }}
+                                    </p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                {% if session.user %}
+                    <form class="form panel-body" action="{{ urlFor('item.detail.comment', { item_id: item.id }) }}" method="post">
+                        <input type="hidden" name="{{ csrf_key }}" value="{{ csrf_token }}">
+                        <div class="form-group">
+                            <textarea class="form-control" rows="3" name="content" required="required"></textarea>
+                        </div>
+                        <div class="form-submit text-right">
+                            <button class="btn btn-success">Leave a Comment</button>
+                        </div>
+                    </form>
+                {% else %}
+                    <div class="panel-body">
+                        <div class="alert alert-info">Login is required</div>
+                        <a href="{{ urlFor('index.signin') }}" class="btn btn-success">Sign In</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

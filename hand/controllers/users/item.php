@@ -19,7 +19,7 @@ class Item extends Controller {
         $this->upload_size_root  = [
             '200x200' => $this->upload_base_root.'/200x200',
             '250x250' => $this->upload_base_root.'/250x250',
-            '800x800' => $this->upload_base_root.'/800x800'
+            '525x525' => $this->upload_base_root.'/525x525'
         ];
         $this->upload_max_images = 3;
     }
@@ -57,12 +57,12 @@ class Item extends Controller {
                 $valid_message = 'Invalid price format.';
             }else{
                 $uploaded_infos = Upload::instance([
-                    'save_root' =>  $this->upload_size_root['800x800'],
+                    'save_root' =>  $this->upload_size_root['525x525'],
                 ])->multiUpload($images);
 
                 $uploaded_paths = Format::toUploadedPaths($uploaded_infos);
 
-                Image::instance()->multiResize($uploaded_paths, 800, 800);
+                Image::instance()->multiResize($uploaded_paths, 525, 525);
                 Image::instance(['save_root' => $this->upload_size_root['200x200']])->multiResize($uploaded_paths, 200, 200);
                 Image::instance(['save_root' => $this->upload_size_root['250x250']])->multiResize($uploaded_paths, 250, 250);
 
@@ -126,7 +126,7 @@ class Item extends Controller {
             foreach($item_images as $item_image) {
                 @unlink($this->upload_size_root['200x200'].'/'.$item_image->image);
                 @unlink($this->upload_size_root['250x250'].'/'.$item_image->image);
-                @unlink($this->upload_size_root['800x800'].'/'.$item_image->image);
+                @unlink($this->upload_size_root['525x525'].'/'.$item_image->image);
 
                 $item_image->delete();
             }
@@ -219,12 +219,12 @@ class Item extends Controller {
                     $valid_message = 'Only allow upload 3 images in each item';
                 }else{
                     $uploaded_infos = Upload::instance([
-                        'save_root' =>  $this->upload_size_root['800x800'],
+                        'save_root' =>  $this->upload_size_root['525x525'],
                     ])->multiUpload($_FILES['images']);
 
                     $uploaded_paths = Format::toUploadedPaths($uploaded_infos);
 
-                    Image::instance()->multiResize($uploaded_paths, 800, 800);
+                    Image::instance()->multiResize($uploaded_paths, 525, 525);
                     Image::instance(['save_root' => $this->upload_size_root['200x200']])->multiResize($uploaded_paths, 200, 200);
                     Image::instance(['save_root' => $this->upload_size_root['250x250']])->multiResize($uploaded_paths, 250, 250);
 
@@ -278,7 +278,7 @@ class Item extends Controller {
         }else{
             @unlink($this->upload_size_root['200x200'].'/'.$item_image->image);
             @unlink($this->upload_size_root['250x250'].'/'.$item_image->image);
-            @unlink($this->upload_size_root['800x800'].'/'.$item_image->image);
+            @unlink($this->upload_size_root['525x525'].'/'.$item_image->image);
 
             $item_image->delete();
 

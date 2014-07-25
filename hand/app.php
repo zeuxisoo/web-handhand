@@ -101,6 +101,11 @@ class App {
                 $this->slim->get('/edit/:item_id/image/delete/:item_image_id', Route::requireLogin(), '\Hand\Controllers\Users\Item:edit_image_delete')->name('user.item.edit.image.delete');
             });
         });
+
+        $this->slim->group('/item', function() {
+            $this->slim->get('/detail/:item_id', Route::reloadUserSession(), '\Hand\Controllers\Item:detail')->name('item.detail');
+            $this->slim->post('/detail/:item_id/comment', Route::requireLogin(), '\Hand\Controllers\Item:detail_comment')->name('item.detail.comment');
+        });
     }
 
     public function registerSlimConfig() {
@@ -113,7 +118,7 @@ class App {
 
     public function registerSlimHook() {
         $this->slim->hook('slim.before.dispatch', function() {
-            $this->slim->view()->setData('config',  $this->slim->config);
+            $this->slim->view()->setData('config',  $this->config);
             $this->slim->view()->setData('session', $_SESSION);
         });
     }

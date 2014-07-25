@@ -9,7 +9,7 @@
             <div class="col-md-3">
                 <div class="panel panel-default">
                     <div class="panel-body panel-body-has-thumbnail">
-                        <a class="thumbnail thumbnail-in-panel" href="#">
+                        <a class="thumbnail thumbnail-in-panel" href="{{ urlFor('item.detail', { item_id: item.id }) }}">
                             <img src="{{ itemImageUrl(item.images.first().image, '250x250') }}" data-src="" alt="">
                         </a>
                     </div>
