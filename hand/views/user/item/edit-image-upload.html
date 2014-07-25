@@ -1,7 +1,7 @@
 {% extends 'layout/frontend/item-edit.html' %}
 
 {% block container_edit %}
-<div class="item-edit-image-upload">
+<div class="user-item-edit-image-upload">
     <form method="post" class="form-horizontal" action="{{ urlFor('user.item.edit.image.upload', { item_id: item.id }) }}" enctype="multipart/form-data">
         <input type="hidden" name="{{ csrf_key }}" value="{{ csrf_token }}">
         <div class="form-group">

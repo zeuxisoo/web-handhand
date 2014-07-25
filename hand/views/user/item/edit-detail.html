@@ -1,7 +1,7 @@
 {% extends 'layout/frontend/item-edit.html' %}
 
 {% block container_edit %}
-<div class="item-edit-detail">
+<div class="user-item-edit-detail">
     <form method="post" class="form-horizontal" action="{{ urlFor('user.item.edit.detail', { item_id: item.id }) }}">
         <input type="hidden" name="{{ csrf_key }}" value="{{ csrf_token }}">
         <div class="form-group">
