@@ -1,5 +1,5 @@
 <?php
-namespace Hand\Controllers;
+namespace Hand\Controllers\Users;
 
 use Zeuxisoo\Core\Validator;
 use Hand\Abstracts\Controller;
@@ -89,7 +89,7 @@ class Item extends Controller {
             }
 
             $this->slim->flash($valid_type, $valid_message);
-            $this->slim->redirect($this->slim->urlFor('item.create'));
+            $this->slim->redirect($this->slim->urlFor('user.item.create'));
         }else{
             $this->slim->render('item/create.html', [
                 'config' => $this->app_config
@@ -138,7 +138,7 @@ class Item extends Controller {
         }
 
         $this->slim->flash($valid_type, $valid_message);
-        $this->slim->redirect($this->slim->urlFor('item.manage'));
+        $this->slim->redirect($this->slim->urlFor('user.item.manage'));
     }
 
     function edit_detail($item_id) {
@@ -146,7 +146,7 @@ class Item extends Controller {
 
         if (empty($item) === true) {
             $this->slim->flash('error', 'Can not found item');
-            $this->slim->redirect($this->slim->urlFor('item.manage'));
+            $this->slim->redirect($this->slim->urlFor('user.item.manage'));
         }else{
             if ($this->slim->request->isPost() === true) {
                 $title       = $this->slim->request->post('title');
@@ -192,7 +192,7 @@ class Item extends Controller {
                 }
 
                 $this->slim->flash($valid_type, $valid_message);
-                $this->slim->redirect($this->slim->urlFor('item.edit.detail', ['item_id' => $item_id]));
+                $this->slim->redirect($this->slim->urlFor('user.item.edit.detail', ['item_id' => $item_id]));
             }else{
                 $this->slim->render('item/edit-detail.html', [
                     'item'   => $item,
@@ -207,7 +207,7 @@ class Item extends Controller {
 
         if (empty($item) === true) {
             $this->slim->flash('error', 'Can not found item');
-            $this->slim->redirect($this->slim->urlFor('item.edit.image.upload', ['item_id' => $item_id]));
+            $this->slim->redirect($this->slim->urlFor('user.item.edit.image.upload', ['item_id' => $item_id]));
         }else{
             if ($this->slim->request->isPost() === true) {
                 $item_images = Models\ItemImage::where('user_id', $_SESSION['user']['id'])->where('item_id', $item_id)->get();
@@ -241,7 +241,7 @@ class Item extends Controller {
                 }
 
                 $this->slim->flash($valid_type, $valid_message);
-                $this->slim->redirect($this->slim->urlFor('item.edit.image.upload', ['item_id' => $item_id]));
+                $this->slim->redirect($this->slim->urlFor('user.item.edit.image.upload', ['item_id' => $item_id]));
             }else{
                 $this->slim->render('item/edit-image-upload.html', [
                     'item' => $item
@@ -255,7 +255,7 @@ class Item extends Controller {
 
         if (empty($item) === true) {
             $this->slim->flash('error', 'Can not found item');
-            $this->slim->redirect($this->slim->urlFor('item.manage'));
+            $this->slim->redirect($this->slim->urlFor('user.item.manage'));
         }else{
             $item_images = Models\ItemImage::where('user_id', $_SESSION['user']['id'])->where('item_id', $item_id)->get();
 
@@ -271,7 +271,7 @@ class Item extends Controller {
 
         $valid_type    = 'error';
         $valid_message = '';
-        $valid_return  = 'item.manage';
+        $valid_return  = 'user.item.manage';
 
         if (empty($item_image) === true) {
             $valid_message = 'Can not found item image';
@@ -284,7 +284,7 @@ class Item extends Controller {
 
             $valid_type    = 'success';
             $valid_message = 'Image deleted';
-            $valid_return  = 'item.edit.image.manage';
+            $valid_return  = 'user.item.edit.image.manage';
         }
 
         $this->slim->flash($valid_type, $valid_message);

@@ -4,7 +4,7 @@
 <div class="item-create">
     <p class="lead">Create Item</p>
     <hr>
-    <form method="post" class="form-horizontal" action="{{ urlFor('item.create') }}" enctype="multipart/form-data">
+    <form method="post" class="form-horizontal" action="{{ urlFor('user.item.create') }}" enctype="multipart/form-data">
         <input type="hidden" name="{{ csrf_key }}" value="{{ csrf_token }}">
         <div class="form-group">
             <label class="col-sm-2 control-label" for="title">Title</label>

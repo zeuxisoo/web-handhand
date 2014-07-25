@@ -2,7 +2,7 @@
 
 {% block container_edit %}
 <div class="item-edit-image-upload">
-    <form method="post" class="form-horizontal" action="{{ urlFor('item.edit.image.upload', { item_id: item.id }) }}" enctype="multipart/form-data">
+    <form method="post" class="form-horizontal" action="{{ urlFor('user.item.edit.image.upload', { item_id: item.id }) }}" enctype="multipart/form-data">
         <input type="hidden" name="{{ csrf_key }}" value="{{ csrf_token }}">
         <div class="form-group">
             <label class="col-sm-2 control-label" for="delivery">Image</label>

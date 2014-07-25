@@ -2,7 +2,7 @@
 
 {% block container_edit %}
 <div class="item-edit-detail">
-    <form method="post" class="form-horizontal" action="{{ urlFor('item.edit.detail', { item_id: item.id }) }}">
+    <form method="post" class="form-horizontal" action="{{ urlFor('user.item.edit.detail', { item_id: item.id }) }}">
         <input type="hidden" name="{{ csrf_key }}" value="{{ csrf_token }}">
         <div class="form-group">
             <label class="col-sm-2 control-label" for="title">Title</label>

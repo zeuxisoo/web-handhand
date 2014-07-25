@@ -90,16 +90,16 @@ class App {
         $this->slim->group('/user', function() {
             $this->slim->map('/account', Route::requireLogin(), '\Hand\Controllers\User:account')->name('user.account')->via('GET', 'POST');
             $this->slim->map('/password', Route::requireLogin(), '\Hand\Controllers\User:password')->name('user.password')->via('GET', 'POST');
-        });
 
-        $this->slim->group('/item', function() {
-            $this->slim->map('/create', Route::requireLogin(), '\Hand\Controllers\Item:create')->name('item.create')->via('GET', 'POST');
-            $this->slim->get('/manage', Route::requireLogin(), '\Hand\Controllers\Item:manage')->name('item.manage');
-            $this->slim->get('/delete/:item_id', Route::requireLogin(), '\Hand\Controllers\Item:delete')->name('item.delete');
-            $this->slim->map('/edit/:item_id/detail', Route::requireLogin(), '\Hand\Controllers\Item:edit_detail')->name('item.edit.detail')->via('GET', 'POST');
-            $this->slim->map('/edit/:item_id/image/upload', Route::requireLogin(), '\Hand\Controllers\Item:edit_image_upload')->name('item.edit.image.upload')->via('GET', 'POST');
-            $this->slim->map('/edit/:item_id/image/manage', Route::requireLogin(), '\Hand\Controllers\Item:edit_image_manage')->name('item.edit.image.manage')->via('GET', 'POST');
-            $this->slim->get('/edit/:item_id/image/delete/:item_image_id', Route::requireLogin(), '\Hand\Controllers\Item:edit_image_delete')->name('item.edit.image.delete');
+            $this->slim->group('/item', function() {
+                $this->slim->map('/create', Route::requireLogin(), '\Hand\Controllers\Users\Item:create')->name('user.item.create')->via('GET', 'POST');
+                $this->slim->get('/manage', Route::requireLogin(), '\Hand\Controllers\Users\Item:manage')->name('user.item.manage');
+                $this->slim->get('/delete/:item_id', Route::requireLogin(), '\Hand\Controllers\Users\Item:delete')->name('user.item.delete');
+                $this->slim->map('/edit/:item_id/detail', Route::requireLogin(), '\Hand\Controllers\Users\Item:edit_detail')->name('user.item.edit.detail')->via('GET', 'POST');
+                $this->slim->map('/edit/:item_id/image/upload', Route::requireLogin(), '\Hand\Controllers\Users\Item:edit_image_upload')->name('user.item.edit.image.upload')->via('GET', 'POST');
+                $this->slim->map('/edit/:item_id/image/manage', Route::requireLogin(), '\Hand\Controllers\Users\Item:edit_image_manage')->name('user.item.edit.image.manage')->via('GET', 'POST');
+                $this->slim->get('/edit/:item_id/image/delete/:item_image_id', Route::requireLogin(), '\Hand\Controllers\Users\Item:edit_image_delete')->name('user.item.edit.image.delete');
+            });
         });
     }
 
