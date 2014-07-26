@@ -34,6 +34,12 @@ class Paginate {
     }
 
     public static function instance($settings) {
+        $settings = array_merge([
+            'count'  => 0,
+            'size'   => 20,
+            'string' => 'page'
+        ], $settings);
+
         if (self::$instance == null) {
             self::$instance = new Paginate($settings['count'], $settings['size'], $settings['string']);
         }
