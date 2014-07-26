@@ -20,6 +20,10 @@ class Item extends Eloquent\Model {
         return $this->hasMany('Hand\Models\ItemComment');
     }
 
+    public function bookmarks() {
+        return $this->hasMany('Hand\Models\ItemBookmark');
+    }
+
     public function scopeStatus($query, $status) {
         return $this->where('status', $status);
     }

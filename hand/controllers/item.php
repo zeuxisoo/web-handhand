@@ -14,7 +14,12 @@ class Item extends Controller {
             $this->slim->redirect($this->slim->urlFor('index.index'));
         }else{
             $item_comments   = Models\ItemComment::with('user')->where('item_id', $item_id)->orderBy('created_at', 'asc')->get();
-            $item_bookmarked = Models\ItemBookmark::whereUserIdAndItemId($_SESSION['user']['id'], $item_id)->count() >= 1;
+
+            if (isset($_SESSION['user']['id']) === true) {
+                $item_bookmarked = Models\ItemBookmark::whereUserIdAndItemId($_SESSION['user']['id'], $item_id)->count() >= 1;
+            }else{
+                $item_bookmarked = false;
+            }
 
             $this->slim->render('item/detail.html', [
                 'item'            => $item,
@@ -53,56 +58,48 @@ class Item extends Controller {
     }
 
     public function bookmark_create($item_id) {
-        $item = Models\Item::find($item_id);
+        $item = Models\Item::where('user_id', $_SESSION['user']['id'])->find($item_id);
 
         $valid_type    = 'error';
         $valid_message = '';
 
         if (empty($item) === true) {
-            $valid_message = 'Can not found item';
+            $valid_message = "Can not found item";
+        }else if ($item->bookmarks !== null && $item->bookmarks->count() >= 1) {
+            $valid_message = "The item was bookmarked";
         }else{
-            $bookmark_count = Models\ItemBookmark::whereUserIdAndItemId($_SESSION['user']['id'], $item_id)->count();
+            Models\ItemBookmark::create([
+                'user_id' => $_SESSION['user']['id'],
+                'item_id' => $item_id,
+            ]);
 
-            if ($bookmark_count >= 1) {
-                $valid_message  = 'The item was bookmarked';
-            }else{
-                Models\ItemBookmark::create([
-                    'user_id' => $_SESSION['user']['id'],
-                    'item_id' => $item_id,
-                ]);
-
-                $valid_type     = 'success';
-                $valid_message  = 'Item bookmarked';
-            }
+            $valid_type     = 'success';
+            $valid_message  = 'Item bookmarked';
         }
 
         $this->slim->flash($valid_type, $valid_message);
-        $this->slim->redirect($this->slim->urlFor('item.detail', ['item_id' => $item->id]));
+        $this->slim->redirect($this->slim->urlFor('item.detail', ['item_id' => $item_id]));
     }
 
     public function bookmark_delete($item_id) {
-        $item = Models\Item::find($item_id);
+        $item = Models\Item::where('user_id', $_SESSION['user']['id'])->find($item_id);
 
         $valid_type    = 'error';
         $valid_message = '';
 
         if (empty($item) === true) {
-            $valid_message = 'Can not found item';
+            $valid_message = "Can not found item";
+        }else if ($item->bookmarks !== null && $item->bookmarks->count() <= 0) {
+            $valid_message = "The item have not bookmarked";
         }else{
-            $bookmark = Models\ItemBookmark::whereUserIdAndItemId($_SESSION['user']['id'], $item_id);
+            $item->bookmarks()->delete();
 
-            if ($bookmark->count() <= 0) {
-                $valid_message  = 'The item have not bookmarked';
-            }else{
-                $bookmark->delete();
-
-                $valid_type     = 'success';
-                $valid_message  = 'Item bookmark deleted';
-            }
+            $valid_type     = 'success';
+            $valid_message  = 'Item bookmark deleted';
         }
 
         $this->slim->flash($valid_type, $valid_message);
-        $this->slim->redirect($this->slim->urlFor('item.detail', ['item_id' => $item->id]));
+        $this->slim->redirect($this->slim->urlFor('item.detail', ['item_id' => $item_id]));
     }
 
 }

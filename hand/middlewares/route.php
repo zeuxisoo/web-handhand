@@ -57,7 +57,7 @@ class Route {
             if (isset($_SESSION['user']) === false) {
                 $app->deleteCookie($app_config['remember']['name']);
 
-                $app->flash('error', 'The user session was expired, Please sign in again.');
+                $app->flash('error', 'Please sign in again.');
                 $app->redirect($app->urlFor('index.signin'));
             }else{
                 self::doReactiveAction($status, $app, $app_config);
