@@ -16,7 +16,11 @@
         <div class="col-md-6">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <a class="btn btn-default">Bookmark</a>
+                    {% if item_bookmarked %}
+                        <a class="btn btn-default btn-danger" href="{{ urlFor('item.bookmark.delete', { item_id: item.id }) }}">Bookmarked</a>
+                    {% else %}
+                        <a class="btn btn-default" href="{{ urlFor('item.bookmark.create', { item_id: item.id }) }}">Bookmark</a>
+                    {% endif %}
                 </div>
             </div>
             <div class="row">

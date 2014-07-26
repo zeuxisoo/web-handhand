@@ -129,6 +129,7 @@ class Item extends Controller {
                 @unlink($this->upload_size_root['525x525'].'/'.$item_image->image);
             }
 
+            $item->bookmarks()->delete();
             $item->comments()->delete();
             $item->images()->delete();
             $item->delete();

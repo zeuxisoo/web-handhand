@@ -105,6 +105,8 @@ class App {
         $this->slim->group('/item', function() {
             $this->slim->get('/detail/:item_id', Route::reloadUserSession(), '\Hand\Controllers\Item:detail')->name('item.detail');
             $this->slim->post('/detail/:item_id/comment', Route::requireLogin(), '\Hand\Controllers\Item:detail_comment')->name('item.detail.comment');
+            $this->slim->get('/bookmark/:item_id/create', Route::requireLogin(),'\Hand\Controllers\Item:bookmark_create' )->name('item.bookmark.create');
+            $this->slim->get('/bookmark/:item_id/delete', Route::requireLogin(),'\Hand\Controllers\Item:bookmark_delete' )->name('item.bookmark.delete');
         });
     }
 
