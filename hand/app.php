@@ -112,6 +112,13 @@ class App {
         $this->slim->group('/bookmark', function() {
             $this->slim->get('/', Route::requireLogin(), '\Hand\Controllers\Bookmark:index')->name('bookmark.index');
         });
+
+        $this->slim->group('/message', function() {
+            $this->slim->map('/create', Route::requireLogin(), '\Hand\Controllers\Message:create')->name('message.create')->via('GET', 'POST');
+            $this->slim->get('/manage', Route::requireLogin(), '\Hand\Controllers\Message:manage')->name('message.manage');
+            $this->slim->get('/delete/:message_id', Route::requireLogin(), '\Hand\Controllers\Message:delete')->name('message.delete');
+            $this->slim->get('/detail/:message_id', Route::requireLogin(), '\Hand\Controllers\Message:detail')->name('message.detail');
+        });
     }
 
     public function registerSlimConfig() {

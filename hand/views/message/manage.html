@@ -1,0 +1,40 @@
+{% extends 'layout/frontend/message.html' %}
+
+{% block container_message %}
+<div class="message-manage">
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Subject</th>
+                    <th>Sender</th>
+                    <th>Create At</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for message in messages %}
+                <tr>
+                    <td>{{ message.subject | cutString(60) }}</td>
+                    <td>{{ message.sender.username }}</td>
+                    <td>{{ message.created_at.diffForHumans() }}</td>
+                    <td>
+                        <a href="{{ urlFor('message.detail', { message_id: message.id }) }}" class="btn btn-info btn-xs">
+                            Read
+                        </a>
+                        <a href="{{ urlFor('message.delete', { message_id: message.id }) }}" class="btn btn-danger btn-xs" delete="delete">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            {{ paginate | raw }}
+        </div>
+    </div>
+</div>
+{% endblock %}

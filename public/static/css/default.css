@@ -26,3 +26,11 @@
 .alert-comment-zero {
     margin-bottom: 0px;
 }
+
+.row-info {
+    padding: 5px 0px;
+}
+
+.row-info-control {
+    padding-top: 15px;
+}

@@ -5,7 +5,10 @@ return [
         'item'  => [
             'create_status'     => 'hide',
             'upload_max_images' => 3,
-        ]
+        ],
+        'message' => [
+            'create_status' => 'normal',
+        ],
     ],
 
     'database' => [
@@ -88,5 +91,12 @@ return [
         'plurk'     => true,
         'pinterest' => true,
         'pubid'     => '',
+    ],
+
+    'message' => [
+        'category' => [
+            'normal' => 'Normal',
+            'system' => 'System',
+        ]
     ]
 ];

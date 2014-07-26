@@ -1,0 +1,25 @@
+{% extends 'layout/frontend/message.html' %}
+
+{% block container_message %}
+<div class="message-detail">
+    <p class="lead">{{ message.subject }}</p>
+    <hr>
+    <div class="row row-info">
+        <div class="col-md-2 text-right"><strong>From User</strong></div>
+        <div class="col-md-10">{{ message.sender.username }}</div>
+    </div>
+    <div class="row row-info">
+        <div class="col-md-2 text-right"><strong>Receive Date</strong></div>
+        <div class="col-md-10">{{ message.created_at }}</div>
+    </div>
+    <div class="row row-info">
+        <div class="col-md-2 text-right"><strong>Cotent</strong></div>
+        <div class="col-md-10">{{ message.content | nl2br }}</div>
+    </div>
+    <div class="row row-info-control">
+        <div class="col-md-offset-2 col-md-10">
+            <a href="{{ urlFor('message.delete', { message_id: message.id }) }}" class="btn btn-danger" delete="delete">Delete</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
