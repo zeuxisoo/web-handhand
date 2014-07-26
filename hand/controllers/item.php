@@ -16,7 +16,7 @@ class Item extends Controller {
             $item_comments   = Models\ItemComment::with('user')->where('item_id', $item_id)->orderBy('created_at', 'asc')->get();
 
             if (isset($_SESSION['user']['id']) === true) {
-                $item_bookmarked = Models\ItemBookmark::whereUserIdAndItemId($_SESSION['user']['id'], $item_id)->count() >= 1;
+                $item_bookmarked = Models\ItemBookmark::whereUserIdAndItemId($_SESSION['user']['id'], $item_id)->count('id') >= 1;
             }else{
                 $item_bookmarked = false;
             }
@@ -65,7 +65,7 @@ class Item extends Controller {
 
         if (empty($item) === true) {
             $valid_message = "Can not found item";
-        }else if ($item->bookmarks !== null && $item->bookmarks->count() >= 1) {
+        }else if ($item->bookmarks !== null && $item->bookmarks->count('id') >= 1) {
             $valid_message = "The item was bookmarked";
         }else{
             Models\ItemBookmark::create([
@@ -89,7 +89,7 @@ class Item extends Controller {
 
         if (empty($item) === true) {
             $valid_message = "Can not found item";
-        }else if ($item->bookmarks !== null && $item->bookmarks->count() <= 0) {
+        }else if ($item->bookmarks !== null && $item->bookmarks->count('id') <= 0) {
             $valid_message = "The item have not bookmarked";
         }else{
             $item->bookmarks()->delete();

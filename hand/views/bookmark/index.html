@@ -1,0 +1,31 @@
+{% extends 'layout/frontend.html' %}
+
+{% block container %}
+<div class="bookmark">
+    <p class="lead">Bookmark</p>
+    <hr>
+    <div class="row">
+        {% for bookmark in bookmarks %}
+            <div class="col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-body panel-body-has-thumbnail">
+                        <a class="thumbnail thumbnail-in-panel" href="{{ urlFor('item.detail', { item_id: bookmark.item.id }) }}">
+                            <img src="{{ itemImageUrl(bookmark.item.images.first().image, '250x250') }}" data-src="" alt="">
+                        </a>
+                    </div>
+                    <div class="panel-footer text-center">{{ bookmark.item.title | cutString(30) }}</div>
+                </div>
+            </div>
+        {% else %}
+            <div class="col-md-12">
+                <div class="alert alert-info" role="alert">No item on the list.</div>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            {{ paginate | raw }}
+        </div>
+    </div>
+</div>
+{% endblock %}

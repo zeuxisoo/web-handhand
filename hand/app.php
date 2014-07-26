@@ -108,6 +108,10 @@ class App {
             $this->slim->get('/bookmark/:item_id/create', Route::requireLogin(),'\Hand\Controllers\Item:bookmark_create' )->name('item.bookmark.create');
             $this->slim->get('/bookmark/:item_id/delete', Route::requireLogin(),'\Hand\Controllers\Item:bookmark_delete' )->name('item.bookmark.delete');
         });
+
+        $this->slim->group('/bookmark', function() {
+            $this->slim->get('/', Route::requireLogin(), '\Hand\Controllers\Bookmark:index')->name('bookmark.index');
+        });
     }
 
     public function registerSlimConfig() {
@@ -122,6 +126,12 @@ class App {
         $this->slim->hook('slim.before.dispatch', function() {
             $this->slim->view()->setData('config',  $this->config);
             $this->slim->view()->setData('session', $_SESSION);
+        });
+
+        $this->slim->hook('slim.after.dispatch', function() {
+            if ($this->config['default']['debug'] === true) {
+                echo d(Database\Capsule\Manager::connection()->getQueryLog());
+            }
         });
     }
 

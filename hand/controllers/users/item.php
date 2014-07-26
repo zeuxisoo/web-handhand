@@ -218,7 +218,7 @@ class Item extends Controller {
                 $valid_type    = 'error';
                 $valid_message = '';
 
-                if ($item->images->count() >= $this->upload_max_images) {
+                if ($item->images->count('id') >= $this->upload_max_images) {
                     $valid_message = 'Only allow upload '.$this->upload_max_images.' images in each item';
                 }else{
                     $uploaded_infos = Upload::instance([
