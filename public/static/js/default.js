@@ -27,9 +27,10 @@
     $(function() {
         $('.file-input').bootstrapFileInput();
 
-        $('#user-item-manage a[data-status]').each(function() {
-            var btn_status = $(this).data('status');
-            var url_status = $.parseParams(window.location.href.split('?')[1]).status;
+        $('a[data-btn]').each(function() {
+            var btn_status = $(this).data('btn');
+            var btn_param  = $(this).data('btn-param');
+            var url_status = $.parseParams(window.location.href.split('?')[1])[btn_param];
 
             if (btn_status == url_status) {
                 $(this).addClass('active');
