@@ -35,6 +35,15 @@
                 $(this).addClass('active');
             }
         });
+
+        $('a[data-tab]').each(function() {
+            var tab_name = $(this).data('tab');
+            var url_name = $.parseParams(window.location.href.split('?')[1]).tab;
+
+            if (tab_name == url_name) {
+                $(this).parent().addClass('active');
+            }
+        });
     });
 
 })(jQuery);

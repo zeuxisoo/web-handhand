@@ -36,7 +36,9 @@
                 <div class="panel-body">
                     <p class="row">
                         <div class="col-md-3 text-info"><strong>Seller</strong></div>
-                        <div class="col-md-9">{{ item.user.username }}</div>
+                        <div class="col-md-9">
+                            <a href="{{ urlFor('user.profile', { username: item.user.username }) }}">{{ item.user.username }}</a>
+                        </div>
                     </p>
                     <p class="row">
                         <div class="col-md-3 text-info"><strong>Category</strong></div>
@@ -82,7 +84,9 @@
                                 </a>
                                 <div class="media-body">
                                     <h4 class="media-heading">
-                                        <a href="#">{{ item_comment.user.username }}</a>
+                                        <a href="{{ urlFor('user.profile', { username: item_comment.user.username }) }}">
+                                            {{ item_comment.user.username }}
+                                        </a>
                                         <small>
                                             <time datetime="{{ item_comment.created_at.toDateTimeString() }}" pubdate>
                                                 {{ item_comment.created_at.diffForHumans() }}

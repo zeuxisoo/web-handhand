@@ -1,0 +1,77 @@
+{% extends 'layout/frontend.html' %}
+
+{% block container %}
+<div id="user-profile">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="media">
+                <a class="pull-left" href="#">
+                    <img class="media-object img-rounded" src="{{ user.avatar(100) }}" alt="{{ user.username }}">
+                </a>
+                <div class="media-body">
+                    <h2 class="media-heading">{{ user.username }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="col-xs-12 col-md-12 text-right col-status-items">
+                <div class="col-xs-4 col-md-4">
+                    <p class="text-info"><strong>{{ counter.publishs }}</strong></p>
+                    <div class="text-muted">Publishs</div>
+                </div>
+                <div class="col-xs-4 col-md-4">
+                    <p class="text-info"><strong>{{ counter.trades }}</strong></p>
+                    <div class="text-muted">Trades</div>
+                </div>
+                <div class="col-xs-4 col-md-4">
+                    <p class="text-info"><strong>{{ counter.bookmarks }}</strong></p>
+                    <div class="text-muted">Bookmarks</div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-12 text-center col-join-at">
+                <span class="text-info">Join at</span>: <span class="text-muted">{{ user.created_at }}</span>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="nav nav-tabs" role="tablist">
+                <li>
+                    <a href="{{ urlForExtra('user.profile', { username: user.username }, { tab: 'publish' }) }}" data-tab="publish">    Publish Items
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ urlForExtra('user.profile', { username: user.username }, { tab: 'bookmark' }) }}" data-tab="bookmark">
+                    Bookmark Items
+                    </a>
+                </li>
+            </ul>
+            <br>
+            <div class="row">
+                {% for item in items %}
+                    <div class="col-md-2">
+                        <div class="panel panel-default">
+                            <div class="panel-body panel-body-has-thumbnail">
+                                <a class="thumbnail thumbnail-in-panel" href="{{ urlFor('item.detail', { item_id: item.id }) }}">
+                                    <img src="{{ itemImageUrl(item.images.first().image, '200x200') }}" data-src="" alt="">
+                                </a>
+                            </div>
+                            <div class="panel-footer text-center">{{ item.title | cutString(30) }}</div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="col-md-12">
+                        <div class="alert alert-info" role="alert">No item in this list.</div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            {{ paginate | raw }}
+        </div>
+    </div>
+</div>
+{% endblock %}

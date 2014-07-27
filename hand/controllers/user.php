@@ -3,9 +3,54 @@ namespace Hand\Controllers;
 
 use Zeuxisoo\Core\Validator;
 use Hand\Abstracts\Controller;
+use Hand\Helpers\Paginate;
 use Hand\Models;
 
 class User extends Controller {
+
+    public function profile($username) {
+        $user = Models\User::where('username', $username)->first();
+
+        if (empty($user) === true) {
+            $this->slim->flash('error', 'Can not found user');
+            $this->slim->redirect($this->slim->urlFor('index.index'));
+        }else{
+            $tab = $this->slim->request->get('tab', 'publish');
+
+            $bookmarks = Models\ItemBookmark::where('user_id', $user->id)->get();
+            $counters  = Models\Item::selectRaw("
+                SUM(status='publish') AS publish_count,
+                SUM(status='trade') AS trade_count
+            ")->where('user_id', $user->id)->where(function($query) {
+                $query->where('status', 'publish')->orWhere('status', 'trade');
+            })->first();
+
+            if ($tab == 'publish') {
+                $total    = Models\Item::status('publish')->count('id');
+                $paginate = Paginate::instance(['count' => $total, 'size' => 12]);
+                $items    = Models\Item::status('publish')->take(12)->skip($paginate->offset)->with('images')->get();
+            }else{
+                $bookmark_item_ids = $bookmarks->lists('item_id');
+
+                $total    = Models\Item::whereIn('id', $bookmark_item_ids)->count('id');
+                $paginate = Paginate::instance(['count' => $total, 'size' => 12]);
+                $items    = Models\Item::status('publish')->whereIn('id', $bookmark_item_ids)->take(12)->skip($paginate->offset)->with('images')->get();
+            }
+
+            $this->slim->render('user/profile.html', [
+                'user'  => $user,
+                'items' => $items,
+                'counter' => [
+                    'publishs'  => $counters->publish_count,
+                    'trades'    => $counters->trade_count,
+                    'bookmarks' => $bookmarks->count(),
+                ],
+                'paginate' => $paginate->buildPageBar([
+                    'type' => Paginate::TYPE_BACK_NEXT,
+                ])
+            ]);
+        }
+    }
 
     public function account() {
         if ($this->slim->request->isPost() === true) {
