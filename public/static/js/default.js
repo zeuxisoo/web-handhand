@@ -32,8 +32,15 @@
             var btn_param  = $(this).data('btn-param');
             var url_status = $.parseParams(window.location.href.split('?')[1])[btn_param];
 
+            // Default active first btn when btn not specified
+            if (url_status === undefined) {
+                $(this).addClass('active');
+                return false;
+            }
+
             if (btn_status == url_status) {
                 $(this).addClass('active');
+                return true;
             }
         });
 
@@ -41,8 +48,15 @@
             var tab_name = $(this).data('tab');
             var url_name = $.parseParams(window.location.href.split('?')[1]).tab;
 
+            // Default active first tab when tab not specified
+            if (url_name === undefined) {
+                $(this).parent().addClass('active');
+                return false;
+            }
+
             if (tab_name == url_name) {
                 $(this).parent().addClass('active');
+                return true;
             }
         });
     });
