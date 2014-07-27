@@ -12,9 +12,21 @@ use Hand\Models;
 class Index extends Controller {
 
     public function index() {
-        $total    = Models\Item::status('publish')->count();
+        $category   = $this->slim->request->get('category', 0);
+        $property   = $this->slim->request->get('property', 0);
+        $model_item = Models\Item::status('publish');
+
+        $param_keys = ['category', 'property'];
+        foreach($param_keys as $param_key) {
+            if (empty($$param_key) === false) {
+                $model_item = $model_item->where($param_key, $$param_key);
+                break;
+            }
+        }
+
+        $total    = $model_item->count();
         $paginate = Paginate::instance(['count' => $total, 'size' => 12]);
-        $items    = Models\Item::status('publish')->take(12)->skip($paginate->offset)->with('images')->get();
+        $items    = $model_item->take(12)->skip($paginate->offset)->with('images')->get();
 
         $this->slim->render('index/index.html', [
             'items' => $items,

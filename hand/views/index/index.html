@@ -5,26 +5,42 @@
     <p class="lead">Current Item</p>
     <hr>
     <div class="row">
-        {% for item in items %}
-            <div class="col-md-3">
-                <div class="panel panel-default">
-                    <div class="panel-body panel-body-has-thumbnail">
-                        <a class="thumbnail thumbnail-in-panel" href="{{ urlFor('item.detail', { item_id: item.id }) }}">
-                            <img src="{{ itemImageUrl(item.images.first().image, '250x250') }}" data-src="" alt="">
-                        </a>
+        <div class="col-md-2">
+            <div class="well well-sm">
+                <ul class="nav nav-pills nav-stacked">
+                    <li><a href="{{ urlFor('index.index') }}">All</a></li>
+                    {% for key, category in config.item.category %}
+                        <li><a href="{{ urlForExtra('index.index', {}, { category: key }) }}">{{ category }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="well well-sm">
+                <a href="{{ urlFor('index.index') }}" class="label label-default">All</a>
+                {% for key, property in config.item.property %}
+                    <a href="{{ urlForExtra('index.index', {}, { property: key }) }}" class="label label-default">{{ property }}</a>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-md-10">
+            {% for item in items %}
+                <div class="col-md-3">
+                    <div class="panel panel-default">
+                        <div class="panel-body panel-body-has-thumbnail">
+                            <a class="thumbnail thumbnail-in-panel" href="{{ urlFor('item.detail', { item_id: item.id }) }}">
+                                <img src="{{ itemImageUrl(item.images.first().image, '200x200') }}" data-src="" alt="">
+                            </a>
+                        </div>
+                        <div class="panel-footer text-center">{{ item.title | cutString(30) }}</div>
                     </div>
-                    <div class="panel-footer text-center">{{ item.title | cutString(30) }}</div>
                 </div>
-            </div>
-        {% else %}
+            {% else %}
+                <div class="col-md-12">
+                    <div class="alert alert-info" role="alert">No item in this list.</div>
+                </div>
+            {% endfor %}
             <div class="col-md-12">
-                <div class="alert alert-info" role="alert">No item on the list, Please create item first.</div>
+                {{ paginate | raw }}
             </div>
-        {% endfor %}
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            {{ paginate | raw }}
         </div>
     </div>
 </div>
