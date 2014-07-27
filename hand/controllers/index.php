@@ -12,7 +12,7 @@ use Hand\Models;
 class Index extends Controller {
 
     public function index() {
-        $total    = Models\Item::count();
+        $total    = Models\Item::status('publish')->count();
         $paginate = Paginate::instance(['count' => $total, 'size' => 12]);
         $items    = Models\Item::status('publish')->take(12)->skip($paginate->offset)->with('images')->get();
 
