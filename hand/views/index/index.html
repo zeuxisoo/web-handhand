@@ -19,9 +19,9 @@
                 </ul>
             </div>
             <div class="well well-sm">
-                <a href="{{ urlFor('index.index') }}" class="label label-default">All</a>
+                <a href="{{ urlFor('index.index') }}" class="label label-default" data-label="0" data-label-param="property">All</a>
                 {% for key, property in config.item.property %}
-                    <a href="{{ urlForExtra('index.index', {}, { property: key }) }}" class="label label-default">{{ property }}</a>
+                    <a href="{{ urlForExtra('index.index', {}, { property: key }) }}" class="label label-default"  data-label="{{ key }}" data-label-param="property">{{ property }}</a>
                 {% endfor %}
             </div>
         </div>

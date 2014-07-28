@@ -60,6 +60,23 @@
                 return true;
             }
         });
+
+        $('a[data-label]').each(function() {
+            var label_name  = $(this).data('label');
+            var label_param = $(this).data('label-param');
+            var url_name    = $.parseParams(window.location.href.split('?')[1])[label_param];
+
+            // Default active first tab when tab not specified
+            if (url_name === undefined) {
+                $(this).addClass('label-info');
+                return false;
+            }
+
+            if (label_name == url_name) {
+                $(this).addClass('label-info');
+                return true;
+            }
+        });
     });
 
 })(jQuery);
