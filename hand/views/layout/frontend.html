@@ -27,6 +27,7 @@
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav">
                 <li><a href="{{ urlFor('index.index') }}">Home</a></li>
+                <li><a href="{{ urlFor('search.index') }}">Search</a></li>
                 {% if session.user is not empty %}
                     <li><a href="{{ urlFor('bookmark.index') }}">Bookmark</a></li>
                     <li><a href="{{ urlFor('message.manage') }}">Message</a></li>

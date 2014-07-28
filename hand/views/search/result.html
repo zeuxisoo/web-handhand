@@ -1,0 +1,44 @@
+{% extends 'layout/frontend.html' %}
+
+{% block container %}
+<div class="search-index">
+    <p class="lead">Search results</p>
+    <hr>
+    <div class="alert alert-info" role="alert">
+        <strong>Results</strong>: <span class="text-muted">{{ total }}</span>
+        &nbsp;-&nbsp;
+        <strong>Keyword</strong>: <span class="text-muted">{{ keyword }}</span>
+    </div>
+    {% for item in items %}
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="media">
+                    <a class="pull-left" href="{{ urlFor('item.detail', { item_id: item.id }) }}">
+                        <img class="media-object" src="{{ itemImageUrl(item.images.first().image, '120x120') }}" alt="{{ item.title }}">
+                    </a>
+                    <div class="media-body">
+                        <h4 class="media-heading">
+                            <a href="{{ urlFor('item.detail', { item_id: item.id }) }}">{{ item.title }}</a>
+                        </h4>
+                        <hr>
+                        <p>
+                            <span class="label label-primary">Seller</span>
+                            <a href="{{ urlFor('user.profile', { username: username }) }}">{{ item.user.username }}</a>
+                            <span class="label label-primary">Price</span>
+                            <span class="text-danger">{{ item.price | number_format(2, '.', ',') }}</span>
+                            <span class="label label-info">Category</span>
+                            <span class="text-muted">{{ config.item.category[item.category] }}</span>
+                            <span class="label label-info">Property</span>
+                            <span class="text-muted">{{ config.item.property[item.property] }}</span>
+                        </p>
+                        <p>
+                            <small class="text-muted">Post at {{ item.created_at }}</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    {{ paginate | raw }}
+</div>
+{% endblock %}

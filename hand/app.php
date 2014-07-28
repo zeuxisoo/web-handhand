@@ -121,6 +121,11 @@ class App {
             $this->slim->get('/delete/:message_id', Route::requireLogin(), '\Hand\Controllers\Message:delete')->name('message.delete');
             $this->slim->get('/detail/:message_id', Route::requireLogin(), '\Hand\Controllers\Message:detail')->name('message.detail');
         });
+
+        $this->slim->group('/search', function() {
+            $this->slim->map('/', Route::reloadUserSession(), '\Hand\Controllers\Search:index')->name('search.index')->via('GET', 'POST');
+            $this->slim->get('/result', Route::reloadUserSession(), '\Hand\Controllers\Search:result')->name('search.result');
+        });
     }
 
     public function registerSlimConfig() {
