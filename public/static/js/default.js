@@ -45,8 +45,9 @@
         });
 
         $('a[data-tab]').each(function() {
-            var tab_name = $(this).data('tab');
-            var url_name = $.parseParams(window.location.href.split('?')[1]).tab;
+            var tab_name  = $(this).data('tab');
+            var tab_param = $(this).data('tab-param');
+            var url_name  = $.parseParams(window.location.href.split('?')[1])[tab_param];
 
             // Default active first tab when tab not specified
             if (url_name === undefined) {

@@ -8,9 +8,13 @@
         <div class="col-md-2">
             <div class="well well-sm">
                 <ul class="nav nav-pills nav-stacked">
-                    <li><a href="{{ urlFor('index.index') }}">All</a></li>
+                    <li><a href="{{ urlFor('index.index') }}" data-tab="0" data-tab-param="category">All</a></li>
                     {% for key, category in config.item.category %}
-                        <li><a href="{{ urlForExtra('index.index', {}, { category: key }) }}">{{ category }}</a></li>
+                        <li>
+                            <a href="{{ urlForExtra('index.index', {}, { category: key }) }}" data-tab="{{ key }}" data-tab-param="category">
+                                {{ category }}
+                            </a>
+                        </li>
                     {% endfor %}
                 </ul>
             </div>
