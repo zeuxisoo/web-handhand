@@ -10,6 +10,12 @@
                 </a>
                 <div class="media-body">
                     <h2 class="media-heading">{{ user.username }}</h2>
+                    <small>
+                        <span class="glyphicon glyphicon-envelope"></span>
+                        <a href="{{ urlForExtra('message.create', {}, { username: user.username }) }}" class="text-muted">
+                            Message
+                        </a>
+                    </small>
                 </div>
             </div>
         </div>
