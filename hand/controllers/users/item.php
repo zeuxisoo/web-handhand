@@ -33,6 +33,7 @@ class Item extends Controller {
             $description = $this->slim->request->post('description');
             $price       = $this->slim->request->post('price');
             $delivery    = $this->slim->request->post('delivery');
+            $status      = $this->slim->request->post('status');
             $images      = $_FILES['images'];
 
             $valdiator = Validator::factory($this->slim->request->post());
@@ -54,6 +55,8 @@ class Item extends Controller {
                 $valid_message = 'Property not exists';
             }else if (array_key_exists($delivery, $this->app_config['item']['delivery']) === false) {
                 $valid_message = 'Delivery not exists.';
+            }else if (array_key_exists($status, $this->app_config['item']['status']['user']) === false) {
+                $valid_message = 'Status not exists.';
             }else if (is_numeric($price) === false) {
                 $valid_message = 'Invalid price format.';
             }else{
@@ -76,7 +79,7 @@ class Item extends Controller {
                     'description' => $description,
                     'price'       => $price,
                     'delivery'    => $delivery,
-                    'status'      => $this->app_config['default']['item']['create_status'],
+                    'status'      => $status,
                 ]);
 
                 foreach($uploaded_paths as $uploaded_path) {

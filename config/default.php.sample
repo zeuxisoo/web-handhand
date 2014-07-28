@@ -3,7 +3,6 @@ return [
     'default' => [
         'debug' => true,
         'item'  => [
-            'create_status'     => 'hide',
             'upload_max_images' => 3,
         ],
         'message' => [
@@ -69,8 +68,6 @@ return [
             'user'  => [
                 'hide'    => 'Hide',
                 'publish' => 'Publish',
-                'trade'   => 'Trade',
-                'done'    => 'Done',
             ],
         ]
     ],
