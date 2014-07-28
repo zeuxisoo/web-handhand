@@ -52,7 +52,22 @@ class Message extends Controller {
             $this->slim->flash($valid_type, $valid_message);
             $this->slim->redirect($this->slim->urlFor('message.create'));
         }else{
-            $this->slim->render('message/create.html');
+            $message_id = $this->slim->request->get('message_id');
+
+            $default_subject  = "";
+            $default_username = "";
+
+            if (empty($message_id) === false) {
+                $message = Models\Message::where('receiver_id', $_SESSION['user']['id'])->with('sender')->find($message_id);
+
+                $default_subject  = "Reply: ".$message->subject;
+                $default_username = $message->sender->username;
+            }
+
+            $this->slim->render('message/create.html', [
+                'default_subject'  => $default_subject,
+                'default_username' => $default_username,
+            ]);
         }
     }
 
