@@ -1,5 +1,16 @@
 (function($) {
 
+    // Extend
+    $.fn.activeStyle = function(name, param, callback) {
+        $(this).each(function() {
+            var current_value   = $(this).data(name);
+            var parameter_name  = $(this).data(param);
+            var parameter_value = $.parseParams(window.location.href.split('?')[1])[parameter_name];
+
+            return callback.call(this, current_value, parameter_value);
+        });
+    };
+
     // Confirm delete
     $(document).on('click', 'a[delete="delete"]', function() {
         if (confirm('Are you sure you want to delete this?') === false) {
@@ -27,54 +38,24 @@
     $(function() {
         $('.file-input').bootstrapFileInput();
 
-        $('a[data-btn]').each(function() {
-            var btn_status = $(this).data('btn');
-            var btn_param  = $(this).data('btn-param');
-            var url_status = $.parseParams(window.location.href.split('?')[1])[btn_param];
-
-            // Default active first btn when btn not specified
-            if (url_status === undefined) {
+        $('a[data-btn]').activeStyle('btn', 'btn-param', function(current_value, parameter_value) {
+            if (parameter_value === undefined || current_value == parameter_value) {
                 $(this).addClass('active');
                 return false;
             }
-
-            if (btn_status == url_status) {
-                $(this).addClass('active');
-                return true;
-            }
         });
 
-        $('a[data-tab]').each(function() {
-            var tab_name  = $(this).data('tab');
-            var tab_param = $(this).data('tab-param');
-            var url_name  = $.parseParams(window.location.href.split('?')[1])[tab_param];
-
-            // Default active first tab when tab not specified
-            if (url_name === undefined) {
+        $('a[data-tab]').activeStyle('tab', 'tab-param', function(current_value, parameter_value) {
+            if (parameter_value === undefined || current_value == parameter_value) {
                 $(this).parent().addClass('active');
                 return false;
             }
-
-            if (tab_name == url_name) {
-                $(this).parent().addClass('active');
-                return true;
-            }
         });
 
-        $('a[data-label]').each(function() {
-            var label_name  = $(this).data('label');
-            var label_param = $(this).data('label-param');
-            var url_name    = $.parseParams(window.location.href.split('?')[1])[label_param];
-
-            // Default active first tab when tab not specified
-            if (url_name === undefined) {
+        $('a[data-label]').activeStyle('label', 'label-param', function(current_value, parameter_value) {
+            if (parameter_value === undefined || current_value == parameter_value) {
                 $(this).addClass('label-info');
                 return false;
-            }
-
-            if (label_name == url_name) {
-                $(this).addClass('label-info');
-                return true;
             }
         });
     });

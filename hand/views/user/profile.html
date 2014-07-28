@@ -38,12 +38,13 @@
         <div class="col-md-12">
             <ul class="nav nav-tabs" role="tablist">
                 <li>
-                    <a href="{{ urlForExtra('user.profile', { username: user.username }, { tab: 'publish' }) }}" data-tab="publish">    Publish Items
+                    <a href="{{ urlForExtra('user.profile', { username: user.username }, { tab: 'publish' }) }}" data-tab="publish" data-tab-param="tab">
+                        Publish Items
                     </a>
                 </li>
                 <li>
-                    <a href="{{ urlForExtra('user.profile', { username: user.username }, { tab: 'bookmark' }) }}" data-tab="bookmark">
-                    Bookmark Items
+                    <a href="{{ urlForExtra('user.profile', { username: user.username }, { tab: 'bookmark' }) }}" data-tab="bookmark" data-tab-param="tab">
+                        Bookmark Items
                     </a>
                 </li>
             </ul>
