@@ -15,8 +15,17 @@
             <tbody>
                 {% for message in messages %}
                 <tr>
-                    <td>{{ message.subject | cutString(60) }}</td>
-                    <td>{{ message.sender.username }}</td>
+                    <td>
+                        <span class="label label-default">{{ message.category }}</span>
+                        <a href="{{ urlFor('message.detail', { message_id: message.id }) }}">
+                            {{ message.subject | cutString(60) }}
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{ urlFor('user.profile', { username: message.sender.username }) }}">
+                            {{ message.sender.username }}
+                        </a>
+                    </td>
                     <td>{{ message.created_at.diffForHumans() }}</td>
                     <td>
                         <a href="{{ urlFor('message.detail', { message_id: message.id }) }}" class="btn btn-info btn-xs">
