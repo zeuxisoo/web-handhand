@@ -17,6 +17,7 @@ class Item extends Controller {
         $this->app_config        = $this->slim->config('app.config');
         $this->upload_base_root  = $this->app_config['upload']['item']['root'];
         $this->upload_size_root  = [
+            '120x120' => $this->upload_base_root.'/120x120',
             '200x200' => $this->upload_base_root.'/200x200',
             '250x250' => $this->upload_base_root.'/250x250',
             '525x525' => $this->upload_base_root.'/525x525'
@@ -63,6 +64,7 @@ class Item extends Controller {
                 $uploaded_paths = Format::toUploadedPaths($uploaded_infos);
 
                 Image::instance()->multiResize($uploaded_paths, 525, 525);
+                Image::instance(['save_root' => $this->upload_size_root['120x120']])->multiResize($uploaded_paths, 120, 120);
                 Image::instance(['save_root' => $this->upload_size_root['200x200']])->multiResize($uploaded_paths, 200, 200);
                 Image::instance(['save_root' => $this->upload_size_root['250x250']])->multiResize($uploaded_paths, 250, 250);
 
@@ -124,6 +126,7 @@ class Item extends Controller {
             $item_title  = $item->title;
 
             foreach($item->images as $item_image) {
+                @unlink($this->upload_size_root['120x120'].'/'.$item_image->image);
                 @unlink($this->upload_size_root['200x200'].'/'.$item_image->image);
                 @unlink($this->upload_size_root['250x250'].'/'.$item_image->image);
                 @unlink($this->upload_size_root['525x525'].'/'.$item_image->image);
@@ -228,6 +231,7 @@ class Item extends Controller {
                     $uploaded_paths = Format::toUploadedPaths($uploaded_infos);
 
                     Image::instance()->multiResize($uploaded_paths, 525, 525);
+                    Image::instance(['save_root' => $this->upload_size_root['120x120']])->multiResize($uploaded_paths, 120, 120);
                     Image::instance(['save_root' => $this->upload_size_root['200x200']])->multiResize($uploaded_paths, 200, 200);
                     Image::instance(['save_root' => $this->upload_size_root['250x250']])->multiResize($uploaded_paths, 250, 250);
 
@@ -277,6 +281,7 @@ class Item extends Controller {
         if (empty($item_image) === true) {
             $valid_message = 'Can not found item image';
         }else{
+            @unlink($this->upload_size_root['120x120'].'/'.$item_image->image);
             @unlink($this->upload_size_root['200x200'].'/'.$item_image->image);
             @unlink($this->upload_size_root['250x250'].'/'.$item_image->image);
             @unlink($this->upload_size_root['525x525'].'/'.$item_image->image);
