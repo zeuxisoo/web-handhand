@@ -66,10 +66,10 @@ class Item extends Controller {
 
                 $uploaded_paths = Format::toUploadedPaths($uploaded_infos);
 
-                Image::instance()->multiResize($uploaded_paths, 525, 525);
-                Image::instance(['save_root' => $this->upload_size_root['120x120']])->multiResize($uploaded_paths, 120, 120);
-                Image::instance(['save_root' => $this->upload_size_root['200x200']])->multiResize($uploaded_paths, 200, 200);
-                Image::instance(['save_root' => $this->upload_size_root['250x250']])->multiResize($uploaded_paths, 250, 250);
+                Image::instance(['enable_fill' => true])->multiResize($uploaded_paths, 525, 525);
+                Image::instance(['enable_fill' => true, 'save_root' => $this->upload_size_root['120x120']])->multiResize($uploaded_paths, 120, 120);
+                Image::instance(['enable_fill' => true, 'save_root' => $this->upload_size_root['200x200']])->multiResize($uploaded_paths, 200, 200);
+                Image::instance(['enable_fill' => true, 'save_root' => $this->upload_size_root['250x250']])->multiResize($uploaded_paths, 250, 250);
 
                 $item = Models\Item::create([
                     'title'       => $title,
@@ -247,10 +247,10 @@ class Item extends Controller {
 
                     $uploaded_paths = Format::toUploadedPaths($uploaded_infos);
 
-                    Image::instance()->multiResize($uploaded_paths, 525, 525);
-                    Image::instance(['save_root' => $this->upload_size_root['120x120']])->multiResize($uploaded_paths, 120, 120);
-                    Image::instance(['save_root' => $this->upload_size_root['200x200']])->multiResize($uploaded_paths, 200, 200);
-                    Image::instance(['save_root' => $this->upload_size_root['250x250']])->multiResize($uploaded_paths, 250, 250);
+                    Image::instance(['enable_fill' => true])->multiResize($uploaded_paths, 525, 525);
+                    Image::instance(['enable_fill' => true, 'save_root' => $this->upload_size_root['120x120']])->multiResize($uploaded_paths, 120, 120);
+                    Image::instance(['enable_fill' => true, 'save_root' => $this->upload_size_root['200x200']])->multiResize($uploaded_paths, 200, 200);
+                    Image::instance(['enable_fill' => true, 'save_root' => $this->upload_size_root['250x250']])->multiResize($uploaded_paths, 250, 250);
 
                     foreach($uploaded_paths as $uploaded_path) {
                         Models\ItemImage::create([

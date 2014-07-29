@@ -10,6 +10,7 @@ class Image {
     private static $instance = null;
 
     private $save_root   = "";  // overwrite orgin file if empty
+    private $enable_fill = false;
     private $prefix_name = "";
 
     public static function instance($settings = []) {
@@ -74,7 +75,11 @@ class Image {
 
         if (is_array($image_paths) === true) {
             foreach($image_paths as $path) {
-                $status[] = self::singleResize($path, $width, $height);
+                if ($this->enable_fill === true) {
+                    $status[] = self::fill($path, $width, $height);
+                }else{
+                    $status[] = self::singleResize($path, $width, $height);
+                }
             }
         }
 
