@@ -5,6 +5,7 @@ class Image {
 
     const IS_RESIZE = 1;
     const IS_CROP   = 2;
+    const IS_FILL   = 3;
 
     private static $instance = null;
 
@@ -120,6 +121,46 @@ class Image {
         }
     }
 
+    public function fill($image_path, $width, $height) {
+        $current_image = $this->imageSize($image_path);
+        $file_extension = $this->fileExtension(basename($image_path));
+
+        if (in_array(strtolower($file_extension), ['jpg', 'gif', 'png', 'jpeg']) === true) {
+            $source_image = $this->createSourceImage($image_path);
+
+            $x_ratio = $width / $current_image['width'];
+            $y_ratio = $height / $current_image['height'];
+
+            if (($current_image['width'] <= $width) && ($current_image['height'] <= $height)) {
+                $new_width  = $current_image['width'];
+                $new_height = $current_image['height'];
+            } elseif (($x_ratio * $current_image['height']) < $height) {
+                $new_height = ceil($x_ratio * $current_image['height']);
+                $new_width  = $width;
+            } else {
+                $new_width  = ceil($y_ratio * $current_image['width']);
+                $new_height = $height;
+            }
+
+            $new_image = imagecreatetruecolor(round($new_width), round($new_height));
+            imagecopyresampled($new_image, $source_image, 0, 0, 0, 0, $new_width, $new_height, $current_image['width'], $current_image['height']);
+
+            $background_image = imagecreatetruecolor($width, $height);
+            $background_color = imagecolorallocate($background_image, 255, 255, 255);
+            imagefill($background_image, 0, 0, $background_color);
+
+            imagecopy($background_image, $new_image, (($width - $new_width)/ 2), (($height - $new_height) / 2), 0, 0, $new_width, $new_height);
+
+            $save_path = $this->createSavePath($image_path);
+
+            $this->createImage($background_image, $file_extension, $save_path);
+
+            return $this->status(self::IS_FILL, $image_path, $save_path);
+        }else{
+            return false;
+        }
+    }
+
     private function imageSize($image_path) {
         $image_size = getimagesize($image_path);
         $current_image['width'] = $image_size[0];
@@ -185,6 +226,9 @@ class Image {
                 break;
             case self::IS_CROP:
                 $field_name = "cropped_file";
+                break;
+            case self::IS_FILL:
+                $field_name = "filled_file";
                 break;
         }
 
