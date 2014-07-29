@@ -47,7 +47,9 @@ class Index extends Controller {
                       ->add('email', 'Please enter email')->rule('required')
                       ->add('password', 'Please enter password')->rule('required')
                       ->add('email', 'Invalid email address')->rule('valid_email')
-                      ->add('password', 'Password length must more than 8 chars')->rule('min_length', 8);
+                      ->add('password', 'Password length must more than 8 chars')->rule('min_length', 8)
+                      ->add('username', 'Username only support A-Z,a-z,0-9 and _')->rule('match_pattern', '/^[A-Za-z0-9_]+$/')
+                      ->add('username', 'Username length must more than 4 chars')->rule('min_length', 4);
 
             $valid_type    = 'error';
             $valid_message = '';

@@ -66,6 +66,10 @@ class User extends Controller {
             if (empty($username) === false) {
                 if (Models\User::where('username', $username)->first() !== null) {
                     $valid_message = 'Username already exists.';
+                }else if (preg_match('/^[A-Za-z0-9_]+$/', $username) == false) {
+                    $valid_message = 'Username only support A-Z,a-z,0-9 and _';
+                }else if (strlen($username) < 4) {
+                    $valid_message = 'Username length must more than 4 chars';
                 }else{
                     $update_fields['username'] = $username;
                 }
