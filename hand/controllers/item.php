@@ -7,10 +7,13 @@ use Hand\Models;
 class Item extends Controller {
 
     public function detail($item_id) {
-        $item = Models\Item::status('publish')->with('user', 'images')->find($item_id);
+        $item = Models\Item::with('user', 'images')->find($item_id);
 
         if (empty($item) === true) {
             $this->slim->flash('error', 'Can not found item');
+            $this->slim->redirect($this->slim->urlFor('index.index'));
+        }else if (in_array($item->status, ['hide', 'block']) === true) {
+            $this->slim->flash('error', 'The item is protected');
             $this->slim->redirect($this->slim->urlFor('index.index'));
         }else{
             $item_comments   = Models\ItemComment::with('user')->where('item_id', $item_id)->orderBy('created_at', 'asc')->get();
@@ -58,7 +61,7 @@ class Item extends Controller {
     }
 
     public function bookmark_create($item_id) {
-        $item = Models\Item::where('user_id', $_SESSION['user']['id'])->find($item_id);
+        $item = Models\Item::status('publish')->where('user_id', $_SESSION['user']['id'])->find($item_id);
 
         $valid_type    = 'error';
         $valid_message = '';
@@ -100,6 +103,36 @@ class Item extends Controller {
 
         $this->slim->flash($valid_type, $valid_message);
         $this->slim->redirect($this->slim->urlFor('item.detail', ['item_id' => $item_id]));
+    }
+
+    public function trade($item_id) {
+        $item = Models\Item::status('publish')->find($item_id);
+
+        $valid_type    = 'error';
+        $valid_message = '';
+        $redirect_to   = $this->slim->urlFor('item.detail', ['item_id' => $item_id]);
+
+        if (empty($item) === true) {
+            $valid_message = "Can not found item";
+        }else if ($item->user_id == $_SESSION['user']['id']) {
+            $valid_message = "The item owner can not make trade action";
+        }else{
+            $item->update([
+                'status' => 'trade'
+            ]);
+
+            Models\ItemTrade::create([
+                'user_id' => $_SESSION['user']['id'],
+                'item_id' => $item->id
+            ]);
+
+            $valid_type     = 'success';
+            $valid_message  = 'The item was added to your trade list';
+            $redirect_to    = $this->slim->urlFor('index.index');
+        }
+
+        $this->slim->flash($valid_type, $valid_message);
+        $this->slim->redirect($redirect_to);
     }
 
 }

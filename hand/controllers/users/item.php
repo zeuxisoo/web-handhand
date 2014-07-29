@@ -118,13 +118,15 @@ class Item extends Controller {
     }
 
     function delete($item_id) {
-        $item = Models\Item::where('user_id', $_SESSION['user']['id'])->with('images', 'comments')->find($item_id);
+        $item   = Models\Item::where('user_id', $_SESSION['user']['id'])->with('images', 'comments')->find($item_id);
 
         $valid_type    = 'error';
         $valid_message = '';
 
         if (empty($item) === true) {
             $valid_message = 'Can not found the item';
+        }else if (in_array($item->status, ['trade', 'done', 'block']) === true) {
+            $valid_message = 'Can not delete item when item status in trade or done and block';
         }else{
             $item_title  = $item->title;
 
@@ -135,6 +137,7 @@ class Item extends Controller {
                 @unlink($this->upload_size_root['525x525'].'/'.$item_image->image);
             }
 
+            $item->trade()->delete();
             $item->bookmarks()->delete();
             $item->comments()->delete();
             $item->images()->delete();
@@ -145,71 +148,82 @@ class Item extends Controller {
         }
 
         $this->slim->flash($valid_type, $valid_message);
-        $this->slim->redirect($this->slim->urlFor('user.item.manage'));
+        $this->slim->redirect($this->slim->urlFor('user.item.manage').'?'.http_build_query([
+            'status' => isset($item->status) === true ? $item->status : ""
+        ]));
     }
 
     function edit_detail($item_id) {
         $item = Models\Item::where('user_id', $_SESSION['user']['id'])->find($item_id);
 
+        $valid_type    = 'error';
+        $valid_message = '';
+
         if (empty($item) === true) {
-            $this->slim->flash('error', 'Can not found item');
-            $this->slim->redirect($this->slim->urlFor('user.item.manage'));
-        }else{
-            if ($this->slim->request->isPost() === true) {
-                $title       = $this->slim->request->post('title');
-                $category    = $this->slim->request->post('category');
-                $property    = $this->slim->request->post('property');
-                $description = $this->slim->request->post('description');
-                $price       = $this->slim->request->post('price');
-                $delivery    = $this->slim->request->post('delivery');
-                $status      = $this->slim->request->post('status');
+            $valid_message = 'Can not found item';
+        }else if (in_array($item->status, ['trade', 'done', 'block']) === true) {
+            $valid_message = 'Can not edit item when item status in trade, done and block';
+        }
 
-                $valdiator = Validator::factory($this->slim->request->post());
-                $valdiator->add('title', 'Please enter title')->rule('required')
-                          ->add('category', 'Please enter category')->rule('required')
-                          ->add('property', 'Please enter property')->rule('required')
-                          ->add('description', 'Please enter description')->rule('required')
-                          ->add('price', 'Please enter price')->rule('required')
-                          ->add('delivery', 'Please enter delivery')->rule('required');
+        if (empty($valid_message) === false) {
+            $this->slim->flash($valid_type, $valid_message);
+            $this->slim->redirect($this->slim->urlFor('user.item.manage').'?'.http_build_query([
+                'status' => isset($item->status) === true ? $item->status : ""
+            ]));
+            exit;
+        }
 
-                $valid_type    = 'error';
-                $valid_message = '';
+        if ($this->slim->request->isPost() === true) {
+            $title       = $this->slim->request->post('title');
+            $category    = $this->slim->request->post('category');
+            $property    = $this->slim->request->post('property');
+            $description = $this->slim->request->post('description');
+            $price       = $this->slim->request->post('price');
+            $delivery    = $this->slim->request->post('delivery');
+            $status      = $this->slim->request->post('status');
 
-                if ($valdiator->inValid() === true) {
-                    $valid_message = $valdiator->firstError();
-                }else if (array_key_exists($category, $this->app_config['item']['category']) === false) {
-                    $valid_message = 'Category not exists.';
-                }else if (array_key_exists($property, $this->app_config['item']['property']) === false) {
-                    $valid_message = 'Property not exists';
-                }else if (array_key_exists($delivery, $this->app_config['item']['delivery']) === false) {
-                    $valid_message = 'Delivery not exists.';
-                }else if (array_key_exists($status, $this->app_config['item']['status']['user']) === false) {
-                    $valid_message = 'Status not exists.';
-                }else if (is_numeric($price) === false) {
-                    $valid_message = 'Invalid price format.';
-                }else{
-                    $item->update([
-                        'title'       => $title,
-                        'category'    => $category,
-                        'property'    => $property,
-                        'description' => $description,
-                        'price'       => $price,
-                        'delivery'    => $delivery,
-                        'status'      => $status,
-                    ]);
+            $valdiator = Validator::factory($this->slim->request->post());
+            $valdiator->add('title', 'Please enter title')->rule('required')
+                      ->add('category', 'Please enter category')->rule('required')
+                      ->add('property', 'Please enter property')->rule('required')
+                      ->add('description', 'Please enter description')->rule('required')
+                      ->add('price', 'Please enter price')->rule('required')
+                      ->add('delivery', 'Please enter delivery')->rule('required');
 
-                    $valid_type    = 'success';
-                    $valid_message = 'The new item was updated.';
-                }
-
-                $this->slim->flash($valid_type, $valid_message);
-                $this->slim->redirect($this->slim->urlFor('user.item.edit.detail', ['item_id' => $item_id]));
+            if ($valdiator->inValid() === true) {
+                $valid_message = $valdiator->firstError();
+            }else if (array_key_exists($category, $this->app_config['item']['category']) === false) {
+                $valid_message = 'Category not exists.';
+            }else if (array_key_exists($property, $this->app_config['item']['property']) === false) {
+                $valid_message = 'Property not exists';
+            }else if (array_key_exists($delivery, $this->app_config['item']['delivery']) === false) {
+                $valid_message = 'Delivery not exists.';
+            }else if (array_key_exists($status, $this->app_config['item']['status']['user']) === false) {
+                $valid_message = 'Status not exists.';
+            }else if (is_numeric($price) === false) {
+                $valid_message = 'Invalid price format.';
             }else{
-                $this->slim->render('user/item/edit-detail.html', [
-                    'item'   => $item,
-                    'config' => $this->app_config,
+                $item->update([
+                    'title'       => $title,
+                    'category'    => $category,
+                    'property'    => $property,
+                    'description' => $description,
+                    'price'       => $price,
+                    'delivery'    => $delivery,
+                    'status'      => $status,
                 ]);
+
+                $valid_type    = 'success';
+                $valid_message = 'The new item was updated.';
             }
+
+            $this->slim->flash($valid_type, $valid_message);
+            $this->slim->redirect($this->slim->urlFor('user.item.edit.detail', ['item_id' => $item_id]));
+        }else{
+            $this->slim->render('user/item/edit-detail.html', [
+                'item'   => $item,
+                'config' => $this->app_config,
+            ]);
         }
     }
 
@@ -300,6 +314,45 @@ class Item extends Controller {
         $this->slim->redirect($this->slim->urlFor($valid_return, [
             'item_id' => $item_image->item_id,
         ]));
+    }
+
+    function trade_cancel($item_id) {
+        $item = Models\Item::status('trade')->where('user_id', $_SESSION['user']['id'])->with('trade')->find($item_id);
+
+        $valid_type    = 'error';
+        $valid_message = '';
+
+        if (empty($item) === true) {
+            $valid_message = 'Can not found item';
+        }else{
+            $item->trade()->delete();
+            $item->update(['status' => 'hide']);
+
+            $valid_type    = 'success';
+            $valid_message = 'The trade was cancelled';
+        }
+
+        $this->slim->flash($valid_type, $valid_message);
+        $this->slim->redirect($this->slim->urlFor('user.item.manage'));
+    }
+
+    function trade_done($item_id) {
+        $item = Models\Item::status('trade')->where('user_id', $_SESSION['user']['id'])->find($item_id);
+
+        $valid_type    = 'error';
+        $valid_message = '';
+
+        if (empty($item) === true) {
+            $valid_message = 'Can not found item';
+        }else{
+            $item->update(['status' => 'done']);
+
+            $valid_type    = 'success';
+            $valid_message = 'The trade was done';
+        }
+
+        $this->slim->flash($valid_type, $valid_message);
+        $this->slim->redirect($this->slim->urlFor('user.item.manage').'?status=done');
     }
 
 }

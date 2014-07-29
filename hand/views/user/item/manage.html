@@ -32,10 +32,19 @@
                         </a>
                     </div>
                     <div class="panel-footer text-center">
-                        <a href="{{ urlFor('user.item.edit.detail', { item_id: item.id }) }}" class="btn btn-xs btn-info">Modify</a>
-                        <a href="{{ urlFor('user.item.delete', { item_id: item.id }) }}" class="btn btn-xs btn-danger" delete="delete">
-                            <span class="glyphicon glyphicon-trash"></span> Delete
-                        </a>
+                        {% if item.status == "hide" or item.status == "publish" %}
+                            <a href="{{ urlFor('user.item.edit.detail', { item_id: item.id }) }}" class="btn btn-xs btn-info">Modify</a>
+                            <a href="{{ urlFor('user.item.delete', { item_id: item.id }) }}" class="btn btn-xs btn-danger" delete="delete">
+                                <span class="glyphicon glyphicon-trash"></span> Delete
+                            </a>
+                        {% endif %}
+                        {% if item.status == "trade" %}
+                            <a href="{{ urlFor('user.item.trade.cancel', { item_id: item.id }) }}" class="btn btn-xs btn-danger">Cancel</a>
+                            <a href="{{ urlFor('user.item.trade.done', { item_id: item.id }) }}" class="btn btn-xs btn-danger">Done</a>
+                        {% endif %}
+                        {% if item.status == "done" or item.status == "block" %}
+                            {{ item.title }}
+                        {% endif %}
                     </div>
                 </div>
             </div>

@@ -1,0 +1,32 @@
+{% extends 'layout/frontend/trade.html' %}
+
+{% block container_trade %}
+<div class="trade-index">
+    {% for item in items %}
+        <div class="col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-heading text-center">{{ item.title | cutString(30) }}</div>
+                <div class="panel-body panel-body-has-thumbnail">
+                    <a class="thumbnail thumbnail-in-panel" href="{{ urlFor('item.detail', { item_id: item.id }) }}">
+                        <img src="{{ itemImageUrl(item.images.first().image, '200x200') }}" data-src="" alt="">
+                    </a>
+                </div>
+                {% if item.status == 'trade' %}
+                    <div class="panel-footer text-center">
+                        <a href="{{ urlFor('trade.rate', { item_id: item.id }) }}" class="btn btn-default btn-sm" done="done">
+                            Done
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    {% else %}
+        <div class="col-md-12">
+            <div class="alert alert-info" role="alert">No item in this list.</div>
+        </div>
+    {% endfor %}
+    <div class="col-md-12">
+        {{ paginate | raw }}
+    </div>
+</div>
+{% endblock %}

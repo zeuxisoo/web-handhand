@@ -101,6 +101,8 @@ class App {
                 $this->slim->map('/edit/:item_id/image/upload', Route::requireLogin(), '\Hand\Controllers\Users\Item:edit_image_upload')->name('user.item.edit.image.upload')->via('GET', 'POST');
                 $this->slim->map('/edit/:item_id/image/manage', Route::requireLogin(), '\Hand\Controllers\Users\Item:edit_image_manage')->name('user.item.edit.image.manage')->via('GET', 'POST');
                 $this->slim->get('/edit/:item_id/image/delete/:item_image_id', Route::requireLogin(), '\Hand\Controllers\Users\Item:edit_image_delete')->name('user.item.edit.image.delete');
+                $this->slim->get('/trade/:item_id/cancel', Route::requireLogin(), '\Hand\Controllers\Users\Item:trade_cancel')->name('user.item.trade.cancel');
+                $this->slim->get('/trade/:item_id/done', Route::requireLogin(), '\Hand\Controllers\Users\Item:trade_done')->name('user.item.trade.done');
             });
         });
 
@@ -109,6 +111,7 @@ class App {
             $this->slim->post('/detail/:item_id/comment', Route::requireLogin(), '\Hand\Controllers\Item:detail_comment')->name('item.detail.comment');
             $this->slim->get('/bookmark/:item_id/create', Route::requireLogin(),'\Hand\Controllers\Item:bookmark_create' )->name('item.bookmark.create');
             $this->slim->get('/bookmark/:item_id/delete', Route::requireLogin(),'\Hand\Controllers\Item:bookmark_delete' )->name('item.bookmark.delete');
+            $this->slim->get('/trade/:item_id', Route::requireLogin(), '\Hand\Controllers\Item:trade')->name('item.trade');
         });
 
         $this->slim->group('/bookmark', function() {
@@ -125,6 +128,12 @@ class App {
         $this->slim->group('/search', function() {
             $this->slim->map('/', Route::reloadUserSession(), '\Hand\Controllers\Search:index')->name('search.index')->via('GET', 'POST');
             $this->slim->get('/result', Route::reloadUserSession(), '\Hand\Controllers\Search:result')->name('search.result');
+        });
+
+        $this->slim->group('/trade', function() {
+            $this->slim->get('/', Route::requireLogin(), '\Hand\Controllers\Trade:index')->name('trade.index');
+            $this->slim->get('/rate/:item_id', Route::requireLogin(), '\Hand\Controllers\Trade:rate')->name('trade.rate');
+            $this->slim->post('/done/:item_id', Route::requireLogin(), '\Hand\Controllers\Trade:done')->name('trade.done');
         });
     }
 

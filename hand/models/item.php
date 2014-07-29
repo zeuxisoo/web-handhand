@@ -24,6 +24,10 @@ class Item extends Eloquent\Model {
         return $this->hasMany('Hand\Models\ItemBookmark');
     }
 
+    public function trade() {
+        return $this->hasOne('Hand\Models\ItemTrade');
+    }
+
     public function scopeStatus($query, $status) {
         return $this->where('status', $status);
     }

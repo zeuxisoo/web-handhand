@@ -21,6 +21,12 @@
                     {% else %}
                         <a class="btn btn-default" href="{{ urlFor('item.bookmark.create', { item_id: item.id }) }}">Bookmark</a>
                     {% endif %}
+
+                    {% if item.status == 'publish' %}
+                        <a class="btn btn-default btn-primary" href="{{ urlFor('item.trade', { item_id: item.id }) }}" trade="trade">
+                            Trade
+                        </a>
+                    {% endif %}
                 </div>
             </div>
             <div class="row">
@@ -39,6 +45,10 @@
                         <div class="col-md-9">
                             <a href="{{ urlFor('user.profile', { username: item.user.username }) }}">{{ item.user.username }}</a>
                         </div>
+                    </p>
+                    <p class="row">
+                        <div class="col-md-3 text-info"><strong>Status</strong></div>
+                        <div class="col-md-9 text-success"><strong>{{ config.item.status.admin[item.status] }}</strong></div>
                     </p>
                     <p class="row">
                         <div class="col-md-3 text-info"><strong>Category</strong></div>

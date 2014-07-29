@@ -11,9 +11,21 @@
         });
     };
 
-    // Confirm delete
+    // Confirm delete, trade, done
     $(document).on('click', 'a[delete="delete"]', function() {
         if (confirm('Are you sure you want to delete this?') === false) {
+            return false;
+        }
+    });
+
+    $(document).on('click', 'a[trade="trade"]', function() {
+        if (confirm('Are you sure trade for this item?') === false) {
+            return false;
+        }
+    });
+
+    $(document).on('click', 'a[done="done"]', function() {
+        if (confirm('Are you sure set it to done?') === false) {
             return false;
         }
     });
