@@ -19,7 +19,7 @@
     });
 
     // Preivew image in item detail
-    $(document).on('mouseenter', 'a.thumbnail-blur', function() {
+    $(document).on('click', 'a.thumbnail-blur', function() {
         var old_source = $('img.preview').attr('src');
         var new_source = $(this).find('img').attr('src').replace('200x200', '525x525');
 
