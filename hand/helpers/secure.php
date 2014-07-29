@@ -2,7 +2,7 @@
 namespace Hand\Helpers;
 
 class Secure {
-    public function randomString($length = 8) {
+    public static function randomString($length = 8) {
         $characters = "abcdefghijklmnopqrstuxyvwzABCDEFGHIJKLMNOPQRSTUXYVWZ+-*#&@!?";
         $char_length = strlen($characters);
 

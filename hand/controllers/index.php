@@ -107,7 +107,8 @@ class Index extends Controller {
                     $valid_message = 'Password not match.';
                 }else{
                     if ($remember === 'y') {
-                        $config = $this->slim->config('app.config');
+                        $config       = $this->slim->config('app.config');
+                        $signin_token = Secure::randomString();
 
                         $this->slim->setCookie(
                             $config['remember']['name'],
