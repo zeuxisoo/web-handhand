@@ -126,17 +126,19 @@ class Item extends Controller {
                 'item_id' => $item->id
             ]);
 
-            // Notifiy item owner, the trade is success
-            Models\Message::notification([
-                'receiver_id' => $item->user_id,
-                'subject'     => "Item [".$item->title."] was changed to trade status.",
-                'content'     => join("\n", [
-                    "Please click the [item menu] > [manage item] > [trade] to get more information.",
-                    "===============================================================",
-                    "- Item name: ".$item->title,
-                    "- Trade user: ".$_SESSION['user']['username']
-                ])
-            ]);
+            // Notify item owner, the trade is success
+            if ($item->user->settings->notify_trade == 1) {
+                Models\Message::notification([
+                    'receiver_id' => $item->user_id,
+                    'subject'     => "Item [".$item->title."] was changed to trade status.",
+                    'content'     => join("\n", [
+                        "Please click the [item menu] > [manage item] > [trade] to get more information.",
+                        "===============================================================",
+                        "- Item name: ".$item->title,
+                        "- Trade user: ".$_SESSION['user']['username']
+                    ])
+                ]);
+            }
 
             $valid_type     = 'success';
             $valid_message  = 'The item was added to your trade list';

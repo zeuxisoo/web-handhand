@@ -149,7 +149,13 @@ class User extends Controller {
                 'notify_comment' => 0,
             ], $settings);
 
+            // Save to database
             Models\UserSettings::where('user_id', $_SESSION['user']['id'])->update($settings);
+
+            // Update current settings in session
+            foreach($settings as $name => $value) {
+                $_SESSION['user']['settings'][$name] = $value;
+            }
 
             $this->slim->flash('success', 'Your settings was updated');
             $this->slim->redirect($this->slim->urlFor('user.settings'));

@@ -9,6 +9,10 @@ class User extends Eloquent\Model {
     protected $table   = 'user';
     protected $guarded = array('id');
 
+    public function settings() {
+        return $this->hasOne('Hand\Models\UserSettings');
+    }
+
     public function avatar($size = 48, $default_image = 'identicon', $max_rate = 'g') {
         $schema = Slim::getInstance()->request->getScheme();
 
