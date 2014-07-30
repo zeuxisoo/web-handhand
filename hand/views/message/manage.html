@@ -16,15 +16,23 @@
                 {% for message in messages %}
                 <tr>
                     <td>
-                        <span class="label label-default">{{ message.category }}</span>
+                        {% if message.category == 'system' %}
+                            <span class="label label-danger">{{ message.category }}</span>
+                        {% else %}
+                            <span class="label label-primary">{{ message.category }}</span>
+                        {% endif %}
                         <a href="{{ urlFor('message.detail', { message_id: message.id }) }}">
                             {{ message.subject | cutString(60) }}
                         </a>
                     </td>
                     <td>
-                        <a href="{{ urlFor('user.profile', { username: message.sender.username }) }}">
-                            {{ message.sender.username }}
-                        </a>
+                        {% if message.category == 'system' %}
+                            <small class="text-danger">System</small>
+                        {% else %}
+                            <a href="{{ urlFor('user.profile', { username: message.sender.username }) }}">
+                                {{ message.sender.username }}
+                            </a>
+                        {% endif %}
                     </td>
                     <td>{{ message.created_at.diffForHumans() }}</td>
                     <td>
