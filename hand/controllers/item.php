@@ -33,7 +33,7 @@ class Item extends Controller {
     }
 
     public function detail_comment($item_id) {
-        $item        = Models\Item::status('publish')->find($item_id);
+        $item        = Models\Item::find($item_id);
         $content     = $this->slim->request->post('content');
         $redirect_to = $this->slim->urlFor('item.detail', ['item_id' => $item_id]);
 
@@ -42,6 +42,8 @@ class Item extends Controller {
 
         if (empty($item) === true) {
             $valid_message = 'Can not found item';
+        }else if ($item->status !== 'publish') {
+            $valid_message = 'The item status is not in publish, Can not leave a comment';
         }elseif (empty($content) === true) {
             $valid_message = 'Please enter comment content';
         }else{
@@ -50,6 +52,20 @@ class Item extends Controller {
                 'item_id' => $item->id,
                 'content' => $content,
             ]);
+
+            // Notify item owner, the trade is success
+            if ($item->user->settings->notify_comment == 1) {
+                Models\Message::notification([
+                    'receiver_id' => $item->user_id,
+                    'subject'     => "Item [".$item->title."] got new comment.",
+                    'content'     => join("\n", [
+                        "Please click the [item menu] > [manage item] > [publish] > item to get more information.",
+                        "===============================================================",
+                        "- Item name: ".$item->title,
+                        "- Comment user: ".$_SESSION['user']['username']
+                    ])
+                ]);
+            }
 
             $valid_type     = 'success';
             $valid_message  = 'New comment created';
