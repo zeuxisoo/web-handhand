@@ -139,4 +139,27 @@ class User extends Controller {
         }
     }
 
+    function settings() {
+        if ($this->slim->request->isPost() === true) {
+            $settings = $this->slim->request->post('settings', []);
+
+            // Merge default settings
+            $settings = array_merge([
+                'notify_trade'   => 0,
+                'notify_comment' => 0,
+            ], $settings);
+
+            Models\UserSettings::where('user_id', $_SESSION['user']['id'])->update($settings);
+
+            $this->slim->flash('success', 'Your settings was updated');
+            $this->slim->redirect($this->slim->urlFor('user.settings'));
+        }else{
+            $settings = Models\UserSettings::where('user_id', $_SESSION['user']['id'])->first();
+
+            $this->slim->render('user/settings.html', [
+                'settings' => $settings,
+            ]);
+        }
+    }
+
 }

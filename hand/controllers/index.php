@@ -3,7 +3,6 @@ namespace Hand\Controllers;
 
 use Zeuxisoo\Core\Validator;
 use Hand\Abstracts\Controller;
-use Hand\Models\User;
 use Hand\Helpers\Secure;
 use Hand\Helpers\Authorize;
 use Hand\Helpers\Paginate;
@@ -56,16 +55,20 @@ class Index extends Controller {
 
             if ($validator->inValid() === true) {
                 $valid_message = $validator->firstError();
-            }else if (User::where('username', $username)->first() !== null) {
+            }else if (Models\User::where('username', $username)->first() !== null) {
                 $valid_message = 'Username already exists.';
-            }else if (User::where('email', $email)->first() !== null) {
+            }else if (Models\User::where('email', $email)->first() !== null) {
                 $valid_message = 'Email already exists.';
             }else{
-                User::create(array(
+                $user = Models\User::create([
                     'username' => $username,
                     'email'    => $email,
                     'password' => password_hash($password, PASSWORD_BCRYPT),
-                ));
+                ]);
+
+                Models\UserSettings::create([
+                    'user_id' => $user->id,
+                ]);
 
                 $valid_type    = 'success';
                 $valid_message = 'Thank for you registeration. Your account already created.';
@@ -96,9 +99,9 @@ class Index extends Controller {
                 $valid_message = $validator->firstError();
             }else{
                 if (strpos($account, '@') === false) {
-                    $user = User::where('username', $account)->first();
+                    $user = Models\User::where('username', $account)->first();
                 }else{
-                    $user = User::where('email', $account)->first();
+                    $user = Models\User::where('email', $account)->first();
                 }
 
                 if (empty($user->username) === true) {

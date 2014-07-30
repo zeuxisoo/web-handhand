@@ -92,6 +92,7 @@ class App {
 
             $this->slim->map('/account', Route::requireLogin(), '\Hand\Controllers\User:account')->name('user.account')->via('GET', 'POST');
             $this->slim->map('/password', Route::requireLogin(), '\Hand\Controllers\User:password')->name('user.password')->via('GET', 'POST');
+            $this->slim->map('/settings', Route::requireLogin(), '\Hand\Controllers\User:settings')->name('user.settings')->via('GET', 'POST');
 
             $this->slim->group('/item', function() {
                 $this->slim->map('/create', Route::requireLogin(), '\Hand\Controllers\Users\Item:create')->name('user.item.create')->via('GET', 'POST');

@@ -1,0 +1,37 @@
+{% extends 'layout/frontend/user.html' %}
+
+{% block container_user %}
+<fieldset>
+    <legend>Your Settings</legend>
+    <form method="post" class="form-horizontal" action="{{ urlFor('user.settings') }}">
+        <input type="hidden" name="{{ csrf_key }}" value="{{ csrf_token }}">
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="title">Notify trade</label>
+            <div class="col-sm-10">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="settings[notify_trade]" value="1"{% if settings.notify_trade %} checked="checked"{% endif %}>
+                        Send message to me when item changed to trade status
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="title">Notify comment</label>
+            <div class="col-sm-10">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="settings[notify_comment]" value="1"{% if settings.notify_comment %} checked="checked"{% endif %}>
+                        Send message to me when user leave a comment in my item
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default">Submit</button>
+            </div>
+        </div>
+    </form>
+</fieldset>
+{% endblock %}
