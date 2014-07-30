@@ -20,9 +20,9 @@ class User extends Controller {
             $bookmarks = Models\ItemBookmark::where('user_id', $user->id)->get();
             $counters  = Models\Item::selectRaw("
                 SUM(status='publish') AS publish_count,
-                SUM(status='trade') AS trade_count
+                SUM(status='done') AS done_count
             ")->where('user_id', $user->id)->where(function($query) {
-                $query->where('status', 'publish')->orWhere('status', 'trade');
+                $query->where('status', 'publish')->orWhere('status', 'done');
             })->first();
 
             if ($tab == 'publish') {
@@ -42,7 +42,7 @@ class User extends Controller {
                 'items' => $items,
                 'counter' => [
                     'publishs'  => $counters->publish_count,
-                    'trades'    => $counters->trade_count,
+                    'dones'     => $counters->done_count,
                     'bookmarks' => $bookmarks->count(),
                 ],
                 'paginate' => $paginate->buildPageBar([
