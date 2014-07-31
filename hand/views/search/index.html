@@ -12,6 +12,15 @@
                     <label for="keyword">Keyword</label>
                     <input type="keyword" class="form-control" name="keyword" id="keyword" required="required">
                 </div>
+                <div class="form-group">
+                    <label for="keyword">Category</label>
+                    <select class="form-control" name="category">
+                        <option value="">All</option>
+                        {% for key, category in config.item.category %}
+                            <option value="{{ key }}">{{ category }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
                 <button type="submit" class="btn btn-default">Submit</button>
             </form>
         </div>
