@@ -124,6 +124,7 @@ class App {
             $this->slim->get('/manage', Route::requireLogin(), '\Hand\Controllers\Message:manage')->name('message.manage');
             $this->slim->get('/delete/:message_id', Route::requireLogin(), '\Hand\Controllers\Message:delete')->name('message.delete');
             $this->slim->get('/detail/:message_id', Route::requireLogin(), '\Hand\Controllers\Message:detail')->name('message.detail');
+            $this->slim->get('/unread/:message_id', Route::requireLogin(), '\Hand\Controllers\Message:unread')->name('message.unread');
         });
 
         $this->slim->group('/search', function() {

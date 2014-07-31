@@ -18,8 +18,9 @@
     </div>
     <div class="row row-info-control">
         <div class="col-md-offset-2 col-md-10">
-            <a href="{{ urlFor('message.delete', { message_id: message.id }) }}" class="btn btn-danger" delete="delete">Delete</a>
+            <a href="{{ urlFor('message.unread', { message_id: message.id }) }}" class="btn btn-info">Unread</a>
             <a href="{{ urlForExtra('message.create', {}, { message_id: message.id }) }}" class="btn btn-primary">Reply</a>
+            <a href="{{ urlFor('message.delete', { message_id: message.id }) }}" class="btn btn-danger" delete="delete">Delete</a>
         </div>
     </div>
 </div>

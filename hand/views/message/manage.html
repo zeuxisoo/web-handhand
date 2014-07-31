@@ -22,7 +22,11 @@
                             <span class="label label-primary">{{ message.category }}</span>
                         {% endif %}
                         <a href="{{ urlFor('message.detail', { message_id: message.id }) }}">
-                            {{ message.subject | cutString(60) }}
+                            {% if message.have_read == 0 %}
+                                <strong>{{ message.subject | cutString(60) }}</strong>
+                            {% else %}
+                                {{ message.subject | cutString(60) }}
+                            {% endif %}
                         </a>
                     </td>
                     <td>

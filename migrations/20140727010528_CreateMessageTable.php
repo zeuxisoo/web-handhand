@@ -17,6 +17,7 @@ class CreateMessageTable extends Migration
             $table->enum('category', ['normal', 'system'])->default('normal');
             $table->string('subject', 180);
             $table->text('content');
+            $table->tinyInteger('have_read')->default(0);
             $table->timestamps();
         });
     }

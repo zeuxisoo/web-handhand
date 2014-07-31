@@ -90,7 +90,7 @@ class Message extends Controller {
     }
 
     public function delete($message_id) {
-        $message = Models\Message::find($message_id);
+        $message = Models\Message::where('receiver_id', $_SESSION['user']['id'])->find($message_id);
 
         $valid_type    = 'error';
         $valid_message = '';
@@ -109,16 +109,37 @@ class Message extends Controller {
     }
 
     public function detail($message_id) {
-        $message = Models\Message::with('sender')->find($message_id);
+        $message = Models\Message::where('receiver_id', $_SESSION['user']['id'])->with('sender')->find($message_id);
 
         if (empty($message) === true) {
             $this->slim->flash('error', 'Can not found message');
             $this->slim->redirect($this->slim->urlFor('message.manage'));
         }else{
+            $message->update(['have_read' => 1]);
+
             $this->slim->render('message/detail.html', [
                 'message' => $message,
             ]);
         }
+    }
+
+    public function unread($message_id) {
+        $message = Models\Message::where('receiver_id', $_SESSION['user']['id'])->with('sender')->find($message_id);
+
+        $valid_type    = 'error';
+        $valid_message = '';
+
+        if (empty($message) === true) {
+            $valid_message = 'Can not found message';
+        }else{
+            $message->update(['have_read' => 0]);
+
+            $valid_type    = 'success';
+            $valid_message = 'The message was marked as unread';
+        }
+
+        $this->slim->flash($valid_type, $valid_message);
+        $this->slim->redirect($this->slim->urlFor('message.manage'));
     }
 
 }
