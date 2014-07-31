@@ -1,11 +1,12 @@
 <?php
 return [
     'default' => [
-        'debug' => true,
-        'item'  => [
+        'debug'      => false,
+        'turbolinks' => false,
+        'item'       => [
             'upload_max_images' => 3,
         ],
-        'message' => [
+        'message'    => [
             'create_status' => 'normal',
         ],
     ],
