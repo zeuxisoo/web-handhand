@@ -11,8 +11,7 @@
         "pimple/pimple": "2.1.0",
         "davedevelopment/phpmig": "dev-master",
         "zeuxisoo/core-validator": "dev-master",
-        "ircmaxell/password-compat": "1.0.*",
-        "helthe/turbolinks": "~1.3"
+        "ircmaxell/password-compat": "1.0.*"
     },
     "require-dev": {
         "raveren/kint": "v0.9"

@@ -2,7 +2,6 @@
 return [
     'default' => [
         'debug'      => false,
-        'turbolinks' => false,
         'item'       => [
             'upload_max_images' => 3,
         ],

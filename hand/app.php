@@ -7,7 +7,6 @@ use Slim\Views;
 use Slim\Middleware;
 use Illuminate\Database;
 use Hand\Middlewares\Route;
-use Hand\Middlewares\Turbolinks;
 use Hand\Helpers\View;
 
 class App {
@@ -64,10 +63,6 @@ class App {
     public function registerSlimMiddleware() {
         $this->slim->add(new Middleware\SessionCookie($this->config['cookie']));
         $this->slim->add(new Extras\Middleware\CsrfGuard());
-
-        if ($this->config['default']['turbolinks'] === true) {
-           $this->slim->add(new Turbolinks());
-        }
     }
 
     public function registerSlimView() {
