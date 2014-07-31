@@ -2,61 +2,65 @@
 
 {% block container %}
 <div id="user-item-manage">
-    <p class="lead">Manage Item</p>
-    <hr>
-    <div class="btn-group btn-group-justified">
-        <div class="btn-group">
-            <a href="{{ urlForExtra('user.item.manage', {}, { status: 'hide' }) }}" class="btn btn-default" data-btn="hide" data-btn-param="status">Hide</a>
-        </div>
-        <div class="btn-group">
-            <a href="{{ urlForExtra('user.item.manage', {}, { status: 'publish' }) }}" class="btn btn-default" data-btn="publish" data-btn-param="status">Publish</a>
-        </div>
-        <div class="btn-group">
-            <a href="{{ urlForExtra('user.item.manage', {}, { status: 'trade' }) }}" class="btn btn-default" data-btn="trade" data-btn-param="status">Trade</a>
-        </div>
-        <div class="btn-group">
-            <a href="{{ urlForExtra('user.item.manage', {}, { status: 'done' }) }}" class="btn btn-default" data-btn="done" data-btn-param="status">Done</a>
-        </div>
-        <div class="btn-group">
-            <a href="{{ urlForExtra('user.item.manage', {}, { status: 'block' }) }}" class="btn btn-default" data-btn="block" data-btn-param="status">Block</a>
-        </div>
-    </div>
-    <br>
-    <div class="row">
-        {% for item in items %}
-            <div class="col-md-2">
-                <div class="panel panel-default">
-                    <div class="panel-body panel-body-has-thumbnail">
-                        <a class="thumbnail thumbnail-in-panel" href="{{ urlFor('user.item.edit.detail', { item_id: item.id }) }}">
-                            <img src="{{ itemImageUrl(item.images.first().image, '200x200') }}" data-src="" alt="">
-                        </a>
-                    </div>
-                    <div class="panel-footer text-center">
-                        {% if item.status == "hide" or item.status == "publish" %}
-                            <a href="{{ urlFor('user.item.edit.detail', { item_id: item.id }) }}" class="btn btn-xs btn-info">Modify</a>
-                            <a href="{{ urlFor('user.item.delete', { item_id: item.id }) }}" class="btn btn-xs btn-danger" delete="delete">
-                                <span class="glyphicon glyphicon-trash"></span> Delete
-                            </a>
-                        {% endif %}
-                        {% if item.status == "trade" %}
-                            <a href="{{ urlFor('user.item.trade.cancel', { item_id: item.id }) }}" class="btn btn-xs btn-danger">Cancel</a>
-                            <a href="{{ urlFor('user.item.trade.done', { item_id: item.id }) }}" class="btn btn-xs btn-danger">Done</a>
-                        {% endif %}
-                        {% if item.status == "done" or item.status == "block" %}
-                            {{ item.title }}
-                        {% endif %}
-                    </div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <p class="lead">Manage Item</p>
+            <hr>
+            <div class="btn-group btn-group-justified">
+                <div class="btn-group">
+                    <a href="{{ urlForExtra('user.item.manage', {}, { status: 'hide' }) }}" class="btn btn-default" data-btn="hide" data-btn-param="status">Hide</a>
+                </div>
+                <div class="btn-group">
+                    <a href="{{ urlForExtra('user.item.manage', {}, { status: 'publish' }) }}" class="btn btn-default" data-btn="publish" data-btn-param="status">Publish</a>
+                </div>
+                <div class="btn-group">
+                    <a href="{{ urlForExtra('user.item.manage', {}, { status: 'trade' }) }}" class="btn btn-default" data-btn="trade" data-btn-param="status">Trade</a>
+                </div>
+                <div class="btn-group">
+                    <a href="{{ urlForExtra('user.item.manage', {}, { status: 'done' }) }}" class="btn btn-default" data-btn="done" data-btn-param="status">Done</a>
+                </div>
+                <div class="btn-group">
+                    <a href="{{ urlForExtra('user.item.manage', {}, { status: 'block' }) }}" class="btn btn-default" data-btn="block" data-btn-param="status">Block</a>
                 </div>
             </div>
-        {% else %}
-            <div class="col-md-12">
-                <div class="alert alert-info" role="alert">No item in this list.</div>
+            <br>
+            <div class="row">
+                {% for item in items %}
+                    <div class="col-md-2">
+                        <div class="panel panel-default">
+                            <div class="panel-body panel-body-has-thumbnail">
+                                <a class="thumbnail thumbnail-in-panel" href="{{ urlFor('user.item.edit.detail', { item_id: item.id }) }}">
+                                    <img src="{{ itemImageUrl(item.images.first().image, '200x200') }}" data-src="" alt="">
+                                </a>
+                            </div>
+                            <div class="panel-footer text-center">
+                                {% if item.status == "hide" or item.status == "publish" %}
+                                    <a href="{{ urlFor('user.item.edit.detail', { item_id: item.id }) }}" class="btn btn-xs btn-info">Modify</a>
+                                    <a href="{{ urlFor('user.item.delete', { item_id: item.id }) }}" class="btn btn-xs btn-danger" delete="delete">
+                                        <span class="glyphicon glyphicon-trash"></span> Delete
+                                    </a>
+                                {% endif %}
+                                {% if item.status == "trade" %}
+                                    <a href="{{ urlFor('user.item.trade.cancel', { item_id: item.id }) }}" class="btn btn-xs btn-danger">Cancel</a>
+                                    <a href="{{ urlFor('user.item.trade.done', { item_id: item.id }) }}" class="btn btn-xs btn-danger">Done</a>
+                                {% endif %}
+                                {% if item.status == "done" or item.status == "block" %}
+                                    {{ item.title }}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="col-md-12">
+                        <div class="alert alert-info" role="alert">No item in this list.</div>
+                    </div>
+                {% endfor %}
             </div>
-        {% endfor %}
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            {{ paginate | raw }}
+            <div class="row">
+                <div class="col-md-12">
+                    {{ paginate | raw }}
+                </div>
+            </div>
         </div>
     </div>
 </div>

@@ -4,7 +4,7 @@
 <div id="index">
     <div class="row">
         <div class="col-md-2">
-            <div class="well well-sm">
+            <div class="well well-sm well-hand">
                 <ul class="nav nav-pills nav-stacked">
                     <li><a href="{{ urlFor('index.index') }}" data-tab="0" data-tab-param="category">All</a></li>
                     {% for key, category in config.item.category %}
@@ -16,7 +16,7 @@
                     {% endfor %}
                 </ul>
             </div>
-            <div class="well well-sm">
+            <div class="well well-sm well-hand">
                 <a href="{{ urlFor('index.index') }}" class="label label-default" data-label="0" data-label-param="property">All</a>
                 {% for key, property in config.item.property %}
                     <a href="{{ urlForExtra('index.index', {}, { property: key }) }}" class="label label-default"  data-label="{{ key }}" data-label-param="property">{{ property }}</a>
@@ -24,24 +24,30 @@
             </div>
         </div>
         <div class="col-md-10">
-            {% for item in items %}
-                <div class="col-md-3">
-                    <div class="panel panel-default">
-                        <div class="panel-body panel-body-has-thumbnail">
-                            <a class="thumbnail thumbnail-in-panel" href="{{ urlFor('item.detail', { item_id: item.id }) }}">
-                                <img src="{{ itemImageUrl(item.images.first().image, '200x200') }}" data-src="" alt="">
-                            </a>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    {% for item in items %}
+                        <div class="col-md-3">
+                            <div class="panel panel-default">
+                                <div class="panel-body panel-body-has-thumbnail">
+                                    <a class="thumbnail thumbnail-in-panel" href="{{ urlFor('item.detail', { item_id: item.id }) }}">
+                                        <img src="{{ itemImageUrl(item.images.first().image, '200x200') }}" data-src="" alt="">
+                                    </a>
+                                </div>
+                                <div class="panel-footer text-center">{{ item.title | cutString(30) }}</div>
+                            </div>
                         </div>
-                        <div class="panel-footer text-center">{{ item.title | cutString(30) }}</div>
+                    {% else %}
+                        <div class="col-md-12">
+                            <div class="alert alert-info" role="alert">No item in this list.</div>
+                        </div>
+                    {% endfor %}
+
+
+                    <div class="col-md-12">
+                        {{ paginate | raw }}
                     </div>
                 </div>
-            {% else %}
-                <div class="col-md-12">
-                    <div class="alert alert-info" role="alert">No item in this list.</div>
-                </div>
-            {% endfor %}
-            <div class="col-md-12">
-                {{ paginate | raw }}
             </div>
         </div>
     </div>

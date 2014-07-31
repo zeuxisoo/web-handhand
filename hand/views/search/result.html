@@ -2,12 +2,16 @@
 
 {% block container %}
 <div class="search-index">
-    <p class="lead">Search results</p>
-    <hr>
-    <div class="alert alert-info" role="alert">
-        <strong>Results</strong>: <span class="text-muted">{{ total }}</span>
-        &nbsp;-&nbsp;
-        <strong>Keyword</strong>: <span class="text-muted">{{ keyword }}</span>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <p class="lead">Search results</p>
+            <hr>
+            <div class="alert alert-info" role="alert">
+                <strong>Results</strong>: <span class="text-muted">{{ total }}</span>
+                &nbsp;-&nbsp;
+                <strong>Keyword</strong>: <span class="text-muted">{{ keyword }}</span>
+            </div>
+        </div>
     </div>
     {% for item in items %}
         <div class="panel panel-default">

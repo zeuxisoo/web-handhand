@@ -1,6 +1,34 @@
+body {
+    background: #efefef;
+}
+
+hr {
+    border-color: #d3d3d3;
+}
+
 .footer {
-    color: #777;
+    color: #777777;
     padding: 20px 0 10px;
+}
+
+.navbar-hand {
+    background: #455a6e;
+}
+
+.navbar-hand .navbar-header a {
+    color: #FFFFFF;
+}
+
+.navbar-hand .navbar-nav > li > a {
+    color: #C8D6E3;
+}
+
+.navbar-hand .navbar-nav > li > a:hover {
+    color: #FFFFFF;
+}
+
+.well-hand {
+    background: #FFFFFF;
 }
 
 .thumbnail-in-panel {
