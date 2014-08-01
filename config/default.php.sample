@@ -1,7 +1,7 @@
 <?php
 return [
     'default' => [
-        'debug'      => false,
+        'debug'      => true,
         'item'       => [
             'upload_max_images' => 3,
         ],
@@ -90,10 +90,16 @@ return [
         'pubid'     => '',
     ],
 
+    'google_analytics' => [
+        'enable'      => false,
+        'account'     => '',
+        'doubleclick' => false,
+    ],
+
     'message' => [
         'category' => [
             'normal' => 'Normal',
             'system' => 'System',
         ]
-    ]
+    ],
 ];
