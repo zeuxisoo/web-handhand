@@ -4,6 +4,15 @@
     {{ item.title }}
 {% endblock %}
 
+{% block ogmeta %}
+<meta property="og:title" content="{{ item.title }}">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{{ siteUrl(urlFor('item.detail', { item_id: item.id })) }}" />
+<meta property="og:image" content="{{ itemImageUrl(item.images.first().image, '200x200') }}" />
+<meta property="og:description" content="{{ item.description }}" />
+<meta property="og:site_name" content="HandHand" />
+{% endblock %}
+
 {% block container %}
 <div class="item-detail">
     <p class="lead">{{ item.title }}</p>
