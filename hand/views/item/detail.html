@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="{{ siteUrl(urlFor('item.detail', { item_id: item.id })) }}" />
 <meta property="og:image" content="{{ itemImageUrl(item.images.first().image, '200x200') }}" />
-<meta property="og:description" content="{{ item.description }}" />
+<meta property="og:description" content="{{ item.description | replace({'\n': ' '}) }}" />
 <meta property="og:site_name" content="HandHand" />
 {% endblock %}
 
