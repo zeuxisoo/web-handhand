@@ -15,6 +15,7 @@ class CreateItemTradeTable extends Migration
             $table->integer('user_id')->references('id')->on('user');
             $table->integer('item_id')->references('id')->on('item');
             $table->tinyInteger('star')->default(0);
+            $table->text('comment');
             $table->timestamps();
         });
     }

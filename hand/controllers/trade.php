@@ -49,6 +49,7 @@ class Trade extends Controller {
 
     public function done($item_id) {
         $star       = $this->slim->request->post('star');
+        $comment    = $this->slim->request->post('comment');
         $item_trade = Models\ItemTrade::where('user_id', $_SESSION['user']['id'])->where('item_id', $item_id)->first();
         $item       = Models\Item::where('status', 'trade')->find($item_id);
 
@@ -60,10 +61,12 @@ class Trade extends Controller {
         }else if (empty($item) === true) {
             $valid_message = 'Can not found item';
         }else if ($star > 10 || $star < 1) {
-            d($star);exit;
             $valid_message = 'The star value incorrect';
         }else{
-            $item_trade->update(['star'=> $star]);
+            $item_trade->update([
+                'star'    => $star,
+                'comment' => $comment,
+            ]);
             $item->update(['status' => 'done']);
 
             $valid_type    = 'success';
