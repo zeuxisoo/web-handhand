@@ -1,5 +1,9 @@
 {% extends 'layout/frontend.html' %}
 
+{% block subtitle %}
+    {{ item.title }}
+{% endblock %}
+
 {% block container %}
 <div class="item-detail">
     <p class="lead">{{ item.title }}</p>

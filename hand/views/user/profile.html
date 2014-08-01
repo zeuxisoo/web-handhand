@@ -1,5 +1,9 @@
 {% extends 'layout/frontend.html' %}
 
+{% block subtitle %}
+    {{ user.username }}
+{% endblock %}
+
 {% block container %}
 <div id="user-profile">
     <div class="panel panel-default">
