@@ -113,6 +113,7 @@ class App {
             $this->slim->get('/bookmark/:item_id/create', Route::requireLogin(),'\Hand\Controllers\Item:bookmark_create' )->name('item.bookmark.create');
             $this->slim->get('/bookmark/:item_id/delete', Route::requireLogin(),'\Hand\Controllers\Item:bookmark_delete' )->name('item.bookmark.delete');
             $this->slim->get('/trade/:item_id', Route::requireLogin(), '\Hand\Controllers\Item:trade')->name('item.trade');
+            $this->slim->get('/block/:item_id', Route::requireLogin(), '\Hand\Controllers\Item:block')->name('item.block');
         });
 
         $this->slim->group('/bookmark', function() {

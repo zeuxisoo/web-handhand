@@ -8,6 +8,7 @@ return [
         'message'    => [
             'create_status' => 'normal',
         ],
+        'admin_ids'  => [1],
     ],
 
     'database' => [

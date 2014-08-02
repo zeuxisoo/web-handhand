@@ -165,4 +165,27 @@ class Item extends Controller {
         $this->slim->redirect($redirect_to);
     }
 
+    public function block($item_id) {
+        $item = Models\Item::find($item_id);
+
+        $valid_type    = 'error';
+        $valid_message = '';
+        $redirect_to   = $this->slim->urlFor('item.detail', ['item_id' => $item_id]);
+
+        if (empty($item) === true) {
+            $valid_message = "Can not found item";
+        }else if ($this->isAdmin() === false) {
+            $valid_message = "You can not block this item if you are not admin";
+        }else{
+            $item->update(['status' => 'block']);
+
+            $valid_type     = 'success';
+            $valid_message  = 'The item was blocked';
+            $redirect_to    = $this->slim->urlFor('index.index');
+        }
+
+        $this->slim->flash($valid_type, $valid_message);
+        $this->slim->redirect($redirect_to);
+    }
+
 }

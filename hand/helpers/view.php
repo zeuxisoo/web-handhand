@@ -17,6 +17,7 @@ class View extends \Twig_Extension {
         return [
             new \Twig_SimpleFunction('itemImageUrl', [$this, 'itemImageUrl']),
             new \Twig_SimpleFunction('urlForExtra', [$this, 'urlForExtra']),
+            new \Twig_SimpleFunction('isAdmin', [$this, 'isAdmin']),
         ];
     }
 
@@ -59,6 +60,10 @@ class View extends \Twig_Extension {
 
     public function urlForExtra($name, $params = [], $queryStrings = []) {
         return $this->slim->urlFor($name, $params).'?'.http_build_query($queryStrings);
+    }
+
+    public function isAdmin() {
+        return in_array($_SESSION['user']['id'], $this->slim->config('app.config')['default']['admin_ids']);
     }
 
 }

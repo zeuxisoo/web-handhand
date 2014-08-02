@@ -40,6 +40,12 @@
                             Trade
                         </a>
                     {% endif %}
+
+                    {% if isAdmin() %}
+                        <a class="btn btn-default btn-warning" href="{{ urlFor('item.block', { item_id: item.id }) }}" trade="trade">
+                            Block
+                        </a>
+                    {% endif %}
                 </div>
             </div>
             <div class="row">
