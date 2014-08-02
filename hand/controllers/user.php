@@ -68,6 +68,27 @@ class User extends Controller {
         }
     }
 
+    public function ban($username) {
+        $user = Models\User::where('username', $username)->first();
+
+        $valid_type    = 'error';
+        $valid_message = '';
+
+        if (empty($user) === true) {
+            $valid_message = 'Can not found user';
+        }else if ($this->isAdmin() === false) {
+            $valid_message = 'You can not ban this user if you are not admin';
+        }else{
+            $user->update(['status' => 'banned']);
+
+            $valid_type    = 'success';
+            $valid_message = 'The user was banned';
+        }
+
+        $this->slim->flash($valid_type, $valid_message);
+        $this->slim->redirect($this->slim->urlFor('index.index'));
+    }
+
     public function account() {
         if ($this->slim->request->isPost() === true) {
             $username = $this->slim->request->post('username');

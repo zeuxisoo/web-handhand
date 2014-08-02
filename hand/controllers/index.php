@@ -64,6 +64,7 @@ class Index extends Controller {
                     'username' => $username,
                     'email'    => $email,
                     'password' => password_hash($password, PASSWORD_BCRYPT),
+                    'status'   => 'active',
                 ]);
 
                 Models\UserSettings::create([
@@ -108,6 +109,8 @@ class Index extends Controller {
                     $valid_message = 'The user not exists.';
                 }else if (password_verify($password, $user->password) === false) {
                     $valid_message = 'Password not match.';
+                }else if ($user->status === 'banned') {
+                    $valid_message = 'Your account was banned';
                 }else{
                     if ($remember === 'y') {
                         $config       = $this->slim->config('app.config');

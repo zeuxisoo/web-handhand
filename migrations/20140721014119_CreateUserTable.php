@@ -15,6 +15,7 @@ class CreateUserTable extends Migration
             $table->string('username', 30)->unique();
             $table->string('email', 80)->unique();
             $table->string('password', 64);
+            $table->enum('status', ['banned', 'inactive', 'active'])->default('active');
             $table->timestamps();
         });
     }

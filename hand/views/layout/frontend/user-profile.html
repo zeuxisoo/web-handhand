@@ -16,27 +16,36 @@
                         </a>
                         <div class="media-body">
                             <h2 class="media-heading">{{ user.username }}</h2>
-                            <small>
-                                <span class="glyphicon glyphicon-envelope"></span>
-                                <a href="{{ urlForExtra('message.create', {}, { username: user.username }) }}" class="text-muted">
-                                    Message
-                                </a>
-                            </small>
+                            {% if user.status == 'banned' %}
+                                <div class="alert alert-warning">The user was banned</div>
+                            {% else %}
+                                <small>
+                                    <span class="glyphicon glyphicon-envelope"></span>
+                                    <a href="{{ urlForExtra('message.create', {}, { username: user.username }) }}" class="text-muted">
+                                        Message
+                                    </a>
+                                    {% if isAdmin() %}
+                                        &nbsp;-&nbsp;
+                                        <span class="glyphicon glyphicon-ban-circle text-danger"></span>
+                                        <a href="{{ urlFor('user.ban', { username: user.username }) }}" class="text-danger">Ban</a>
+                                    {% endif %}
+                                </small>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="col-xs-12 col-md-12 text-right col-status-items">
                         <div class="col-xs-4 col-md-4">
-                            <p class="text-info"><strong>{{ counter.publishs }}</strong></p>
+                            <p class="text-info"><strong>{{ counter.publishs | default(0) }}</strong></p>
                             <div class="text-muted">Publishs</div>
                         </div>
                         <div class="col-xs-4 col-md-4">
-                            <p class="text-info"><strong>{{ counter.dones }}</strong></p>
+                            <p class="text-info"><strong>{{ counter.dones | default(0) }}</strong></p>
                             <div class="text-muted">Dones</div>
                         </div>
                         <div class="col-xs-4 col-md-4">
-                            <p class="text-info"><strong>{{ counter.bookmarks }}</strong></p>
+                            <p class="text-info"><strong>{{ counter.bookmarks | default(0) }}</strong></p>
                             <div class="text-muted">Bookmarks</div>
                         </div>
                     </div>

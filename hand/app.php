@@ -89,6 +89,7 @@ class App {
 
         $this->slim->group('/user', function() {
             $this->slim->get('/profile/:username', Route::reloadUserSession(), '\Hand\Controllers\User:profile')->name('user.profile');
+            $this->slim->get('/ban/:username', Route::requireLogin(), '\Hand\Controllers\User:ban')->name('user.ban');
 
             $this->slim->map('/account', Route::requireLogin(), '\Hand\Controllers\User:account')->name('user.account')->via('GET', 'POST');
             $this->slim->map('/password', Route::requireLogin(), '\Hand\Controllers\User:password')->name('user.password')->via('GET', 'POST');
