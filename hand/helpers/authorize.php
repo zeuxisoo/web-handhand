@@ -20,4 +20,8 @@ class Authorize {
         $slim->deleteCookie($slim->config('app.config')['remember']['name']);
     }
 
+    public static function isAdmin() {
+        return empty($_SESSION['user']['id']) === false && in_array($_SESSION['user']['id'], Slim::getInstance()->config('app.config')['default']['admin_ids']);
+    }
+
 }

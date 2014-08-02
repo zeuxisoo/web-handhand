@@ -2,6 +2,7 @@
 namespace Hand\Helpers;
 
 use Slim\Slim;
+use Hand\Helpers\Authorize;
 
 class View extends \Twig_Extension {
 
@@ -63,7 +64,7 @@ class View extends \Twig_Extension {
     }
 
     public function isAdmin() {
-        return empty($_SESSION['user']['id']) === false && in_array($_SESSION['user']['id'], $this->slim->config('app.config')['default']['admin_ids']);
+        return Authorize::isAdmin();
     }
 
 }
