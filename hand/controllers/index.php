@@ -139,11 +139,8 @@ class Index extends Controller {
     }
 
     public function signout() {
-        unset($_SESSION['user']);
+        Authorize::resetLoginSession($this->slim);
 
-        $config = $this->slim->config('app.config');
-
-        $this->slim->deleteCookie($config['remember']['name']);
         $this->slim->redirect($this->slim->urlFor('index.index'));
     }
 

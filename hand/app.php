@@ -8,6 +8,7 @@ use Slim\Middleware;
 use Illuminate\Database;
 use Hand\Middlewares\Route;
 use Hand\Helpers\View;
+use Hand\Hooks\SessionManager;
 
 class App {
 
@@ -82,13 +83,13 @@ class App {
     }
 
     public function registerSlimRoutes() {
-        $this->slim->get('/', Route::reloadUserSession(), '\Hand\Controllers\Index:index')->name('index.index');
-        $this->slim->map('/signup', Route::reloadUserSession(), '\Hand\Controllers\Index:signup')->name('index.signup')->via('GET', 'POST');
-        $this->slim->map('/signin', Route::reloadUserSession(), '\Hand\Controllers\Index:signin')->name('index.signin')->via('GET', 'POST');
-        $this->slim->get('/signout', Route::reloadUserSession(), '\Hand\Controllers\Index:signout')->name('index.signout');
+        $this->slim->get('/', '\Hand\Controllers\Index:index')->name('index.index');
+        $this->slim->map('/signup', '\Hand\Controllers\Index:signup')->name('index.signup')->via('GET', 'POST');
+        $this->slim->map('/signin', '\Hand\Controllers\Index:signin')->name('index.signin')->via('GET', 'POST');
+        $this->slim->get('/signout', '\Hand\Controllers\Index:signout')->name('index.signout');
 
         $this->slim->group('/user', function() {
-            $this->slim->get('/profile/:username', Route::reloadUserSession(), '\Hand\Controllers\User:profile')->name('user.profile');
+            $this->slim->get('/profile/:username', '\Hand\Controllers\User:profile')->name('user.profile');
             $this->slim->get('/ban/:username', Route::requireLogin(), '\Hand\Controllers\User:ban')->name('user.ban');
 
             $this->slim->map('/account', Route::requireLogin(), '\Hand\Controllers\User:account')->name('user.account')->via('GET', 'POST');
@@ -109,7 +110,7 @@ class App {
         });
 
         $this->slim->group('/item', function() {
-            $this->slim->get('/detail/:item_id', Route::reloadUserSession(), '\Hand\Controllers\Item:detail')->name('item.detail');
+            $this->slim->get('/detail/:item_id', '\Hand\Controllers\Item:detail')->name('item.detail');
             $this->slim->post('/detail/:item_id/comment', Route::requireLogin(), '\Hand\Controllers\Item:detail_comment')->name('item.detail.comment');
             $this->slim->get('/bookmark/:item_id/create', Route::requireLogin(),'\Hand\Controllers\Item:bookmark_create' )->name('item.bookmark.create');
             $this->slim->get('/bookmark/:item_id/delete', Route::requireLogin(),'\Hand\Controllers\Item:bookmark_delete' )->name('item.bookmark.delete');
@@ -130,8 +131,8 @@ class App {
         });
 
         $this->slim->group('/search', function() {
-            $this->slim->map('/', Route::reloadUserSession(), '\Hand\Controllers\Search:index')->name('search.index')->via('GET', 'POST');
-            $this->slim->get('/result', Route::reloadUserSession(), '\Hand\Controllers\Search:result')->name('search.result');
+            $this->slim->map('/', '\Hand\Controllers\Search:index')->name('search.index')->via('GET', 'POST');
+            $this->slim->get('/result', '\Hand\Controllers\Search:result')->name('search.result');
         });
 
         $this->slim->group('/trade', function() {
@@ -151,6 +152,10 @@ class App {
 
     public function registerSlimHook() {
         $this->slim->hook('slim.before.dispatch', function() {
+            $session_manager = new SessionManager();
+            $session_manager->setLoginSession();
+            $session_manager->checkBannedUser();
+
             $this->slim->view()->setData('config',  $this->config);
             $this->slim->view()->setData('session', $_SESSION);
         });

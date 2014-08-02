@@ -10,7 +10,7 @@ class Controller {
     }
 
     public function isAdmin() {
-        return in_array($_SESSION['user']['id'], $this->slim->config('app.config')['default']['admin_ids']);
+        return empty($_SESSION['user']['id']) === false && in_array($_SESSION['user']['id'], $this->slim->config('app.config')['default']['admin_ids']);
     }
 
 }
