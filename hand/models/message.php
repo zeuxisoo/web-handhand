@@ -19,6 +19,7 @@ class Message extends Eloquent\Model {
             'category'    => 'system',
             'subject'     => 'You have new message',
             'content'     => '',
+            'have_read'   => 0,
         ], $message);
 
         static::create($default_info);

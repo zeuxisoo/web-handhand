@@ -70,6 +70,15 @@
                 return false;
             }
         });
+
+        $('a[data-badge]').each(function() {
+            var self = this;
+            $.getJSON($(this).data('badge'), function(data) {
+                if (data['number'] !== undefined && data['number'] != 0) {
+                    $(self).append('&nbsp;<span class="badge">' + data['number'] + '</span>');
+                }
+            });
+        });
     });
 
 })(jQuery);

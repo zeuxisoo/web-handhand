@@ -32,7 +32,7 @@
                 {% if session.user is not empty %}
                     <li><a href="{{ urlFor('trade.index') }}">Trade</a></li>
                     <li><a href="{{ urlFor('bookmark.index') }}">Bookmark</a></li>
-                    <li><a href="{{ urlFor('message.manage') }}">Message</a></li>
+                    <li><a href="{{ urlFor('message.manage') }}" data-badge="{{ urlFor('message.unread_number') }}">Message</a></li>
                 {% endif %}
             </ul>
             <ul class="nav navbar-nav pull-right">

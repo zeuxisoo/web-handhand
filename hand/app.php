@@ -128,6 +128,7 @@ class App {
             $this->slim->get('/delete/:message_id', Route::requireLogin(), '\Hand\Controllers\Message:delete')->name('message.delete');
             $this->slim->get('/detail/:message_id', Route::requireLogin(), '\Hand\Controllers\Message:detail')->name('message.detail');
             $this->slim->get('/unread/:message_id', Route::requireLogin(), '\Hand\Controllers\Message:unread')->name('message.unread');
+            $this->slim->get('/unread_number', Route::requireLogin(), '\Hand\Controllers\Message:unread_number')->name('message.unread_number');
         });
 
         $this->slim->group('/search', function() {
@@ -162,7 +163,9 @@ class App {
 
         $this->slim->hook('slim.after.dispatch', function() {
             if ($this->config['default']['debug'] === true) {
-                echo d(Database\Capsule\Manager::connection()->getQueryLog());
+                if ($this->slim->response()->headers()->get('Content-Type') !== 'application/json') {
+                    d(Database\Capsule\Manager::connection()->getQueryLog());
+                }
             }
         });
     }

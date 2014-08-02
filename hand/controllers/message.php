@@ -142,4 +142,12 @@ class Message extends Controller {
         $this->slim->redirect($this->slim->urlFor('message.manage'));
     }
 
+    public function unread_number() {
+        $response = $this->slim->response();
+        $response['Content-Type'] = 'application/json';
+        $response->write(json_encode([
+            'number' => Models\Message::where('receiver_id', $_SESSION['user']['id'])->where('have_read', 0)->count(),
+        ]));
+    }
+
 }
