@@ -17,6 +17,7 @@ class User extends Controller {
         }else{
             $tab = $this->slim->request->get('tab', 'publish');
 
+            $view_file = 'user/profile/default.html';
             $bookmarks = Models\ItemBookmark::where('user_id', $user->id)->get();
             $counters  = Models\Item::selectRaw("
                 SUM(status='publish') AS publish_count,
@@ -25,19 +26,34 @@ class User extends Controller {
                 $query->where('status', 'publish')->orWhere('status', 'done');
             })->first();
 
-            if ($tab == 'publish') {
-                $total    = Models\Item::status('publish')->count('id');
-                $paginate = Paginate::instance(['count' => $total, 'size' => 12]);
-                $items    = Models\Item::status('publish')->take(12)->skip($paginate->offset)->with('images')->get();
-            }else{
-                $bookmark_item_ids = $bookmarks->lists('item_id');
+            switch($tab) {
+                case 'publish':
+                    $total    = Models\Item::status('publish')->where('user_id', $user->id)->count('id');
+                    $paginate = Paginate::instance(['count' => $total, 'size' => 12]);
+                    $items    = Models\Item::status('publish')->where('user_id', $user->id)->take(12)->skip($paginate->offset)->with('images')->get();
+                    break;
+                case 'bookmark':
+                    $bookmark_item_ids = $bookmarks->lists('item_id');
 
-                $total    = Models\Item::whereIn('id', $bookmark_item_ids)->count('id');
-                $paginate = Paginate::instance(['count' => $total, 'size' => 12]);
-                $items    = Models\Item::status('publish')->whereIn('id', $bookmark_item_ids)->take(12)->skip($paginate->offset)->with('images')->get();
+                    $total    = Models\Item::whereIn('id', $bookmark_item_ids)->where('user_id', $user->id)->count('id');
+                    $paginate = Paginate::instance(['count' => $total, 'size' => 12]);
+                    $items    = Models\Item::status('publish')->whereIn('id', $bookmark_item_ids)->where('user_id', $user->id)->take(12)->skip($paginate->offset)->with('images')->get();
+                    break;
+                case 'rate':
+                    $view_file = 'user/profile/rate.html';
+
+                    $total    = Models\Item::status('done')->where('user_id', $user->id)->count('id');
+                    $paginate = Paginate::instance(['count' => $total, 'size' => 12]);
+                    $items    = Models\Item::status('done')->where('user_id', $user->id)->take(12)->skip($paginate->offset)->with([
+                        'images',
+                        'trade' => function($query) {
+                            $query->with('user');
+                        }
+                    ])->get();
+                    break;
             }
 
-            $this->slim->render('user/profile.html', [
+            $this->slim->render($view_file, [
                 'user'  => $user,
                 'items' => $items,
                 'counter' => [

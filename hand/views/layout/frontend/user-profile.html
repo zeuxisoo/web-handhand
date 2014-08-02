@@ -55,39 +55,23 @@
                     <ul class="nav nav-tabs" role="tablist">
                         <li>
                             <a href="{{ urlForExtra('user.profile', { username: user.username }, { tab: 'publish' }) }}" data-tab="publish" data-tab-param="tab">
-                                Publish Items
+                                Publishs
                             </a>
                         </li>
                         <li>
                             <a href="{{ urlForExtra('user.profile', { username: user.username }, { tab: 'bookmark' }) }}" data-tab="bookmark" data-tab-param="tab">
-                                Bookmark Items
+                                Bookmarks
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ urlForExtra('user.profile', { username: user.username }, { tab: 'rate' }) }}" data-tab="rate" data-tab-param="tab">
+                                Rates
                             </a>
                         </li>
                     </ul>
                     <br>
-                    <div class="row">
-                        {% for item in items %}
-                            <div class="col-md-2">
-                                <div class="panel panel-default">
-                                    <div class="panel-body panel-body-has-thumbnail">
-                                        <a class="thumbnail thumbnail-in-panel" href="{{ urlFor('item.detail', { item_id: item.id }) }}">
-                                            <img src="{{ itemImageUrl(item.images.first().image, '200x200') }}" data-src="" alt="">
-                                        </a>
-                                    </div>
-                                    <div class="panel-footer text-center">{{ item.title | cutString(30) }}</div>
-                                </div>
-                            </div>
-                        {% else %}
-                            <div class="col-md-12">
-                                <div class="alert alert-info" role="alert">No item in this list.</div>
-                            </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    {{ paginate | raw }}
+                    {% block container_user_profile %}
+                    {% endblock %}
                 </div>
             </div>
         </div>

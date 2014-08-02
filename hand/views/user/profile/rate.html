@@ -1,0 +1,49 @@
+{% extends 'layout/frontend/user-profile.html' %}
+
+{% block container_user_profile %}
+<div class="row">
+    {% for item in items %}
+        <div class="col-md-12">
+            <div class="media">
+                <a class="pull-left" href="{{ urlFor('item.detail', { item_id: item.id }) }}">
+                    <img class="media-object img-thumbnail" src="{{ itemImageUrl(item.images.first().image, '120x120') }}" alt="{{ item.title }}">
+                </a>
+                <div class="media-body">
+                    <h4 class="media-heading">
+                        <a href="{{ urlFor('item.detail', { item_id: item.id }) }}">{{ item.title }}</a>
+                    </h4>
+                    <hr class="hr-md">
+                    <p>
+                        <span class="label label-danger">Star</span>
+                        <span class="badge badge-danger">{{ item.trade.star }}</span>
+                        <span class="label label-primary">Trader</span>
+                        <a href="{{ urlFor('user.profile', { username: item.trade.user.username }) }}">{{ item.trade.user.username }}</a>
+                        <span class="label label-primary">Price</span>
+                        <span class="text-danger">{{ item.price | number_format(2, '.', ',') }}</span>
+                        <span class="label label-info">Category</span>
+                        <span class="text-muted">{{ config.item.category[item.category] }}</span>
+                        <span class="label label-info">Property</span>
+                        <span class="text-muted">{{ config.item.property[item.property] }}</span>
+                        <span class="label label-info">Trade At</span>
+                        <span class="text-muted">{{ item.created_at }}</span>
+                    </p>
+                    <hr class="hr-md">
+                    <p>
+                        <span class="text-info">{{ item.trade.comment | cutString(450) | nl2br }}</span>
+                    </p>
+                </div>
+                <br>
+            </div>
+        </div>
+    {% else %}
+        <div class="col-md-12">
+            <div class="alert alert-info" role="alert">No item in this list.</div>
+        </div>
+    {% endfor %}
+</div>
+<div class="row">
+    <div class="col-md-12">
+        {{ paginate | raw }}
+    </div>
+</div>
+{% endblock %}

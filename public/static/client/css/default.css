@@ -6,6 +6,11 @@ hr {
     border-color: #d3d3d3;
 }
 
+hr.hr-md {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
 .footer {
     color: #777777;
     padding: 20px 0 10px;
