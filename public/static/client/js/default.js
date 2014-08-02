@@ -75,9 +75,21 @@
             var self = this;
             $.getJSON($(this).data('badge'), function(data) {
                 if (data['number'] !== undefined && data['number'] != 0) {
-                    $(self).append('&nbsp;<span class="badge">' + data['number'] + '</span>');
+                    $(self).append('&nbsp;<span class="badge bounceInDown animated">' + data['number'] + '</span>');
                 }
             });
+        });
+
+        $('a.navbar-brand').on({
+            'mouseenter': function() {
+                $(this).addClass('bounce').addClass('animated');
+            },
+            'mouseleave': function() {
+                var self = this;
+                setTimeout(function() {
+                    $(self).removeClass('bounce').removeClass('animated');
+                }, 1500);
+            }
         });
     });
 
