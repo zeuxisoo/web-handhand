@@ -79,6 +79,10 @@ class User extends Controller {
         }else if ($this->isAdmin() === false) {
             $valid_message = 'You can not ban this user if you are not admin';
         }else{
+            // Hide the publish items
+            Models\Item::whereIn('id', $user->items()->status('publish')->get()->modelKeys())->update(['status' => 'hide']);
+
+            // Ban user
             $user->update(['status' => 'banned']);
 
             $valid_type    = 'success';

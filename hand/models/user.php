@@ -13,6 +13,10 @@ class User extends Eloquent\Model {
         return $this->hasOne('Hand\Models\UserSettings');
     }
 
+    public function items() {
+        return $this->hasMany('Hand\Models\Item');
+    }
+
     public function avatar($size = 48, $default_image = 'identicon', $max_rate = 'g') {
         $schema = Slim::getInstance()->request->getScheme();
 
