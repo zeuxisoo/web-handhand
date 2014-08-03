@@ -61,37 +61,46 @@ class Item extends Controller {
                 $valid_message = 'Invalid price format.';
             }else{
                 $uploaded_infos = Upload::instance([
-                    'save_root' =>  $this->upload_size_root['525x525'],
+                    'save_root'    => $this->upload_size_root['525x525'],
+                    'allow_format' => ['gif','jpg','jpeg','png'],
                 ])->multiUpload($images);
 
-                $uploaded_paths = Format::toUploadedPaths($uploaded_infos);
+                if (Format::hasError($uploaded_infos) === true) {
+                    foreach($uploaded_infos as $upload_info) {
+                        @unlink($upload_info['saved_file']['path']);
+                    }
 
-                Image::instance(['enable_fill' => true])->multiResize($uploaded_paths, 525, 525);
-                Image::instance(['enable_fill' => true, 'save_root' => $this->upload_size_root['120x120']])->multiResize($uploaded_paths, 120, 120);
-                Image::instance(['enable_fill' => true, 'save_root' => $this->upload_size_root['200x200']])->multiResize($uploaded_paths, 200, 200);
-                Image::instance(['enable_fill' => true, 'save_root' => $this->upload_size_root['250x250']])->multiResize($uploaded_paths, 250, 250);
+                    $valid_message = 'Please make sure all file formats are image';
+                }else{
+                    $uploaded_paths = Format::toUploadedPaths($uploaded_infos);
 
-                $item = Models\Item::create([
-                    'title'       => $title,
-                    'user_id'     => $_SESSION['user']['id'],
-                    'category'    => $category,
-                    'property'    => $property,
-                    'description' => $description,
-                    'price'       => $price,
-                    'delivery'    => $delivery,
-                    'status'      => $status,
-                ]);
+                    Image::instance(['enable_fill' => true])->multiResize($uploaded_paths, 525, 525);
+                    Image::instance(['enable_fill' => true, 'save_root' => $this->upload_size_root['120x120']])->multiResize($uploaded_paths, 120, 120);
+                    Image::instance(['enable_fill' => true, 'save_root' => $this->upload_size_root['200x200']])->multiResize($uploaded_paths, 200, 200);
+                    Image::instance(['enable_fill' => true, 'save_root' => $this->upload_size_root['250x250']])->multiResize($uploaded_paths, 250, 250);
 
-                foreach($uploaded_paths as $uploaded_path) {
-                    Models\ItemImage::create([
-                        'user_id' => $_SESSION['user']['id'],
-                        'item_id' => $item->id,
-                        'image'   => basename($uploaded_path)
+                    $item = Models\Item::create([
+                        'title'       => $title,
+                        'user_id'     => $_SESSION['user']['id'],
+                        'category'    => $category,
+                        'property'    => $property,
+                        'description' => $description,
+                        'price'       => $price,
+                        'delivery'    => $delivery,
+                        'status'      => $status,
                     ]);
-                }
 
-                $valid_type    = 'success';
-                $valid_message = 'The new item was created.';
+                    foreach($uploaded_paths as $uploaded_path) {
+                        Models\ItemImage::create([
+                            'user_id' => $_SESSION['user']['id'],
+                            'item_id' => $item->id,
+                            'image'   => basename($uploaded_path)
+                        ]);
+                    }
+
+                    $valid_type    = 'success';
+                    $valid_message = 'The new item was created.';
+                }
             }
 
             $this->slim->flash($valid_type, $valid_message);
@@ -242,26 +251,33 @@ class Item extends Controller {
                     $valid_message = 'Only allow upload '.$this->upload_max_images.' images in each item';
                 }else{
                     $uploaded_infos = Upload::instance([
-                        'save_root' =>  $this->upload_size_root['525x525'],
+                        'save_root'    =>  $this->upload_size_root['525x525'],
+                        'allow_format' => ['gif','jpg','jpeg','png'],
                     ])->multiUpload($_FILES['images']);
 
-                    $uploaded_paths = Format::toUploadedPaths($uploaded_infos);
+                    if (empty($uploaded_infos[0]) === false) {
+                        if ($uploaded_infos[0]['status'] === false) {
+                            $valid_message = $uploaded_infos[0]['message'];
+                        }else{
+                            $uploaded_paths = Format::toUploadedPaths($uploaded_infos);
 
-                    Image::instance(['enable_fill' => true])->multiResize($uploaded_paths, 525, 525);
-                    Image::instance(['enable_fill' => true, 'save_root' => $this->upload_size_root['120x120']])->multiResize($uploaded_paths, 120, 120);
-                    Image::instance(['enable_fill' => true, 'save_root' => $this->upload_size_root['200x200']])->multiResize($uploaded_paths, 200, 200);
-                    Image::instance(['enable_fill' => true, 'save_root' => $this->upload_size_root['250x250']])->multiResize($uploaded_paths, 250, 250);
+                            Image::instance(['enable_fill' => true])->multiResize($uploaded_paths, 525, 525);
+                            Image::instance(['enable_fill' => true, 'save_root' => $this->upload_size_root['120x120']])->multiResize($uploaded_paths, 120, 120);
+                            Image::instance(['enable_fill' => true, 'save_root' => $this->upload_size_root['200x200']])->multiResize($uploaded_paths, 200, 200);
+                            Image::instance(['enable_fill' => true, 'save_root' => $this->upload_size_root['250x250']])->multiResize($uploaded_paths, 250, 250);
 
-                    foreach($uploaded_paths as $uploaded_path) {
-                        Models\ItemImage::create([
-                            'user_id' => $_SESSION['user']['id'],
-                            'item_id' => $item->id,
-                            'image'   => basename($uploaded_path)
-                        ]);
+                            foreach($uploaded_paths as $uploaded_path) {
+                                Models\ItemImage::create([
+                                    'user_id' => $_SESSION['user']['id'],
+                                    'item_id' => $item->id,
+                                    'image'   => basename($uploaded_path)
+                                ]);
+                            }
+
+                            $valid_type    = 'success';
+                            $valid_message = 'New image uploaded';
+                        }
                     }
-
-                    $valid_type    = 'success';
-                    $valid_message = 'New image uploaded';
                 }
 
                 $this->slim->flash($valid_type, $valid_message);

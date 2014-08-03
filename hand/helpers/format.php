@@ -13,4 +13,13 @@ class Format {
         return $uploaded_paths;
     }
 
+    public static function hasError($uploaded_infos) {
+        foreach($uploaded_infos as $info) {
+            if (isset($info['status']) === true && $info['status'] === false) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
