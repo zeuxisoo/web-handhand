@@ -58,11 +58,11 @@ hr.hr-md {
     opacity: 0.9;
 }
 
-.panel-height-370 {
-    min-height: 370px;
+.panel-height-385 {
+    min-height: 385px;
 }
 
-.panel-body-has-thumbnail {
+.panel-body-has-thumbnail, .panel-body-remove-padding {
     padding: 0px;
 }
 

@@ -80,15 +80,10 @@ return [
         ]
     ],
 
-    'addthis' => [
-        'enable'    => true,
-        'facebook'  => true,
-        'twitter'   => true,
-        'google'    => true,
-        'sinaweibo' => true,
-        'plurk'     => true,
-        'pinterest' => true,
-        'pubid'     => '',
+    'shareaholic' => [
+        'enable'  => false,
+        'app_id'  => '',
+        'site_id' => ''
     ],
 
     'google_analytics' => [

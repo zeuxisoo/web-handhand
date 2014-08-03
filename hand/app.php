@@ -64,6 +64,7 @@ class App {
     public function registerSlimMiddleware() {
         $this->slim->add(new Middleware\SessionCookie($this->config['cookie']));
         $this->slim->add(new Extras\Middleware\CsrfGuard());
+        $this->slim->add(new \Hand\Middlewares\TurboLinks());
     }
 
     public function registerSlimView() {

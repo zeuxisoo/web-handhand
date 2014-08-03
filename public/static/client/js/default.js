@@ -11,6 +11,28 @@
         });
     };
 
+    // Function
+    var shareaholic = function() {
+        if ($('.shareaholic-canvas').data('site-id') !== undefined) {
+            $('[src*="dsms0mj1bbhn4.cloudfront.net"]').remove();
+
+            (function() {
+                var shr = document.createElement('script');
+                shr.setAttribute('data-cfasync', 'false');
+                shr.src = '//dsms0mj1bbhn4.cloudfront.net/assets/pub/shareaholic.js';
+                shr.type = 'text/javascript'; shr.async = 'true';
+                shr.onload = shr.onreadystatechange = function() {
+                  var rs = this.readyState;
+                  if (rs && rs != 'complete' && rs != 'loaded') return;
+                  var site_id = $('.shareaholic-canvas').data('site-id');
+                  try { Shareaholic.init(site_id); } catch (e) {}
+                };
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(shr, s);
+            })();
+        }
+    }
+
     // Confirm delete, trade, done
     $(document).on('click', 'a[delete="delete"]', function() {
         if (confirm('Are you sure you want to delete this?') === false) {
@@ -91,6 +113,16 @@
                 }, 1500);
             }
         });
+
+        shareaholic();
+    });
+
+    $(document).on('page:load', function() {
+        shareaholic();
+    });
+
+    $(document).on('page:restore', function() {
+        shareaholic();
     });
 
 })(jQuery);
