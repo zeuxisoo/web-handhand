@@ -80,10 +80,15 @@ return [
         ]
     ],
 
-    'shareaholic' => [
-        'enable'  => false,
-        'app_id'  => '',
-        'site_id' => ''
+    'addthis' => [
+        'enable'    => true,
+        'facebook'  => true,
+        'twitter'   => true,
+        'google'    => true,
+        'sinaweibo' => true,
+        'plurk'     => true,
+        'pinterest' => true,
+        'pubid'     => '',
     ],
 
     'google_analytics' => [

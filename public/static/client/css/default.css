@@ -58,8 +58,8 @@ hr.hr-md {
     opacity: 0.9;
 }
 
-.panel-height-385 {
-    min-height: 385px;
+.panel-item-detail-height {
+    min-height: 375px;
 }
 
 .panel-body-has-thumbnail, .panel-body-remove-padding {

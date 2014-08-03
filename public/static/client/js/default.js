@@ -12,23 +12,33 @@
     };
 
     // Function
-    var shareaholic = function() {
-        if ($('.shareaholic-canvas').data('site-id') !== undefined) {
-            $('[src*="dsms0mj1bbhn4.cloudfront.net"]').remove();
+    var addthis = function() {
+        if ($('.addthis_toolbox').length != 0) {
+            for (var i in window) {
+                if (/^addthis/.test(i) || /^_at/.test(i)) {
+                    delete window[i];
+                }
+            }
+            window.addthis_share = null;
 
             (function() {
-                var shr = document.createElement('script');
-                shr.setAttribute('data-cfasync', 'false');
-                shr.src = '//dsms0mj1bbhn4.cloudfront.net/assets/pub/shareaholic.js';
-                shr.type = 'text/javascript'; shr.async = 'true';
-                shr.onload = shr.onreadystatechange = function() {
-                  var rs = this.readyState;
-                  if (rs && rs != 'complete' && rs != 'loaded') return;
-                  var site_id = $('.shareaholic-canvas').data('site-id');
-                  try { Shareaholic.init(site_id); } catch (e) {}
+                var pub_id = $('.addthis_toolbox').data('pubid');
+                var script = document.createElement('script');
+                script.setAttribute('data-cfasync', false);
+                script.src = '//s7.addthis.com/js/300/addthis_widget.js#async=1&pubid=' + pub_id;
+                script.type = 'text/javascript';
+                script.async = 'true';
+                script.onload = script.onreadystatechange = function() {
+                    var rs = this.readyState;
+                    if (rs && rs != 'complete' && rs != 'loaded') return;
+                    try {
+                        window.addthis_config = {"data_track_addressbar": false, "data_track_clickback" : false};
+                        window.addthis.init();
+                    } catch (e) {}
                 };
+
                 var s = document.getElementsByTagName('script')[0];
-                s.parentNode.insertBefore(shr, s);
+                s.parentNode.insertBefore(script, s);
             })();
         }
     }
@@ -114,15 +124,7 @@
             }
         });
 
-        shareaholic();
-    });
-
-    $(document).on('page:load', function() {
-        shareaholic();
-    });
-
-    $(document).on('page:restore', function() {
-        shareaholic();
+        addthis();
     });
 
 })(jQuery);
