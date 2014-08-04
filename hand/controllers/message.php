@@ -63,7 +63,7 @@ class Message extends Controller {
             }
 
             if (empty($message_id) === false) {
-                $message = Models\Message::WhereReceiverId($_SESSION['user']['id'])->with('sender')->find($message_id, ['id', 'sender_id', 'subject']);
+                $message = Models\Message::whereReceiverId($_SESSION['user']['id'])->with('sender')->find($message_id, ['id', 'sender_id', 'subject']);
 
                 $default_subject  = "Reply: ".$message->subject;
                 $default_username = $message->sender->username;
@@ -77,7 +77,7 @@ class Message extends Controller {
     }
 
     public function manage() {
-        $model_message = Models\Message::WhereReceiverId($_SESSION['user']['id']);
+        $model_message = Models\Message::whereReceiverId($_SESSION['user']['id']);
 
         $total     = $model_message->count('id');
         $paginate  = Paginate::instance(['count' => $total, 'size' => 12]);
@@ -94,7 +94,7 @@ class Message extends Controller {
     }
 
     public function delete($message_id) {
-        $message = Models\Message::WhereReceiverId($_SESSION['user']['id'])->find($message_id, ['id']);
+        $message = Models\Message::whereReceiverId($_SESSION['user']['id'])->find($message_id, ['id']);
 
         $valid_type    = 'error';
         $valid_message = '';
@@ -113,7 +113,7 @@ class Message extends Controller {
     }
 
     public function detail($message_id) {
-        $message = Models\Message::WhereReceiverId($_SESSION['user']['id'])->with('sender')->find($message_id, [
+        $message = Models\Message::whereReceiverId($_SESSION['user']['id'])->with('sender')->find($message_id, [
             'id', 'subject', 'sender_id', 'created_at', 'content'
         ]);
 
@@ -130,7 +130,7 @@ class Message extends Controller {
     }
 
     public function unread($message_id) {
-        $message = Models\Message::WhereReceiverId($_SESSION['user']['id'])->with('sender')->find($message_id, ['id']);
+        $message = Models\Message::whereReceiverId($_SESSION['user']['id'])->with('sender')->find($message_id, ['id']);
 
         $valid_type    = 'error';
         $valid_message = '';
@@ -152,7 +152,7 @@ class Message extends Controller {
         $response = $this->slim->response();
         $response['Content-Type'] = 'application/json';
         $response->write(json_encode([
-            'number' => Models\Message::WhereReceiverId($_SESSION['user']['id'])->WhereHaveRead(false)->count(),
+            'number' => Models\Message::whereReceiverId($_SESSION['user']['id'])->WhereHaveRead(false)->count(),
         ]));
     }
 
