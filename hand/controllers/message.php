@@ -31,7 +31,7 @@ class Message extends Controller {
             if ($validator->inValid() === true) {
                 $valid_message = $validator->firstError();
             }else{
-                $user = Models\User::where('username', $username)->first();
+                $user = Models\User::where('username', $username)->first(['id']);
 
                 if (empty($user) === true) {
                     $valid_message = 'Can not found user';
@@ -63,7 +63,7 @@ class Message extends Controller {
             }
 
             if (empty($message_id) === false) {
-                $message = Models\Message::where('receiver_id', $_SESSION['user']['id'])->with('sender')->find($message_id);
+                $message = Models\Message::WhereReceiverId($_SESSION['user']['id'])->with('sender')->find($message_id, ['id', 'sender_id', 'subject']);
 
                 $default_subject  = "Reply: ".$message->subject;
                 $default_username = $message->sender->username;
@@ -77,9 +77,13 @@ class Message extends Controller {
     }
 
     public function manage() {
-        $total     = Models\Message::where('receiver_id', $_SESSION['user']['id'])->count();
+        $model_message = Models\Message::WhereReceiverId($_SESSION['user']['id']);
+
+        $total     = $model_message->count('id');
         $paginate  = Paginate::instance(['count' => $total, 'size' => 12]);
-        $messages = Models\Message::where('receiver_id', $_SESSION['user']['id'])->take(12)->skip($paginate->offset)->with('sender')->orderBy('created_at', 'desc')->get();
+        $messages  = $model_message->take(12)->skip($paginate->offset)->with('sender')->orderBy('created_at', 'desc')->get([
+            'id', 'subject', 'sender_id', 'have_read', 'category', 'created_at'
+        ]);
 
         $this->slim->render('message/manage.html', [
             'messages'  => $messages,
@@ -90,7 +94,7 @@ class Message extends Controller {
     }
 
     public function delete($message_id) {
-        $message = Models\Message::where('receiver_id', $_SESSION['user']['id'])->find($message_id);
+        $message = Models\Message::WhereReceiverId($_SESSION['user']['id'])->find($message_id, ['id']);
 
         $valid_type    = 'error';
         $valid_message = '';
@@ -109,7 +113,9 @@ class Message extends Controller {
     }
 
     public function detail($message_id) {
-        $message = Models\Message::where('receiver_id', $_SESSION['user']['id'])->with('sender')->find($message_id);
+        $message = Models\Message::WhereReceiverId($_SESSION['user']['id'])->with('sender')->find($message_id, [
+            'id', 'subject', 'sender_id', 'created_at', 'content'
+        ]);
 
         if (empty($message) === true) {
             $this->slim->flash('error', 'Can not found message');
@@ -124,7 +130,7 @@ class Message extends Controller {
     }
 
     public function unread($message_id) {
-        $message = Models\Message::where('receiver_id', $_SESSION['user']['id'])->with('sender')->find($message_id);
+        $message = Models\Message::WhereReceiverId($_SESSION['user']['id'])->with('sender')->find($message_id, ['id']);
 
         $valid_type    = 'error';
         $valid_message = '';
@@ -146,7 +152,7 @@ class Message extends Controller {
         $response = $this->slim->response();
         $response['Content-Type'] = 'application/json';
         $response->write(json_encode([
-            'number' => Models\Message::where('receiver_id', $_SESSION['user']['id'])->where('have_read', 0)->count(),
+            'number' => Models\Message::WhereReceiverId($_SESSION['user']['id'])->WhereHaveRead(false)->count(),
         ]));
     }
 

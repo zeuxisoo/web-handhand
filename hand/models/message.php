@@ -12,6 +12,14 @@ class Message extends Eloquent\Model {
         return $this->belongsTo('Hand\Models\User', 'sender_id');
     }
 
+    public function scopeWhereReceiverId($query, $receiver_id) {
+        return $query->where('receiver_id', $receiver_id);
+    }
+
+    public function scopeWhereHaveRead($query, $status = false) {
+        return $query->where('have_read', (int) $status);
+    }
+
     public static function notification($message) {
         $default_info = array_merge([
             'sender_id'   => 0,
