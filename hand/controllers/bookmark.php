@@ -8,13 +8,15 @@ use Hand\Models;
 class Bookmark extends Controller {
 
     public function index() {
-        $total     = Models\ItemBookmark::where('user_id', $_SESSION['user']['id'])->count();
+        $model_bookmark = Models\ItemBookmark::whereUserId($_SESSION['user']['id']);
+
+        $total     = $model_bookmark->count('id');
         $paginate  = Paginate::instance(['count' => $total, 'size' => 12]);
-        $bookmarks = Models\ItemBookmark::where('user_id', $_SESSION['user']['id'])->take(12)->skip($paginate->offset)->with([
+        $bookmarks = $model_bookmark->take(12)->skip($paginate->offset)->with([
             'item' => function($query) {
                 $query->with('images');
             }
-        ])->get();
+        ])->get(['id', 'item_id']);
 
         $this->slim->render('bookmark/index.html', [
             'bookmarks' => $bookmarks,
