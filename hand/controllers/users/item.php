@@ -363,6 +363,7 @@ class Item extends Controller {
         if (empty($item) === true) {
             $valid_message = 'Can not found item';
         }else{
+            $item->trade()->update(['comment' => 'Trade was done by seller']);
             $item->update(['status' => 'done']);
 
             $valid_type    = 'success';
