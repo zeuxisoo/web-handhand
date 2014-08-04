@@ -35,6 +35,7 @@
                     </div>
                 </div>
                 <div class="col-md-4">
+                    <br class="visible-xs-block">
                     <div class="col-xs-12 col-md-12 text-right col-status-items">
                         <div class="col-xs-4 col-md-4">
                             <p class="text-info"><strong>{{ counter.publishs | default(0) }}</strong></p>
@@ -61,7 +62,7 @@
         <div class="panel-body">
             <div class="row">
                 <div class="col-md-12">
-                    <ul class="nav nav-tabs" role="tablist">
+                    <ul class="nav nav-pills" role="tablist">
                         <li>
                             <a href="{{ urlForExtra('user.profile', { username: user.username }, { tab: 'publish' }) }}" data-tab="publish" data-tab-param="tab">
                                 Publishs

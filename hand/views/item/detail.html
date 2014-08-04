@@ -21,7 +21,7 @@
         <div class="col-md-6">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <img src="{{ itemImageUrl(item.images.first().image, '525x525') }}" class="preview">
+                    <img src="{{ itemImageUrl(item.images.first().image, '525x525') }}" class="img-thumbnail thumbnail-no-border preview">
                 </div>
             </div>
             {% include 'shared/addthis.html' %}
@@ -51,7 +51,7 @@
             <div class="row">
                 {% for item_image in item.images %}
                     <div class="col-md-4">
-                        <a class="thumbnail thumbnail-blur" href="#">
+                        <a class="thumbnail thumbnail-blur" href="javascript:void(0)">
                             <img src="{{ itemImageUrl(item_image.image, '200x200') }}">
                         </a>
                     </div>

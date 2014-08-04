@@ -13,20 +13,50 @@
                         <a href="{{ urlFor('item.detail', { item_id: item.id }) }}">{{ item.title }}</a>
                     </h4>
                     <hr class="hr-md">
-                    <p>
-                        <span class="label label-danger">Star</span>
-                        <span class="badge badge-danger">{{ item.trade.star }}</span>
-                        <span class="label label-primary">Trader</span>
-                        <a href="{{ urlFor('user.profile', { username: item.trade.user.username }) }}">{{ item.trade.user.username }}</a>
-                        <span class="label label-primary">Price</span>
-                        <span class="text-danger">{{ item.price | number_format(2, '.', ',') }}</span>
-                        <span class="label label-info">Category</span>
-                        <span class="text-muted">{{ config.item.category[item.category] }}</span>
-                        <span class="label label-info">Property</span>
-                        <span class="text-muted">{{ config.item.property[item.property] }}</span>
-                        <span class="label label-info">Trade At</span>
-                        <span class="text-muted">{{ item.trade.created_at }}</span>
-                    </p>
+                    <div>
+                        <p class="visible-lg-block">
+                            <span class="label label-danger">Star</span>
+                            <span class="badge badge-danger">{{ item.trade.star }}</span>
+                            <span class="label label-primary">Trader</span>
+                            <a href="{{ urlFor('user.profile', { username: item.trade.user.username }) }}">{{ item.trade.user.username }}</a>
+                            <span class="label label-primary">Price</span>
+                            <span class="text-danger">{{ item.price | number_format(2, '.', ',') }}</span>
+                            <span class="label label-info">Category</span>
+                            <span class="text-muted">{{ config.item.category[item.category] }}</span>
+                            <span class="label label-info">Property</span>
+                            <span class="text-muted">{{ config.item.property[item.property] }}</span>
+                            <span class="label label-info">Trade At</span>
+                            <span class="text-muted">{{ item.trade.created_at }}</span>
+                        </p>
+
+                        <div class="row hidden-lg">
+                            <div class="col-md-12">
+                                <span class="label label-danger">Star</span>
+                                <span class="badge badge-danger">{{ item.trade.star }}</span>
+                            </div>
+                            <div class="col-md-12">
+                                <span class="label label-primary">Trader</span>
+                                <a href="{{ urlFor('user.profile', { username: item.trade.user.username }) }}">{{ item.trade.user.username }}</a>
+                            </div>
+                            <div class="col-md-12">
+                                <span class="label label-primary">Price</span>
+                                <span class="text-danger">{{ item.price | number_format(2, '.', ',') }}</span>
+                            </div>
+                            <div class="col-md-12">
+                                <span class="label label-info">Category</span>
+                                <span class="text-muted">{{ config.item.category[item.category] }}</span>
+                            </div>
+                            <div class="col-md-12">
+                                <span class="label label-info">Property</span>
+                                <span class="text-muted">{{ config.item.property[item.property] }}</span>
+                            </div>
+                            <div class="col-md-12">
+                                <h6>Trade At</h6>
+                                <hr class="hr-md">
+                                <small class="text-muted">{{ item.trade.created_at }}</small>
+                            </div>
+                        </div>
+                    </div>
                     <hr class="hr-md">
                     <p>
                         <span class="text-info">{{ item.trade.comment | cutString(450) | nl2br }}</span>

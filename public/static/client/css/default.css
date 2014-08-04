@@ -41,6 +41,10 @@ hr.hr-md {
     background: #FFFFFF;
 }
 
+.thumbnail-no-border {
+    border: 0px;
+}
+
 .thumbnail-in-panel {
     border: 0px;
     margin-bottom: 0px;
@@ -59,7 +63,13 @@ hr.hr-md {
 }
 
 .panel-item-detail-height {
-    min-height: 375px;
+    min-height: 370px;
+}
+
+@media only screen and (min-device-width : 768px)  and (max-device-width : 1024px) {
+    .panel-item-detail-height {
+       min-height: 300px;
+    }
 }
 
 .panel-body-has-thumbnail, .panel-body-remove-padding {

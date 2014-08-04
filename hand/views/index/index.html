@@ -3,7 +3,7 @@
 {% block container %}
 <div id="index">
     <div class="row">
-        <div class="col-md-2">
+        <div class="col-md-3 col-lg-2">
             <div class="well well-sm well-hand">
                 <ul class="nav nav-pills nav-stacked">
                     <li><a href="{{ urlFor('index.index') }}" data-tab="0" data-tab-param="category">All</a></li>
@@ -23,7 +23,7 @@
                 {% endfor %}
             </div>
         </div>
-        <div class="col-md-10">
+        <div class="col-md-9 col-lg-10">
             <div class="panel panel-default">
                 <div class="panel-body">
                     {% for item in items %}

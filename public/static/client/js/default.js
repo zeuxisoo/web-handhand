@@ -82,13 +82,6 @@
     $(function() {
         $('.file-input').bootstrapFileInput();
 
-        $('a[data-btn]').activeStyle('btn', 'btn-param', function(current_value, parameter_value) {
-            if (parameter_value === undefined || current_value == parameter_value) {
-                $(this).addClass('active');
-                return false;
-            }
-        });
-
         $('a[data-tab]').activeStyle('tab', 'tab-param', function(current_value, parameter_value) {
             if (parameter_value === undefined || current_value == parameter_value) {
                 $(this).parent().addClass('active');
@@ -103,6 +96,7 @@
             }
         });
 
+        // Message count badge
         $('a[data-badge]').each(function() {
             var self = this;
             $.getJSON($(this).data('badge'), function(data) {

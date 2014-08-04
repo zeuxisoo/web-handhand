@@ -4,7 +4,7 @@
 <div class="user-item-edit-image-manage">
     <div class="row">
         {% for item_image in item_images %}
-            <div class="col-md-2">
+            <div class="col-md-3 col-lg-2">
                 <div class="panel panel-default">
                     <div class="panel-body panel-body-has-thumbnail">
                         <a class="thumbnail thumbnail-in-panel" href="#">
@@ -19,7 +19,7 @@
                 </div>
             </div>
         {% else %}
-            <div class="col-md-12">
+            <div class="col-lg-12">
                 <div class="alert alert-info" role="alert">No item image in this list.</div>
             </div>
         {% endfor %}
