@@ -25,15 +25,15 @@
                         <span class="label label-info">Property</span>
                         <span class="text-muted">{{ config.item.property[item.property] }}</span>
                         <span class="label label-info">Trade At</span>
-                        <span class="text-muted">{{ item.created_at }}</span>
+                        <span class="text-muted">{{ item.trade.created_at }}</span>
                     </p>
                     <hr class="hr-md">
                     <p>
                         <span class="text-info">{{ item.trade.comment | cutString(450) | nl2br }}</span>
                     </p>
                 </div>
-                <br>
             </div>
+            <br>
         </div>
     {% else %}
         <div class="col-md-12">
