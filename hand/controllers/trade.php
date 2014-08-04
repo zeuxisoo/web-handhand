@@ -9,12 +9,12 @@ class Trade extends Controller {
 
     public function index() {
         $status     = $this->slim->request->get('status', 'trade');
-        $item_ids   = Models\ItemTrade::where('user_id', $_SESSION['user']['id'])->lists('item_id');
-        $model_item = Models\Item::whereIn('id', $item_ids)->where('status', $status)->with('images');
+        $item_ids   = Models\ItemTrade::whereUserId($_SESSION['user']['id'])->lists('item_id');
+        $model_item = Models\Item::whereIn('id', $item_ids)->whereStatus($status)->with('images');
 
         $total    = $model_item->count();
         $paginate = Paginate::instance(['count' => $total, 'size' => 12]);
-        $items    = $model_item->take(12)->skip($paginate->offset)->get();
+        $items    = $model_item->take(12)->skip($paginate->offset)->get(['id', 'title', 'status']);
 
         $this->slim->render('trade/index.html', [
             'items'    => $items,
@@ -25,8 +25,8 @@ class Trade extends Controller {
     }
 
     public function rate($item_id) {
-        $item_trade = Models\ItemTrade::where('user_id', $_SESSION['user']['id'])->where('item_id', $item_id)->first();
-        $item       = Models\Item::where('status', 'trade')->find($item_id);
+        $item_trade = Models\ItemTrade::whereUserId($_SESSION['user']['id'])->whereItemId($item_id)->first(['id']);
+        $item       = Models\Item::where('status', 'trade')->find($item_id, ['id']);
 
         $valid_type    = 'error';
         $valid_message = '';
@@ -37,7 +37,7 @@ class Trade extends Controller {
             $valid_message = 'Can not found item';
         }else{
             $this->slim->render('trade/rate.html', [
-                'item' => $item,
+                'item' => $item
             ]);
         }
 
@@ -50,8 +50,8 @@ class Trade extends Controller {
     public function done($item_id) {
         $star       = $this->slim->request->post('star');
         $comment    = $this->slim->request->post('comment');
-        $item_trade = Models\ItemTrade::where('user_id', $_SESSION['user']['id'])->where('item_id', $item_id)->first();
-        $item       = Models\Item::where('status', 'trade')->find($item_id);
+        $item_trade = Models\ItemTrade::whereUserId($_SESSION['user']['id'])->whereItemId($item_id)->first(['id']);
+        $item       = Models\Item::whereStatus('trade')->find($item_id, ['id', 'status']);
 
         $valid_type    = 'error';
         $valid_message = '';
