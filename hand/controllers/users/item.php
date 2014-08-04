@@ -114,9 +114,9 @@ class Item extends Controller {
 
     function manage() {
         $status   = $this->slim->request->get('status', 'hide');
-        $total    = Models\Item::where('user_id', $_SESSION['user']['id'])->count();
+        $total    = Models\Item::whereUserId($_SESSION['user']['id'])->count();
         $paginate = Paginate::instance(['count' => $total, 'size' => 12]);
-        $items    = Models\Item::whereStatus($status)->where('user_id', $_SESSION['user']['id'])->take(12)->skip($paginate->offset)->with('images')->get();
+        $items    = Models\Item::whereStatus($status)->whereUserId($_SESSION['user']['id'])->take(12)->skip($paginate->offset)->with('images')->get(['id', 'title', 'status']);
 
         $this->slim->render('user/item/manage.html', [
             'items' => $items,
@@ -127,7 +127,7 @@ class Item extends Controller {
     }
 
     function delete($item_id) {
-        $item   = Models\Item::where('user_id', $_SESSION['user']['id'])->with('images', 'comments')->find($item_id);
+        $item = Models\Item::whereUserId($_SESSION['user']['id'])->with('images', 'comments')->find($item_id, ['id', 'status', 'title']);
 
         $valid_type    = 'error';
         $valid_message = '';
@@ -163,7 +163,9 @@ class Item extends Controller {
     }
 
     function edit_detail($item_id) {
-        $item = Models\Item::where('user_id', $_SESSION['user']['id'])->find($item_id);
+        $item = Models\Item::whereUserId($_SESSION['user']['id'])->find($item_id, [
+            'id', 'title', 'category', 'property', 'description', 'price', 'delivery', 'status'
+        ]);
 
         $valid_type    = 'error';
         $valid_message = '';
@@ -237,7 +239,7 @@ class Item extends Controller {
     }
 
     function edit_image_upload($item_id) {
-        $item = Models\Item::where('user_id', $_SESSION['user']['id'])->with('images')->find($item_id);
+        $item = Models\Item::whereUserId($_SESSION['user']['id'])->with('images')->find($item_id, ['id']);
 
         if (empty($item) === true) {
             $this->slim->flash('error', 'Can not found item');
@@ -291,7 +293,7 @@ class Item extends Controller {
     }
 
     function edit_image_manage($item_id) {
-        $item = Models\Item::where('user_id', $_SESSION['user']['id'])->with('images')->find($item_id);
+        $item = Models\Item::whereUserId($_SESSION['user']['id'])->with('images')->find($item_id, ['id']);
 
         if (empty($item) === true) {
             $this->slim->flash('error', 'Can not found item');
@@ -305,7 +307,7 @@ class Item extends Controller {
     }
 
     function edit_image_delete($item_id, $item_image_id) {
-        $item_image = Models\ItemImage::where('user_id', $_SESSION['user']['id'])->where('item_id', $item_id)->find($item_image_id);
+        $item_image = Models\ItemImage::whereUserId($_SESSION['user']['id'])->where('item_id', $item_id)->find($item_image_id, ['id', 'item_id']);
 
         $valid_type    = 'error';
         $valid_message = '';
@@ -333,7 +335,7 @@ class Item extends Controller {
     }
 
     function trade_cancel($item_id) {
-        $item = Models\Item::whereStatus('trade')->where('user_id', $_SESSION['user']['id'])->with('trade')->find($item_id);
+        $item = Models\Item::whereStatus('trade')->whereUserId($_SESSION['user']['id'])->with('trade')->find($item_id, ['id']);
 
         $valid_type    = 'error';
         $valid_message = '';
@@ -353,7 +355,7 @@ class Item extends Controller {
     }
 
     function trade_done($item_id) {
-        $item = Models\Item::whereStatus('trade')->where('user_id', $_SESSION['user']['id'])->find($item_id);
+        $item = Models\Item::whereStatus('trade')->whereUserId($_SESSION['user']['id'])->find($item_id, ['id']);
 
         $valid_type    = 'error';
         $valid_message = '';
