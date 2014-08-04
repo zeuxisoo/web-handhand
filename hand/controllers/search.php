@@ -63,7 +63,7 @@ class Search extends Controller {
             $total    = $model_item->count('id');
             $paginate = Paginate::instance(['count' => $total, 'size' => 12]);
             $items    = $model_item->take(12)->skip($paginate->offset)->with('images')->get([
-                'id', 'user_id', 'title', 'price', 'category', 'property'
+                'id', 'user_id', 'title', 'price', 'category', 'property', 'created_at'
             ]);
 
             $this->slim->render('search/result.html', [
