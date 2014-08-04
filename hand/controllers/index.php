@@ -23,9 +23,9 @@ class Index extends Controller {
             }
         }
 
-        $total    = $model_item->count();
+        $total    = $model_item->count('id');
         $paginate = Paginate::instance(['count' => $total, 'size' => 12]);
-        $items    = $model_item->take(12)->skip($paginate->offset)->with('images')->get();
+        $items    = $model_item->take(12)->skip($paginate->offset)->with('images')->get(['id', 'title']);
 
         $this->slim->render('index/index.html', [
             'items' => $items,
@@ -100,9 +100,9 @@ class Index extends Controller {
                 $valid_message = $validator->firstError();
             }else{
                 if (strpos($account, '@') === false) {
-                    $user = Models\User::where('username', $account)->first();
+                    $user = Models\User::where('username', $account)->first(['id', 'username', 'password', 'email', 'status']);
                 }else{
-                    $user = Models\User::where('email', $account)->first();
+                    $user = Models\User::where('email', $account)->first(['id', 'username', 'password', 'email', 'status']);
                 }
 
                 if (empty($user->username) === true) {
