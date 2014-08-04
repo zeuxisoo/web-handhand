@@ -60,9 +60,11 @@ class Search extends Controller {
             $model_item = $model_item->with('user', 'images');
             $model_item = $model_item->orderBy('created_at', 'desc');
 
-            $total    = $model_item->count();
+            $total    = $model_item->count('id');
             $paginate = Paginate::instance(['count' => $total, 'size' => 12]);
-            $items    = $model_item->take(12)->skip($paginate->offset)->with('images')->get();
+            $items    = $model_item->take(12)->skip($paginate->offset)->with('images')->get([
+                'id', 'user_id', 'title', 'price', 'category', 'property'
+            ]);
 
             $this->slim->render('search/result.html', [
                 'keyword'       => $keyword,
