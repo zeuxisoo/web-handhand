@@ -13,7 +13,7 @@ class Index extends Controller {
     public function index() {
         $category   = $this->slim->request->get('category', 0);
         $property   = $this->slim->request->get('property', 0);
-        $model_item = Models\Item::status('publish');
+        $model_item = Models\Item::whereStatus('publish');
 
         $param_keys = ['category', 'property'];
         foreach($param_keys as $param_key) {

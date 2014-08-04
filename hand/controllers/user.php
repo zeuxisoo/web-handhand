@@ -28,23 +28,23 @@ class User extends Controller {
 
             switch($tab) {
                 case 'publish':
-                    $total    = Models\Item::status('publish')->where('user_id', $user->id)->count('id');
+                    $total    = Models\Item::whereStatus('publish')->where('user_id', $user->id)->count('id');
                     $paginate = Paginate::instance(['count' => $total, 'size' => 12]);
-                    $items    = Models\Item::status('publish')->where('user_id', $user->id)->take(12)->skip($paginate->offset)->with('images')->get();
+                    $items    = Models\Item::whereStatus('publish')->where('user_id', $user->id)->take(12)->skip($paginate->offset)->with('images')->get();
                     break;
                 case 'bookmark':
                     $bookmark_item_ids = $bookmarks->lists('item_id');
 
                     $total    = Models\Item::whereIn('id', $bookmark_item_ids)->where('user_id', $user->id)->count('id');
                     $paginate = Paginate::instance(['count' => $total, 'size' => 12]);
-                    $items    = Models\Item::status('publish')->whereIn('id', $bookmark_item_ids)->where('user_id', $user->id)->take(12)->skip($paginate->offset)->with('images')->get();
+                    $items    = Models\Item::whereStatus('publish')->whereIn('id', $bookmark_item_ids)->where('user_id', $user->id)->take(12)->skip($paginate->offset)->with('images')->get();
                     break;
                 case 'rate':
                     $view_file = 'user/profile/rate.html';
 
-                    $total    = Models\Item::status('done')->where('user_id', $user->id)->count('id');
+                    $total    = Models\Item::whereStatus('done')->where('user_id', $user->id)->count('id');
                     $paginate = Paginate::instance(['count' => $total, 'size' => 12]);
-                    $items    = Models\Item::status('done')->where('user_id', $user->id)->take(12)->skip($paginate->offset)->with([
+                    $items    = Models\Item::whereStatus('done')->where('user_id', $user->id)->take(12)->skip($paginate->offset)->with([
                         'images',
                         'trade' => function($query) {
                             $query->with('user');
@@ -80,7 +80,7 @@ class User extends Controller {
             $valid_message = 'You can not ban this user if you are not admin';
         }else{
             // Hide the publish items
-            Models\Item::whereIn('id', $user->items()->status('publish')->get()->modelKeys())->update(['status' => 'hide']);
+            Models\Item::whereIn('id', $user->items()->whereStatus('publish')->get()->modelKeys())->update(['status' => 'hide']);
 
             // Ban user
             $user->update(['status' => 'banned']);

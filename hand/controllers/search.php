@@ -47,7 +47,7 @@ class Search extends Controller {
             $this->slim->redirect($this->slim->urlFor('search.index'));
         }else{
             $app_config = $this->slim->config('app.config');
-            $model_item = Models\Item::status('publish');
+            $model_item = Models\Item::whereStatus('publish');
             $model_item = $model_item->where("title", "like", '%'.$keyword.'%');
 
             $category_name = "ALL";

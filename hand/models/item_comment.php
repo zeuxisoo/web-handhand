@@ -8,8 +8,12 @@ class ItemComment extends Eloquent\Model {
     protected $table   = 'item_comment';
     protected $guarded = array('id');
 
-    function user() {
+    public function user() {
         return $this->belongsTo('Hand\Models\User');
+    }
+
+    public function scopeWhereItemId($query, $item_id) {
+        return $query->where('item_id', $item_id);
     }
 
 }

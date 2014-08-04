@@ -116,7 +116,7 @@ class Item extends Controller {
         $status   = $this->slim->request->get('status', 'hide');
         $total    = Models\Item::where('user_id', $_SESSION['user']['id'])->count();
         $paginate = Paginate::instance(['count' => $total, 'size' => 12]);
-        $items    = Models\Item::status($status)->where('user_id', $_SESSION['user']['id'])->take(12)->skip($paginate->offset)->with('images')->get();
+        $items    = Models\Item::whereStatus($status)->where('user_id', $_SESSION['user']['id'])->take(12)->skip($paginate->offset)->with('images')->get();
 
         $this->slim->render('user/item/manage.html', [
             'items' => $items,
@@ -333,7 +333,7 @@ class Item extends Controller {
     }
 
     function trade_cancel($item_id) {
-        $item = Models\Item::status('trade')->where('user_id', $_SESSION['user']['id'])->with('trade')->find($item_id);
+        $item = Models\Item::whereStatus('trade')->where('user_id', $_SESSION['user']['id'])->with('trade')->find($item_id);
 
         $valid_type    = 'error';
         $valid_message = '';
@@ -353,7 +353,7 @@ class Item extends Controller {
     }
 
     function trade_done($item_id) {
-        $item = Models\Item::status('trade')->where('user_id', $_SESSION['user']['id'])->find($item_id);
+        $item = Models\Item::whereStatus('trade')->where('user_id', $_SESSION['user']['id'])->find($item_id);
 
         $valid_type    = 'error';
         $valid_message = '';

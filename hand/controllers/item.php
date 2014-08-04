@@ -7,7 +7,9 @@ use Hand\Models;
 class Item extends Controller {
 
     public function detail($item_id) {
-        $item = Models\Item::with('user', 'images')->find($item_id);
+        $item = Models\Item::with('user', 'images')->find($item_id, [
+            'id', 'user_id', 'title', 'category', 'property', 'description', 'price', 'delivery', 'status',
+        ]);
 
         if (empty($item) === true) {
             $this->slim->flash('error', 'Can not found item');
@@ -16,7 +18,7 @@ class Item extends Controller {
             $this->slim->flash('error', 'The item is protected');
             $this->slim->redirect($this->slim->urlFor('index.index'));
         }else{
-            $item_comments   = Models\ItemComment::with('user')->where('item_id', $item_id)->orderBy('created_at', 'asc')->get();
+            $item_comments = Models\ItemComment::with('user')->whereItemId($item_id)->orderBy('created_at', 'asc')->get(['id', 'user_id', 'content', 'created_at']);
 
             if (isset($_SESSION['user']['id']) === true) {
                 $item_bookmarked = Models\ItemBookmark::whereUserIdAndItemId($_SESSION['user']['id'], $item_id)->count('id') >= 1;
@@ -33,7 +35,7 @@ class Item extends Controller {
     }
 
     public function detail_comment($item_id) {
-        $item        = Models\Item::find($item_id);
+        $item        = Models\Item::find($item_id, ['id', 'user_id', 'status']);
         $content     = $this->slim->request->post('content');
         $redirect_to = $this->slim->urlFor('item.detail', ['item_id' => $item_id]);
 
@@ -77,7 +79,7 @@ class Item extends Controller {
     }
 
     public function bookmark_create($item_id) {
-        $item = Models\Item::status('publish')->where('user_id', $_SESSION['user']['id'])->find($item_id);
+        $item = Models\Item::whereStatus('publish')->whereUserId($_SESSION['user']['id'])->find($item_id, ['id']);
 
         $valid_type    = 'error';
         $valid_message = '';
@@ -101,7 +103,7 @@ class Item extends Controller {
     }
 
     public function bookmark_delete($item_id) {
-        $item = Models\Item::where('user_id', $_SESSION['user']['id'])->find($item_id);
+        $item = Models\Item::whereUserId($_SESSION['user']['id'])->find($item_id, ['id']);
 
         $valid_type    = 'error';
         $valid_message = '';
@@ -122,7 +124,7 @@ class Item extends Controller {
     }
 
     public function trade($item_id) {
-        $item = Models\Item::status('publish')->find($item_id);
+        $item = Models\Item::whereStatus('publish')->find($item_id, ['id', 'user_id', 'title']);
 
         $valid_type    = 'error';
         $valid_message = '';
@@ -166,7 +168,7 @@ class Item extends Controller {
     }
 
     public function block($item_id) {
-        $item = Models\Item::find($item_id);
+        $item = Models\Item::find($item_id, ['id']);
 
         $valid_type    = 'error';
         $valid_message = '';
