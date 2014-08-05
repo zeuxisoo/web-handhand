@@ -15,7 +15,9 @@ class AssetManager {
     public function makeCSS() {
         $collection = new AssetCollection([
             new FileAsset(STATIC_ROOT.'/vendor/bootstrap/css/bootstrap.min.css'),
+            new FileAsset(STATIC_ROOT.'/vendor/font-awesome/css/font-awesome.min.css'),
             new FileAsset(STATIC_ROOT.'/vendor/animate.min.css'),
+            new FileAsset(STATIC_ROOT.'/vendor/bootstrap-social.css'),
             new FileAsset(STATIC_ROOT.'/vendor/nprogress/nprogress.css', [new CssMinFilter()]),
             new FileAsset(STATIC_ROOT.'/client/css/default.css', [new CssMinFilter()]),
         ]);
