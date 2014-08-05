@@ -11,7 +11,9 @@
         "pimple/pimple": "2.1.0",
         "davedevelopment/phpmig": "dev-master",
         "zeuxisoo/core-validator": "dev-master",
-        "ircmaxell/password-compat": "1.0.*"
+        "ircmaxell/password-compat": "1.0.*",
+        "kriswallsmith/assetic": "1.1.2",
+        "natxet/CssMin": "3.0.2"
     },
     "require-dev": {
         "raveren/kint": "v0.9"

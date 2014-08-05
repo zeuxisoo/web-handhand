@@ -10,6 +10,7 @@ use Hand\Middlewares\Route;
 use Hand\Middlewares\TurboLinks;
 use Hand\Helpers\View;
 use Hand\Hooks\SessionManager;
+use Hand\Hooks\AssetManager;
 
 class App {
 
@@ -154,6 +155,12 @@ class App {
     }
 
     public function registerSlimHook() {
+        $this->slim->hook('slim.before', function() {
+            $asset_manager = new AssetManager();
+            $asset_manager->makeCSS();
+            $asset_manager->makeJS();
+        });
+
         $this->slim->hook('slim.before.dispatch', function() {
             $session_manager = new SessionManager();
             $session_manager->setLoginSession();

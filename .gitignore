@@ -8,7 +8,9 @@ config/default.php
 
 docs
 cache/view
+cache/asset
 vendor/*
 public/static/attachment/item
+public/static/asset/*
 
 *.sqlite
