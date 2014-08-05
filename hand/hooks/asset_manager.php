@@ -7,7 +7,7 @@ use Assetic\Asset\AssetCollection;
 use Assetic\Asset\FileAsset;
 use Assetic\Asset\AssetCache;
 use Assetic\Cache\FilesystemCache;
-use Assetic\Filter\CSSMinFilter;
+use Assetic\Filter\CssMinFilter;
 use Assetic\Filter\GoogleClosure\CompilerApiFilter;
 
 class AssetManager {
@@ -16,8 +16,8 @@ class AssetManager {
         $collection = new AssetCollection([
             new FileAsset(STATIC_ROOT.'/vendor/bootstrap/css/bootstrap.min.css'),
             new FileAsset(STATIC_ROOT.'/vendor/animate.min.css'),
-            new FileAsset(STATIC_ROOT.'/vendor/nprogress/nprogress.css', [new CSSMinFilter()]),
-            new FileAsset(STATIC_ROOT.'/client/css/default.css', [new CSSMinFilter()]),
+            new FileAsset(STATIC_ROOT.'/vendor/nprogress/nprogress.css', [new CssMinFilter()]),
+            new FileAsset(STATIC_ROOT.'/client/css/default.css', [new CssMinFilter()]),
         ]);
         $collection->setTargetPath('default.css');
 
