@@ -3,6 +3,7 @@ namespace Hand\Controllers;
 
 use Hybridauth\Hybridauth;
 use Hybridauth\Endpoint;
+use Hybridauth\Exception as HybridauthException;
 use Hand\Abstracts\Controller;
 use Hand\Models;
 use Hand\Helpers\Authorize;
@@ -79,9 +80,10 @@ class OAuth extends Controller {
 
             // Redirect to index page
             $this->slim->redirect($this->slim->urlFor('index.index'));
-        }catch(\Exception $e) {
+        }catch(HybridauthException $e) {
             if ($app_config['default']['debug'] === true) {
-                echo $e;
+               echo $e;
+               exit;
             }else{
                 $this->slim->flash('error', 'Unknown error when conect to provider');
                 $this->slim->redirect($this->slim->urlFor('index.signin'));
