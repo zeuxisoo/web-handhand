@@ -106,7 +106,7 @@ return [
     'oauth' => [
         'providers' => [
             'Facebook' => [
-                'enabled' => true,
+                'enabled' => false,
                 'keys'    => ['id' => '', 'secret' => ''],
                 'scope'   => ['email', 'public_profile'],
             ]
