@@ -2,6 +2,7 @@
 namespace Hand\Controllers;
 
 use Zeuxisoo\Core\Validator;
+use Hybridauth\Hybridauth;
 use Hand\Abstracts\Controller;
 use Hand\Helpers\Secure;
 use Hand\Helpers\Authorize;
@@ -139,6 +140,19 @@ class Index extends Controller {
     }
 
     public function signout() {
+        if (empty($_SESSION['provider_name']) === false) {
+            try {
+                $hybridauth = new Hybridauth($this->slim->config('app.config')['oauth']);
+                $adapter    = $hybridauth->authenticate($_SESSION['provider_name']);
+                $adapter->disconnect();
+
+                Authorize::resetLoginProviderName();
+            }catch(Exception $e) {
+                $this->slim->flash('error', 'Can not signout from provider');
+                $this->slim->redirect($this->slim->urlFor('index.index'));
+            }
+        }
+
         Authorize::resetLoginSession($this->slim);
 
         $this->slim->redirect($this->slim->urlFor('index.index'));

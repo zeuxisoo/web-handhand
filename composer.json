@@ -13,7 +13,8 @@
         "zeuxisoo/core-validator": "dev-master",
         "ircmaxell/password-compat": "1.0.*",
         "kriswallsmith/assetic": "1.1.2",
-        "natxet/CssMin": "3.0.2"
+        "natxet/CssMin": "3.0.2",
+        "hybridauth/hybridauth": "3.0.0.*@dev"
     },
     "require-dev": {
         "raveren/kint": "v0.9"

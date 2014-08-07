@@ -23,13 +23,12 @@ return [
     ],
 
     'cookie' => [
-        'secret_key' => 'Your Key Here',
         'life_time'  => '20 minutes',
         'path'       => '/',
         'domain'     => null,
         'secure'     => false,
         'httponly'   => false,
-        'name'       => 'user_session'
+        'secret_key' => 'Your Key Here',
     ],
 
     'remember' => [
@@ -103,4 +102,14 @@ return [
             'system' => 'System',
         ]
     ],
+
+    'oauth' => [
+        'providers' => [
+            'Facebook' => [
+                'enabled' => true,
+                'keys'    => ['id' => '', 'secret' => ''],
+                'scope'   => ['email', 'public_profile'],
+            ]
+        ],
+    ]
 ];

@@ -55,16 +55,21 @@ class App {
 
     public function registerSlim() {
         $this->slim = new Slim(array(
-            'debug'              => $this->config['default']['debug'],
-            'view'               => new Views\Twig(),
-            'cookies.secret_key' => $this->config['cookie']['secret_key'],
-            'cookies.encrypt'    => true,
-            'cookies.cipher'     => MCRYPT_RIJNDAEL_256
+            'debug'               => $this->config['default']['debug'],
+            'view'                => new Views\Twig(),
+            'cookies.encrypt'     => true,
+            'cookies.lifetime'    => $this->config['cookie']['life_time'],
+            'cookies.path'        => $this->config['cookie']['path'],
+            'cookies.domain'      => $this->config['cookie']['domain'],
+            'cookies.secure'      => $this->config['cookie']['secure'],
+            'cookies.httponly'    => $this->config['cookie']['httponly'],
+            'cookies.secret_key'  => $this->config['cookie']['secret_key'],
+            'cookies.cipher'      => MCRYPT_RIJNDAEL_256,
+            'cookies.cipher_mode' => MCRYPT_MODE_CBC,
         ));
     }
 
     public function registerSlimMiddleware() {
-        $this->slim->add(new Middleware\SessionCookie($this->config['cookie']));
         $this->slim->add(new Extras\Middleware\CsrfGuard());
         $this->slim->add(new TurboLinks());
     }
@@ -143,6 +148,11 @@ class App {
             $this->slim->get('/', Route::requireLogin(), '\Hand\Controllers\Trade:index')->name('trade.index');
             $this->slim->get('/rate/:item_id', Route::requireLogin(), '\Hand\Controllers\Trade:rate')->name('trade.rate');
             $this->slim->post('/done/:item_id', Route::requireLogin(), '\Hand\Controllers\Trade:done')->name('trade.done');
+        });
+
+        $this->slim->group('/oauth', function() {
+            $this->slim->get('/connect/:provider_name', '\Hand\Controllers\OAuth:connect')->name('oauth.connect');
+            $this->slim->get('/callback', '\Hand\Controllers\OAuth:callback')->name('oauth.callback');
         });
     }
 
