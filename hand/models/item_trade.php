@@ -16,12 +16,4 @@ class ItemTrade extends Eloquent\Model {
         return $this->belongsTo('Hand\Models\Item');
     }
 
-    public function scopeWhereUserId($query, $user_id) {
-        return $query->where('user_id', $user_id);
-    }
-
-    public function scopeWhereItemId($query, $item_id) {
-        return $query->where('item_id', $item_id);
-    }
-
 }

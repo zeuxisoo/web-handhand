@@ -12,8 +12,4 @@ class ItemComment extends Eloquent\Model {
         return $this->belongsTo('Hand\Models\User');
     }
 
-    public function scopeWhereItemId($query, $item_id) {
-        return $query->where('item_id', $item_id);
-    }
-
 }

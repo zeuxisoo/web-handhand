@@ -28,12 +28,4 @@ class Item extends Eloquent\Model {
         return $this->hasOne('Hand\Models\ItemTrade');
     }
 
-    public function scopeWhereStatus($query, $status) {
-        return $query->where('status', $status);
-    }
-
-    public function scopeWhereUserId($query, $user_id) {
-        return $query->where('user_id', $user_id);
-    }
-
 }
