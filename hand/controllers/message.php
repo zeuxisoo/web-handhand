@@ -152,7 +152,7 @@ class Message extends Controller {
         $response = $this->slim->response();
         $response['Content-Type'] = 'application/json';
         $response->write(json_encode([
-            'number' => Models\Message::whereReceiverId($_SESSION['user']['id'])->WhereHaveRead(false)->count(),
+            'number' => Models\Message::whereReceiverId($_SESSION['user']['id'])->whereHaveRead(false)->count(),
         ]));
     }
 
