@@ -6,6 +6,10 @@ use Slim\Extras;
 use Slim\Views;
 use Slim\Middleware;
 use Illuminate\Database;
+use Symfony\Component\Translation\Translator;
+use Symfony\Component\Translation\MessageSelector;
+use Symfony\Component\Translation\Loader\ArrayLoader;
+use Symfony\Bridge\Twig\Extension\TranslationExtension;
 use Hand\Middlewares\Route;
 use Hand\Middlewares\TurboLinks;
 use Hand\Helpers\View;
@@ -88,6 +92,27 @@ class App {
             new Views\TwigExtension(),
             new View(),
         ];
+    }
+
+    public function registerLocale() {
+        $view = $this->slim->view();
+
+        $this->slim->container->singleton('locale', function() {
+            $translator = new Translator('en_US', new MessageSelector());
+            $translator->setFallbackLocales(['en_US']);
+            $translator->addLoader('array', new ArrayLoader());
+
+            foreach(glob(LOCALE_ROOT.'/*') as $locale_path) {
+                foreach(glob($locale_path.'/*') as $file_path) {
+                    $resource = require $file_path;
+                    $translator->addResource('array', $resource, basename($locale_path));
+                }
+            }
+
+            return $translator;
+        });
+
+        array_push($view->parserExtensions, new TranslationExtension($this->slim->locale));
     }
 
     public function registerSlimRoutes() {
