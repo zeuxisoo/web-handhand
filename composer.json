@@ -22,6 +22,7 @@
         "raveren/kint": "v0.9"
     },
     "autoload": {
+        "files": ["hand/functions.php"]
     },
     "authors": [
         {

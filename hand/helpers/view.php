@@ -19,6 +19,7 @@ class View extends \Twig_Extension {
             new \Twig_SimpleFunction('itemImageUrl', [$this, 'itemImageUrl']),
             new \Twig_SimpleFunction('urlForExtra', [$this, 'urlForExtra']),
             new \Twig_SimpleFunction('isAdmin', [$this, 'isAdmin']),
+            new \Twig_SimpleFunction('locale', [$this, 'locale'])
         ];
     }
 
@@ -65,6 +66,10 @@ class View extends \Twig_Extension {
 
     public function isAdmin() {
         return Authorize::isAdmin();
+    }
+
+    public function locale($message, $arguments = array(), $domain = null, $locale = null) {
+        return locale($message, $arguments, $domain, $locale);
     }
 
 }
