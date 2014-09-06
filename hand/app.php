@@ -98,8 +98,8 @@ class App {
         $view = $this->slim->view();
 
         $this->slim->container->singleton('locale', function() {
-            $translator = new Translator('en_US', new MessageSelector());
-            $translator->setFallbackLocales(['en_US']);
+            $translator = new Translator($this->config['default']['locale']['current'], new MessageSelector());
+            $translator->setFallbackLocales($this->config['default']['locale']['fallback']);
             $translator->addLoader('array', new ArrayLoader());
 
             foreach(glob(LOCALE_ROOT.'/*') as $locale_path) {

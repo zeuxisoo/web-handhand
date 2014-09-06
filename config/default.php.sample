@@ -2,6 +2,10 @@
 return [
     'default' => [
         'debug'      => true,
+        'locale'     => [
+            'current'  => 'en_US',
+            'fallback' => ['en_US'],
+        ],
         'item'       => [
             'upload_max_images' => 3,
         ],
