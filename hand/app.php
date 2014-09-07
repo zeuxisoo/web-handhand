@@ -102,11 +102,15 @@ class App {
             $translator->setFallbackLocales($this->config['default']['locale']['fallback']);
             $translator->addLoader('array', new ArrayLoader());
 
-            foreach(glob(LOCALE_ROOT.'/*') as $locale_path) {
-                foreach(glob($locale_path.'/*') as $file_path) {
-                    $resource = require $file_path;
-                    $translator->addResource('array', $resource, basename($locale_path));
-                }
+            $directory_iterator = new \RecursiveDirectoryIterator(LOCALE_ROOT);
+            $iterator_iterator  = new \RecursiveIteratorIterator($directory_iterator);
+            $regex_iterator     = new \RegexIterator($iterator_iterator, '/^.+\.php$/i', \RecursiveRegexIterator::GET_MATCH);
+
+            foreach($regex_iterator as $file_path => $items) {
+                $locale_directory = explode(DIRECTORY_SEPARATOR, str_replace(LOCALE_ROOT, '', $file_path))[1];
+                $locale_resource = require $file_path;
+
+                $translator->addResource('array', $locale_resource, $locale_directory);
             }
 
             return $translator;
