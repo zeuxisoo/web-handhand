@@ -43,13 +43,13 @@ class Index extends Controller {
             $password = $this->slim->request->post('password');
 
             $validator = Validator::factory($this->slim->request->post());
-            $validator->add('username', 'Please enter username')->rule('required')
-                      ->add('email', 'Please enter email')->rule('required')
-                      ->add('password', 'Please enter password')->rule('required')
-                      ->add('email', 'Invalid email address')->rule('valid_email')
-                      ->add('password', 'Password length must more than 8 chars')->rule('min_length', 8)
-                      ->add('username', 'Username only support A-Z,a-z,0-9 and _')->rule('match_pattern', '/^[A-Za-z0-9_]+$/')
-                      ->add('username', 'Username length must more than 4 chars')->rule('min_length', 4);
+            $validator->add('username', locale('Please enter username'))->rule('required')
+                      ->add('email', locale('Please enter email'))->rule('required')
+                      ->add('password', locale('Please enter password'))->rule('required')
+                      ->add('email', locale('Invalid email address'))->rule('valid_email')
+                      ->add('password', locale('Password length must more than 8 chars'))->rule('min_length', 8)
+                      ->add('username', locale('Username only support A-Z,a-z,0-9 and _'))->rule('match_pattern', '/^[A-Za-z0-9_]+$/')
+                      ->add('username', locale('Username length must more than 4 chars'))->rule('min_length', 4);
 
             $valid_type    = 'error';
             $valid_message = '';
@@ -57,9 +57,9 @@ class Index extends Controller {
             if ($validator->inValid() === true) {
                 $valid_message = $validator->firstError();
             }else if (Models\User::where('username', $username)->first() !== null) {
-                $valid_message = 'Username already exists.';
+                $valid_message = locale('Username already exists');
             }else if (Models\User::where('email', $email)->first() !== null) {
-                $valid_message = 'Email already exists.';
+                $valid_message = locale('Email already exists');
             }else{
                 $user = Models\User::create([
                     'username' => $username,
@@ -73,7 +73,7 @@ class Index extends Controller {
                 ]);
 
                 $valid_type    = 'success';
-                $valid_message = 'Thank for you registeration. Your account already created.';
+                $valid_message = locale('Thank for you registeration. Your account already created');
             }
 
             $this->slim->flash($valid_type, $valid_message);
@@ -90,8 +90,8 @@ class Index extends Controller {
             $remember = $this->slim->request->post('remember');
 
             $validator = Validator::factory($this->slim->request->post());
-            $validator->add('account', 'Please enter account')->rule('required')
-                      ->add('password', 'Please enter password')->rule('required');
+            $validator->add('account', locale('Please enter account'))->rule('required')
+                      ->add('password', locale('Please enter password'))->rule('required');
 
             $valid_type     = 'error';
             $valid_message  = '';
@@ -107,11 +107,11 @@ class Index extends Controller {
                 }
 
                 if (empty($user->username) === true) {
-                    $valid_message = 'The user not exists.';
+                    $valid_message = locale('The user not exists');
                 }else if (password_verify($password, $user->password) === false) {
-                    $valid_message = 'Password not match.';
+                    $valid_message = locale('Password not match');
                 }else if ($user->status === 'banned') {
-                    $valid_message = 'Your account was banned';
+                    $valid_message = locale('Your account was banned');
                 }else{
                     if ($remember === 'y') {
                         $config       = $this->slim->config('app.config');
@@ -127,7 +127,7 @@ class Index extends Controller {
                     Authorize::initLoginSession($user);
 
                     $valid_type     = "success";
-                    $valid_message  = "Welcome back!";
+                    $valid_message  = locale("Welcome back");
                     $valid_redirect = "index.index";
                 }
             }

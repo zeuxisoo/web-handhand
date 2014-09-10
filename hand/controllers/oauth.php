@@ -85,7 +85,7 @@ class OAuth extends Controller {
                echo $e;
                exit;
             }else{
-                $this->slim->flash('error', 'Unknown error when conect to provider');
+                $this->slim->flash('error', locale('Unknown error when conect to provider'));
                 $this->slim->redirect($this->slim->urlFor('index.signin'));
             }
         }
@@ -97,7 +97,7 @@ class OAuth extends Controller {
         $error_description = $this->slim->request->get('error_description');
 
         if (empty($error) === false) {
-            $this->slim->flash('error', "Authentication failed! You canceled the authentication");
+            $this->slim->flash('error', locale("Authentication failed! You canceled the authentication"));
             $this->slim->redirect($this->slim->urlFor('index.signin'));
         }else{
             $endpoint = new Endpoint();

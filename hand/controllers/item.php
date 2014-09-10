@@ -12,10 +12,10 @@ class Item extends Controller {
         ]);
 
         if (empty($item) === true) {
-            $this->slim->flash('error', 'Can not found item');
+            $this->slim->flash('error', locale('Can not found item'));
             $this->slim->redirect($this->slim->urlFor('index.index'));
         }else if (in_array($item->status, ['hide', 'block']) === true) {
-            $this->slim->flash('error', 'The item is protected');
+            $this->slim->flash('error', locale('The item is protected'));
             $this->slim->redirect($this->slim->urlFor('index.index'));
         }else{
             $item_comments = Models\ItemComment::with('user')->whereItemId($item_id)->orderBy('created_at', 'asc')->get(['id', 'user_id', 'content', 'created_at']);
@@ -43,11 +43,11 @@ class Item extends Controller {
         $valid_message = '';
 
         if (empty($item) === true) {
-            $valid_message = 'Can not found item';
+            $valid_message = locale('Can not found item');
         }else if ($item->status !== 'publish') {
-            $valid_message = 'The item status is not in publish, Can not leave a comment';
+            $valid_message = locale('The item status is not in publish, Can not leave a comment');
         }elseif (empty($content) === true) {
-            $valid_message = 'Please enter comment content';
+            $valid_message = locale('Please enter comment content');
         }else{
             $item_comment = Models\ItemComment::create([
                 'user_id' => $_SESSION['user']['id'],
@@ -61,16 +61,16 @@ class Item extends Controller {
                     'receiver_id' => $item->user_id,
                     'subject'     => "Item [".$item->title."] got new comment.",
                     'content'     => join("\n", [
-                        "Please click the [item menu] > [manage item] > [publish] > item to get more information.",
+                        locale("Please click the [item menu] > [manage item] > [publish] > item to get more information"),
                         "===============================================================",
-                        "- Item name: ".$item->title,
-                        "- Comment user: ".$_SESSION['user']['username']
+                        locale("- Item name: %title%", ['title' => $item->title]),
+                        locale("- Comment user: %username%", ['username' => $_SESSION['user']['username']]),
                     ])
                 ]);
             }
 
             $valid_type     = 'success';
-            $valid_message  = 'New comment created';
+            $valid_message  = locale('New comment created');
             $redirect_to   .= "#item-detail-comment-id-".$item_comment->id;
         }
 
@@ -85,9 +85,9 @@ class Item extends Controller {
         $valid_message = '';
 
         if (empty($item) === true) {
-            $valid_message = "Can not found item";
+            $valid_message = locale("Can not found item");
         }else if ($item->bookmarks !== null && $item->bookmarks->count('id') >= 1) {
-            $valid_message = "The item was bookmarked";
+            $valid_message = locale("The item was bookmarked");
         }else{
             Models\ItemBookmark::create([
                 'user_id' => $_SESSION['user']['id'],
@@ -95,7 +95,7 @@ class Item extends Controller {
             ]);
 
             $valid_type     = 'success';
-            $valid_message  = 'Item bookmarked';
+            $valid_message  = locale('Item bookmarked');
         }
 
         $this->slim->flash($valid_type, $valid_message);
@@ -109,14 +109,14 @@ class Item extends Controller {
         $valid_message = '';
 
         if (empty($item) === true) {
-            $valid_message = "Can not found item";
+            $valid_message = locale("Can not found item");
         }else if ($item->bookmarks !== null && $item->bookmarks->count('id') <= 0) {
-            $valid_message = "The item have not bookmarked";
+            $valid_message = locale("The item have not bookmarked");
         }else{
             $item->bookmarks()->delete();
 
             $valid_type     = 'success';
-            $valid_message  = 'Item bookmark deleted';
+            $valid_message  = locale('Item bookmark deleted');
         }
 
         $this->slim->flash($valid_type, $valid_message);
@@ -131,9 +131,9 @@ class Item extends Controller {
         $redirect_to   = $this->slim->urlFor('item.detail', ['item_id' => $item_id]);
 
         if (empty($item) === true) {
-            $valid_message = "Can not found item";
+            $valid_message = locale("Can not found item");
         }else if ($item->user_id == $_SESSION['user']['id']) {
-            $valid_message = "The item owner can not make trade action";
+            $valid_message = locale("The item owner can not make trade action");
         }else{
             $item->update([
                 'status' => 'trade'
@@ -150,16 +150,16 @@ class Item extends Controller {
                     'receiver_id' => $item->user_id,
                     'subject'     => "Item [".$item->title."] was changed to trade status.",
                     'content'     => join("\n", [
-                        "Please click the [item menu] > [manage item] > [trade] to get more information.",
+                        locale("Please click the [item menu] > [manage item] > [trade] to get more information"),
                         "===============================================================",
-                        "- Item name: ".$item->title,
-                        "- Trade user: ".$_SESSION['user']['username']
+                        locale("- Item name: %title%", ['title' => $item->title]),
+                        locale("- Trade user: %username%", ['username' => $_SESSION['user']['username']])
                     ])
                 ]);
             }
 
             $valid_type     = 'success';
-            $valid_message  = 'The item was added to your trade list';
+            $valid_message  = locale('The item was added to your trade list');
             $redirect_to    = $this->slim->urlFor('index.index');
         }
 
@@ -175,14 +175,14 @@ class Item extends Controller {
         $redirect_to   = $this->slim->urlFor('item.detail', ['item_id' => $item_id]);
 
         if (empty($item) === true) {
-            $valid_message = "Can not found item";
+            $valid_message = locale("Can not found item");
         }else if ($this->isAdmin() === false) {
-            $valid_message = "You can not block this item if you are not admin";
+            $valid_message = locale("You can not block this item if you are not admin");
         }else{
             $item->update(['status' => 'block']);
 
             $valid_type     = 'success';
-            $valid_message  = 'The item was blocked';
+            $valid_message  = locale('The item was blocked');
             $redirect_to    = $this->slim->urlFor('index.index');
         }
 

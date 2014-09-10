@@ -18,7 +18,7 @@ class Search extends Controller {
             $redirect_to   = $this->slim->urlFor('search.index');
 
             $validator = Validator::factory($this->slim->request->post());
-            $validator->add('keyword', 'Please enter keyword')->rule('required');
+            $validator->add('keyword', locale('Please enter keyword'))->rule('required');
 
             if ($validator->inValid() === true) {
                 $valid_message = $validator->firstError();

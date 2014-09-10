@@ -75,9 +75,9 @@ class User extends Controller {
         $valid_message = '';
 
         if (empty($user) === true) {
-            $valid_message = 'Can not found user';
+            $valid_message = locale('Can not found user');
         }else if ($this->isAdmin() === false) {
-            $valid_message = 'You can not ban this user if you are not admin';
+            $valid_message = locale('You can not ban this user if you are not admin');
         }else{
             // Hide the publish items
             Models\Item::whereIn('id', $user->items()->whereStatus('publish')->get()->modelKeys())->update(['status' => 'hide']);
@@ -86,7 +86,7 @@ class User extends Controller {
             $user->update(['status' => 'banned']);
 
             $valid_type    = 'success';
-            $valid_message = 'The user was banned';
+            $valid_message = locale('The user was banned');
         }
 
         $this->slim->flash($valid_type, $valid_message);
@@ -99,18 +99,18 @@ class User extends Controller {
             $email    = $this->slim->request->post('email');
 
             $valid_type     = 'error';
-            $valid_message  = 'No changes';
+            $valid_message  = locale('No changes');
             $valid_redirect = "user.account";
 
             $update_fields = [];
 
             if (empty($username) === false) {
                 if (Models\User::where('username', $username)->first() !== null) {
-                    $valid_message = 'Username already exists.';
+                    $valid_message = locale('Username already exists.');
                 }else if (preg_match('/^[A-Za-z0-9_]+$/', $username) == false) {
-                    $valid_message = 'Username only support A-Z,a-z,0-9 and _';
+                    $valid_message = locale('Username only support A-Z,a-z,0-9 and _');
                 }else if (strlen($username) < 4) {
-                    $valid_message = 'Username length must more than 4 chars';
+                    $valid_message = locale('Username length must more than 4 chars');
                 }else{
                     $update_fields['username'] = $username;
                 }
@@ -118,7 +118,7 @@ class User extends Controller {
 
             if (empty($email) === false) {
                 if (Models\User::where('email', $email)->first() !== null) {
-                    $valid_message = 'Email already exists.';
+                    $valid_message = locale('Email already exists.');
                 }else{
                     $update_fields['email'] = $email;
                 }
@@ -128,7 +128,7 @@ class User extends Controller {
                 Models\User::find($_SESSION['user']['id'])->update($update_fields);
 
                 $valid_type     = 'success';
-                $valid_message  = 'Your account info was updated. Please sign in again.';
+                $valid_message  = locale('Your account info was updated. Please sign in again');
                 $valid_redirect = "index.signout";
             }
 
@@ -146,10 +146,10 @@ class User extends Controller {
             $confirm_password = $this->slim->request->post('confirm_password');
 
             $validator = Validator::factory($this->slim->request->post());
-            $validator->add('old_password', 'Please enter old password')->rule('required')
-                      ->add('new_password', 'Please enter new password')->rule('required')
-                      ->add('confirm_password', 'Please enter confirm password')->rule('required')
-                      ->add('new_password', 'New password can not match confirm password')->rule('match_field', 'confirm_password');
+            $validator->add('old_password', locale('Please enter old password'))->rule('required')
+                      ->add('new_password', locale('Please enter new password'))->rule('required')
+                      ->add('confirm_password', locale('Please enter confirm password'))->rule('required')
+                      ->add('new_password', locale('New password can not match confirm password'))->rule('match_field', 'confirm_password');
 
             $valid_type    = 'error';
             $valid_message = '';
@@ -161,14 +161,14 @@ class User extends Controller {
                 $user = Models\User::find($_SESSION['user']['id']);
 
                 if (password_verify($old_password, $user->password) === false) {
-                    $valid_message = 'Password incorrect!';
+                    $valid_message = locale('Password incorrect!');
                 }else{
                     $user->update([
                         'password' => password_hash($new_password, PASSWORD_BCRYPT)
                     ]);
 
                     $valid_type    = 'success';
-                    $valid_message = 'Your password was updated. Please sign in again.';
+                    $valid_message = locale('Your password was updated. Please sign in again');
                     $valid_redirect = "index.signout";
                 }
             }
@@ -198,7 +198,7 @@ class User extends Controller {
                 $_SESSION['user']['settings'][$name] = $value;
             }
 
-            $this->slim->flash('success', 'Your settings was updated');
+            $this->slim->flash('success', locale('Your settings was updated'));
             $this->slim->redirect($this->slim->urlFor('user.settings'));
         }else{
             $settings = Models\UserSettings::where('user_id', $_SESSION['user']['id'])->first();

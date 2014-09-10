@@ -37,12 +37,12 @@ class Item extends Controller {
             $images      = $_FILES['images'];
 
             $valdiator = Validator::factory($this->slim->request->post());
-            $valdiator->add('title', 'Please enter title')->rule('required')
-                      ->add('category', 'Please enter category')->rule('required')
-                      ->add('property', 'Please enter property')->rule('required')
-                      ->add('description', 'Please enter description')->rule('required')
-                      ->add('price', 'Please enter price')->rule('required')
-                      ->add('delivery', 'Please enter delivery')->rule('required');
+            $valdiator->add('title', locale('Please enter title'))->rule('required')
+                      ->add('category', locale('Please enter category'))->rule('required')
+                      ->add('property', locale('Please enter property'))->rule('required')
+                      ->add('description', locale('Please enter description'))->rule('required')
+                      ->add('price', locale('Please enter price'))->rule('required')
+                      ->add('delivery', locale('Please enter delivery'))->rule('required');
 
             $valid_type    = 'error';
             $valid_message = '';
@@ -50,15 +50,15 @@ class Item extends Controller {
             if ($valdiator->inValid() === true) {
                 $valid_message = $valdiator->firstError();
             }else if (array_key_exists($category, $this->app_config['item']['category']) === false) {
-                $valid_message = 'Category not exists.';
+                $valid_message = locale('Category not exists');
             }else if (array_key_exists($property, $this->app_config['item']['property']) === false) {
-                $valid_message = 'Property not exists';
+                $valid_message = locale('Property not exists');
             }else if (array_key_exists($delivery, $this->app_config['item']['delivery']) === false) {
-                $valid_message = 'Delivery not exists.';
+                $valid_message = locale('Delivery not exists');
             }else if (array_key_exists($status, $this->app_config['item']['status']['user']) === false) {
-                $valid_message = 'Status not exists.';
+                $valid_message = locale('Status not exists');
             }else if (is_numeric($price) === false) {
-                $valid_message = 'Invalid price format.';
+                $valid_message = locale('Invalid price format');
             }else{
                 $uploaded_infos = Upload::instance([
                     'save_root'    => $this->upload_size_root['525x525'],
@@ -70,7 +70,7 @@ class Item extends Controller {
                         @unlink($upload_info['saved_file']['path']);
                     }
 
-                    $valid_message = 'Please make sure all file formats are image';
+                    $valid_message = locale('Please make sure all file formats are image');
                 }else{
                     $uploaded_paths = Format::toUploadedPaths($uploaded_infos);
 
@@ -99,7 +99,7 @@ class Item extends Controller {
                     }
 
                     $valid_type    = 'success';
-                    $valid_message = 'The new item was created.';
+                    $valid_message = locale('The new item was created');
                 }
             }
 
@@ -133,9 +133,9 @@ class Item extends Controller {
         $valid_message = '';
 
         if (empty($item) === true) {
-            $valid_message = 'Can not found the item';
+            $valid_message = locale('Can not found the item');
         }else if (in_array($item->status, ['trade', 'done', 'block']) === true) {
-            $valid_message = 'Can not delete item when item status in trade or done and block';
+            $valid_message = locale('Can not delete item when item status in trade or done and block');
         }else{
             $item_title  = $item->title;
 
@@ -153,7 +153,7 @@ class Item extends Controller {
             $item->delete();
 
             $valid_type    = 'success';
-            $valid_message = 'Deleted item named '.$item_title;
+            $valid_message = locale('The item was deleted');
         }
 
         $this->slim->flash($valid_type, $valid_message);
@@ -171,9 +171,9 @@ class Item extends Controller {
         $valid_message = '';
 
         if (empty($item) === true) {
-            $valid_message = 'Can not found item';
+            $valid_message = locale('Can not found item');
         }else if (in_array($item->status, ['trade', 'done', 'block']) === true) {
-            $valid_message = 'Can not edit item when item status in trade, done and block';
+            $valid_message = locale('Can not edit item when item status in trade, done and block');
         }
 
         if (empty($valid_message) === false) {
@@ -194,25 +194,25 @@ class Item extends Controller {
             $status      = $this->slim->request->post('status');
 
             $valdiator = Validator::factory($this->slim->request->post());
-            $valdiator->add('title', 'Please enter title')->rule('required')
-                      ->add('category', 'Please enter category')->rule('required')
-                      ->add('property', 'Please enter property')->rule('required')
-                      ->add('description', 'Please enter description')->rule('required')
-                      ->add('price', 'Please enter price')->rule('required')
-                      ->add('delivery', 'Please enter delivery')->rule('required');
+            $valdiator->add('title', locale('Please enter title'))->rule('required')
+                      ->add('category', locale('Please enter category'))->rule('required')
+                      ->add('property', locale('Please enter property'))->rule('required')
+                      ->add('description', locale('Please enter description'))->rule('required')
+                      ->add('price', locale('Please enter price'))->rule('required')
+                      ->add('delivery', locale('Please enter delivery'))->rule('required');
 
             if ($valdiator->inValid() === true) {
                 $valid_message = $valdiator->firstError();
             }else if (array_key_exists($category, $this->app_config['item']['category']) === false) {
-                $valid_message = 'Category not exists.';
+                $valid_message = locale('Category not exists');
             }else if (array_key_exists($property, $this->app_config['item']['property']) === false) {
-                $valid_message = 'Property not exists';
+                $valid_message = locale('Property not exists');
             }else if (array_key_exists($delivery, $this->app_config['item']['delivery']) === false) {
-                $valid_message = 'Delivery not exists.';
+                $valid_message = locale('Delivery not exists');
             }else if (array_key_exists($status, $this->app_config['item']['status']['user']) === false) {
-                $valid_message = 'Status not exists.';
+                $valid_message = locale('Status not exists');
             }else if (is_numeric($price) === false) {
-                $valid_message = 'Invalid price format.';
+                $valid_message = locale('Invalid price format');
             }else{
                 $item->update([
                     'title'       => $title,
@@ -225,7 +225,7 @@ class Item extends Controller {
                 ]);
 
                 $valid_type    = 'success';
-                $valid_message = 'The new item was updated.';
+                $valid_message = locale('The new item was updated');
             }
 
             $this->slim->flash($valid_type, $valid_message);
@@ -242,7 +242,7 @@ class Item extends Controller {
         $item = Models\Item::whereUserId($_SESSION['user']['id'])->with('images')->find($item_id, ['id']);
 
         if (empty($item) === true) {
-            $this->slim->flash('error', 'Can not found item');
+            $this->slim->flash('error', locale('Can not found item'));
             $this->slim->redirect($this->slim->urlFor('user.item.edit.image.upload', ['item_id' => $item_id]));
         }else{
             if ($this->slim->request->isPost() === true) {
@@ -250,7 +250,7 @@ class Item extends Controller {
                 $valid_message = '';
 
                 if ($item->images->count('id') >= $this->upload_max_images) {
-                    $valid_message = 'Only allow upload '.$this->upload_max_images.' images in each item';
+                    $valid_message = locale('Only allow upload %upload_max_images% images in each item', ['upload_max_images' => $this->upload_max_images]);
                 }else{
                     $uploaded_infos = Upload::instance([
                         'save_root'    =>  $this->upload_size_root['525x525'],
@@ -277,7 +277,7 @@ class Item extends Controller {
                             }
 
                             $valid_type    = 'success';
-                            $valid_message = 'New image uploaded';
+                            $valid_message = locale('New image uploaded');
                         }
                     }
                 }
@@ -296,7 +296,7 @@ class Item extends Controller {
         $item = Models\Item::whereUserId($_SESSION['user']['id'])->with('images')->find($item_id, ['id']);
 
         if (empty($item) === true) {
-            $this->slim->flash('error', 'Can not found item');
+            $this->slim->flash('error', locale('Can not found item'));
             $this->slim->redirect($this->slim->urlFor('user.item.manage'));
         }else{
             $this->slim->render('user/item/edit-image-manage.html', [
@@ -314,7 +314,7 @@ class Item extends Controller {
         $valid_return  = 'user.item.manage';
 
         if (empty($item_image) === true) {
-            $valid_message = 'Can not found item image';
+            $valid_message = locale('Can not found item image');
         }else{
             @unlink($this->upload_size_root['120x120'].'/'.$item_image->image);
             @unlink($this->upload_size_root['200x200'].'/'.$item_image->image);
@@ -324,7 +324,7 @@ class Item extends Controller {
             $item_image->delete();
 
             $valid_type    = 'success';
-            $valid_message = 'Image deleted';
+            $valid_message = locale('Image deleted');
             $valid_return  = 'user.item.edit.image.manage';
         }
 
@@ -341,13 +341,13 @@ class Item extends Controller {
         $valid_message = '';
 
         if (empty($item) === true) {
-            $valid_message = 'Can not found item';
+            $valid_message = locale('Can not found item');
         }else{
             $item->trade()->delete();
             $item->update(['status' => 'hide']);
 
             $valid_type    = 'success';
-            $valid_message = 'The trade was cancelled';
+            $valid_message = locale('The trade was cancelled');
         }
 
         $this->slim->flash($valid_type, $valid_message);
@@ -361,13 +361,13 @@ class Item extends Controller {
         $valid_message = '';
 
         if (empty($item) === true) {
-            $valid_message = 'Can not found item';
+            $valid_message = locale('Can not found item');
         }else{
-            $item->trade()->update(['comment' => 'Trade was done by seller']);
+            $item->trade()->update(['comment' => locale('Trade was done by seller')]);
             $item->update(['status' => 'done']);
 
             $valid_type    = 'success';
-            $valid_message = 'The trade was done';
+            $valid_message = locale('The trade was done');
         }
 
         $this->slim->flash($valid_type, $valid_message);

@@ -21,9 +21,9 @@ class Message extends Controller {
             $content  = $this->slim->request->post('content');
 
             $validator = Validator::factory($this->slim->request->post());
-            $validator->add('username', 'Please enter username')->rule('required')
-                      ->add('subject', 'Please enter subject')->rule('required')
-                      ->add('content', 'Please enter content')->rule('required');
+            $validator->add('username', locale('Please enter username'))->rule('required')
+                      ->add('subject', locale('Please enter subject'))->rule('required')
+                      ->add('content', locale('Please enter content'))->rule('required');
 
             $valid_type    = 'error';
             $valid_message = '';
@@ -34,7 +34,7 @@ class Message extends Controller {
                 $user = Models\User::where('username', $username)->first(['id']);
 
                 if (empty($user) === true) {
-                    $valid_message = 'Can not found user';
+                    $valid_message = locale('Can not found user');
                 }else{
                     Models\Message::create([
                         'sender_id'   => $_SESSION['user']['id'],
@@ -45,7 +45,7 @@ class Message extends Controller {
                     ]);
 
                     $valid_type    = 'success';
-                    $valid_message = 'Message sent';
+                    $valid_message = locale('Message sent');
                 }
             }
 
@@ -100,12 +100,12 @@ class Message extends Controller {
         $valid_message = '';
 
         if (empty($message) === true) {
-            $valid_message = 'Can not found message';
+            $valid_message = locale('Can not found message');
         }else{
             $message->delete();
 
-            $valid_type    = 'success';
-            $valid_message = 'Deleted message';
+            $valid_type    = locale('success');
+            $valid_message = locale('Deleted message');
         }
 
         $this->slim->flash($valid_type, $valid_message);
@@ -118,7 +118,7 @@ class Message extends Controller {
         ]);
 
         if (empty($message) === true) {
-            $this->slim->flash('error', 'Can not found message');
+            $this->slim->flash('error', locale('Can not found message'));
             $this->slim->redirect($this->slim->urlFor('message.manage'));
         }else{
             $message->update(['have_read' => 1]);
@@ -136,12 +136,12 @@ class Message extends Controller {
         $valid_message = '';
 
         if (empty($message) === true) {
-            $valid_message = 'Can not found message';
+            $valid_message = locale('Can not found message');
         }else{
             $message->update(['have_read' => 0]);
 
-            $valid_type    = 'success';
-            $valid_message = 'The message was marked as unread';
+            $valid_type    = locale('success');
+            $valid_message = locale('The message was marked as unread');
         }
 
         $this->slim->flash($valid_type, $valid_message);

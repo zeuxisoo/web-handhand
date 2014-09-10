@@ -32,9 +32,9 @@ class Trade extends Controller {
         $valid_message = '';
 
         if (empty($item_trade) === true) {
-            $valid_message = 'Can not found trade record';
+            $valid_message = locale('Can not found trade record');
         }else if (empty($item) === true) {
-            $valid_message = 'Can not found item';
+            $valid_message = locale('Can not found item');
         }else{
             $this->slim->render('trade/rate.html', [
                 'item' => $item
@@ -57,11 +57,11 @@ class Trade extends Controller {
         $valid_message = '';
 
         if (empty($item_trade) === true) {
-            $valid_message = 'Can not found trade record';
+            $valid_message = locale('Can not found trade record');
         }else if (empty($item) === true) {
-            $valid_message = 'Can not found item';
+            $valid_message = locale('Can not found item');
         }else if ($star > 10 || $star < 1) {
-            $valid_message = 'The star value incorrect';
+            $valid_message = locale('The star value incorrect');
         }else{
             $item_trade->update([
                 'star'    => $star,
@@ -70,7 +70,7 @@ class Trade extends Controller {
             $item->update(['status' => 'done']);
 
             $valid_type    = 'success';
-            $valid_message = 'Thank for you rate. This trade already completed';
+            $valid_message = locale('Thank for you rate. This trade already completed');
         }
 
         $this->slim->flash($valid_type, $valid_message);
