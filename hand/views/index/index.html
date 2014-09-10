@@ -6,7 +6,7 @@
         <div class="col-md-3 col-lg-2">
             <div class="well well-sm well-hand">
                 <ul class="nav nav-pills nav-stacked">
-                    <li><a href="{{ urlFor('index.index') }}" data-tab="0" data-tab-param="category">All</a></li>
+                    <li><a href="{{ urlFor('index.index') }}" data-tab="0" data-tab-param="category">{{ locale('All') }}</a></li>
                     {% for key, category in config.item.category %}
                         <li>
                             <a href="{{ urlForExtra('index.index', {}, { category: key }) }}" data-tab="{{ key }}" data-tab-param="category">
@@ -17,7 +17,7 @@
                 </ul>
             </div>
             <div class="well well-sm well-hand">
-                <a href="{{ urlFor('index.index') }}" class="label label-default" data-label="0" data-label-param="property">All</a>
+                <a href="{{ urlFor('index.index') }}" class="label label-default" data-label="0" data-label-param="property">{{ locale('All') }}</a>
                 {% for key, property in config.item.property %}
                     <a href="{{ urlForExtra('index.index', {}, { property: key }) }}" class="label label-default"  data-label="{{ key }}" data-label-param="property">{{ property }}</a>
                 {% endfor %}
@@ -39,7 +39,7 @@
                         </div>
                     {% else %}
                         <div class="col-md-12">
-                            <div class="alert alert-info" role="alert">No item in this list.</div>
+                            <div class="alert alert-info" role="alert">{{ locale('No item in this list') }}</div>
                         </div>
                     {% endfor %}
 

@@ -15,43 +15,43 @@
                     <hr class="hr-md">
                     <div>
                         <p class="visible-lg-block">
-                            <span class="label label-danger">Star</span>
+                            <span class="label label-danger">{{ locale('Star') }}</span>
                             <span class="badge badge-danger">{{ item.trade.star }}</span>
-                            <span class="label label-primary">Trader</span>
+                            <span class="label label-primary">{{ locale('Trader') }}</span>
                             <a href="{{ urlFor('user.profile', { username: item.trade.user.username }) }}">{{ item.trade.user.username }}</a>
-                            <span class="label label-primary">Price</span>
+                            <span class="label label-primary">{{ locale('Price') }}</span>
                             <span class="text-danger">{{ item.price | number_format(2, '.', ',') }}</span>
-                            <span class="label label-info">Category</span>
+                            <span class="label label-info">{{ locale('Category') }}</span>
                             <span class="text-muted">{{ config.item.category[item.category] }}</span>
-                            <span class="label label-info">Property</span>
+                            <span class="label label-info">{{ locale('Property') }}</span>
                             <span class="text-muted">{{ config.item.property[item.property] }}</span>
-                            <span class="label label-info">Trade At</span>
+                            <span class="label label-info">{{ locale('Trade At') }}</span>
                             <span class="text-muted">{{ item.trade.created_at }}</span>
                         </p>
 
                         <div class="row hidden-lg">
                             <div class="col-md-12">
-                                <span class="label label-danger">Star</span>
+                                <span class="label label-danger">{{ locale('Star') }}</span>
                                 <span class="badge badge-danger">{{ item.trade.star }}</span>
                             </div>
                             <div class="col-md-12">
-                                <span class="label label-primary">Trader</span>
+                                <span class="label label-primary">{{ locale('Trader') }}</span>
                                 <a href="{{ urlFor('user.profile', { username: item.trade.user.username }) }}">{{ item.trade.user.username }}</a>
                             </div>
                             <div class="col-md-12">
-                                <span class="label label-primary">Price</span>
+                                <span class="label label-primary">{{ locale('Price') }}</span>
                                 <span class="text-danger">{{ item.price | number_format(2, '.', ',') }}</span>
                             </div>
                             <div class="col-md-12">
-                                <span class="label label-info">Category</span>
+                                <span class="label label-info">{{ locale('Category') }}</span>
                                 <span class="text-muted">{{ config.item.category[item.category] }}</span>
                             </div>
                             <div class="col-md-12">
-                                <span class="label label-info">Property</span>
+                                <span class="label label-info">{{ locale('Property') }}</span>
                                 <span class="text-muted">{{ config.item.property[item.property] }}</span>
                             </div>
                             <div class="col-md-12">
-                                <h6>Trade At</h6>
+                                <h6>{{ locale('Trade At') }}</h6>
                                 <hr class="hr-md">
                                 <small class="text-muted">{{ item.trade.created_at }}</small>
                             </div>
@@ -67,7 +67,7 @@
         </div>
     {% else %}
         <div class="col-md-12">
-            <div class="alert alert-info" role="alert">No item in this list.</div>
+            <div class="alert alert-info" role="alert">{{ locale('No item in this list') }}</div>
         </div>
     {% endfor %}
 </div>

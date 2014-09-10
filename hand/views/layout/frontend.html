@@ -35,39 +35,47 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{{ urlFor('index.index') }}">Hand</a>
+            <a class="navbar-brand" href="{{ urlFor('index.index') }}">{{ locale('Hand') }}</a>
         </div>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav">
-                <li><a href="{{ urlFor('index.index') }}">Home</a></li>
-                <li><a href="{{ urlFor('search.index') }}">Search</a></li>
+                <li><a href="{{ urlFor('index.index') }}">{{ locale('Home') }}</a></li>
+                <li><a href="{{ urlFor('search.index') }}">{{ locale('Search') }}</a></li>
                 {% if session.user is not empty %}
-                    <li><a href="{{ urlFor('trade.index') }}">Trade</a></li>
-                    <li><a href="{{ urlFor('bookmark.index') }}">Bookmark</a></li>
-                    <li><a href="{{ urlFor('message.manage') }}" data-badge="{{ urlFor('message.unread_number') }}">Message</a></li>
+                    <li><a href="{{ urlFor('trade.index') }}">{{ locale('Trade') }}</a></li>
+                    <li><a href="{{ urlFor('bookmark.index') }}">{{ locale('Bookmark') }}</a></li>
+                    <li>
+                        <a href="{{ urlFor('message.manage') }}" data-badge="{{ urlFor('message.unread_number') }}">
+                            {{ locale('Message') }}
+                        </a>
+                    </li>
                 {% endif %}
             </ul>
             <ul class="nav navbar-nav pull-right">
                 {% if session.user is empty %}
-                    <li><a href="{{ urlFor('index.signup') }}">Sign up</a></li>
-                    <li><a href="{{ urlFor('index.signin') }}">Sign in</a></li>
+                    <li><a href="{{ urlFor('index.signup') }}">{{ locale('Sign up') }}</a></li>
+                    <li><a href="{{ urlFor('index.signin') }}">{{ locale('Sign in') }}</a></li>
                 {% else %}
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Item <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{ urlFor('user.item.create') }}">Create Items</a></li>
-                            <li><a href="{{ urlFor('user.item.manage') }}">Manage Items</a></li>
+                            <li><a href="{{ urlFor('user.item.create') }}">{{ locale('Create Items') }}</a></li>
+                            <li><a href="{{ urlFor('user.item.manage') }}">{{ locale('Manage Items') }}</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ session.user.username }} <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{ urlFor('user.profile', { username: session.user.username }) }}">Profile</a></li>
-                            <li><a href="{{ urlFor('user.account') }}">Account</a></li>
-                            <li><a href="{{ urlFor('user.password') }}">Password</a></li>
-                            <li><a href="{{ urlFor('user.settings') }}">Settings</a></li>
+                            <li>
+                                <a href="{{ urlFor('user.profile', { username: session.user.username }) }}">
+                                    {{ locale('Profile') }}
+                                </a>
+                            </li>
+                            <li><a href="{{ urlFor('user.account') }}">{{ locale('Account') }}</a></li>
+                            <li><a href="{{ urlFor('user.password') }}">{{ locale('Password') }}</a></li>
+                            <li><a href="{{ urlFor('user.settings') }}">{{ locale('Settings') }}</a></li>
                             <li class="divider"></li>
-                            <li><a href="{{ urlFor('index.signout') }}">Logout</a></li>
+                            <li><a href="{{ urlFor('index.signout') }}">{{ locale('Logout') }}</a></li>
                         </ul>
                     </li>
                 {% endif %}
@@ -85,7 +93,7 @@
     <div class="container">
         <hr>
         <p>
-            <span class="pull-left">&copy; HandHand 2014</span>
+            <span class="pull-left">&copy; {{ locale('HandHand') }} 2014</span>
             <span class="pull-right">&nbsp;</span>
         </p>
     </div>

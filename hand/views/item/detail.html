@@ -32,18 +32,18 @@
                     {% if item_bookmarked %}
                         <a class="btn btn-default btn-danger" href="{{ urlFor('item.bookmark.delete', { item_id: item.id }) }}">Bookmarked</a>
                     {% else %}
-                        <a class="btn btn-default" href="{{ urlFor('item.bookmark.create', { item_id: item.id }) }}">Bookmark</a>
+                        <a class="btn btn-default" href="{{ urlFor('item.bookmark.create', { item_id: item.id }) }}">{{ locale('Bookmark') }}</a>
                     {% endif %}
 
                     {% if item.status == 'publish' %}
                         <a class="btn btn-default btn-primary" href="{{ urlFor('item.trade', { item_id: item.id }) }}" trade="trade">
-                            Trade
+                            {{ locale('Trade') }}
                         </a>
                     {% endif %}
 
                     {% if isAdmin() %}
                         <a class="btn btn-default btn-warning" href="{{ urlFor('item.block', { item_id: item.id }) }}" trade="trade">
-                            Block
+                            {{ locale('Block') }}
                         </a>
                     {% endif %}
                 </div>
@@ -60,33 +60,33 @@
             <div class="panel panel-default panel-item-detail-height">
                 <div class="panel-body">
                     <p class="row">
-                        <div class="col-md-3 text-info"><strong>Seller</strong></div>
+                        <div class="col-md-3 text-info"><strong>{{ locale('Seller') }}</strong></div>
                         <div class="col-md-9">
                             <a href="{{ urlFor('user.profile', { username: item.user.username }) }}">{{ item.user.username }}</a>
                         </div>
                     </p>
                     <p class="row">
-                        <div class="col-md-3 text-info"><strong>Status</strong></div>
+                        <div class="col-md-3 text-info"><strong>{{ locale('Status') }}</strong></div>
                         <div class="col-md-9 text-success"><strong>{{ config.item.status.admin[item.status] }}</strong></div>
                     </p>
                     <p class="row">
-                        <div class="col-md-3 text-info"><strong>Category</strong></div>
+                        <div class="col-md-3 text-info"><strong>{{ locale('Category') }}</strong></div>
                         <div class="col-md-9">{{ config.item.category[item.category] }}</div>
                     </p>
                     <p class="row">
-                        <div class="col-md-3 text-info"><strong>Property</strong></div>
+                        <div class="col-md-3 text-info"><strong>{{ locale('Property') }}</strong></div>
                         <div class="col-md-9">{{ config.item.property[item.property] }}</div>
                     </p>
                     <p class="row">
-                        <div class="col-md-3 text-info"><strong>Price</strong></div>
+                        <div class="col-md-3 text-info"><strong>{{ locale('Price') }}</strong></div>
                         <div class="col-md-9 text-danger"><strong>{{ item.price | number_format(2, '.', ',') }}</strong></div>
                     </p>
                     <p class="row">
-                        <div class="col-md-3 text-info"><strong>Delivery</strong></div>
+                        <div class="col-md-3 text-info"><strong>{{ locale('Delivery') }}</strong></div>
                         <div class="col-md-9">{{ config.item.delivery[item.delivery] }}</div>
                     </p>
                     <p class="row">
-                        <div class="col-md-3 text-info"><strong>Description</strong></div>
+                        <div class="col-md-3 text-info"><strong>{{ locale('Description') }}</strong></div>
                         <div class="col-md-9">{{ item.description | cutString(450) | nl2br }}</div>
                     </p>
                 </div>
@@ -97,11 +97,11 @@
         <div class="container">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    {{ item_comments | length }} comments
+                    {{ item_comments | length }} {{ locale('comments') }}
                 </div>
                 <div class="panel-body">
                     {% if item_comments | length <= 0 %}
-                        <div class="alert alert-info alert-comment-zero">No comments yet.</div>
+                        <div class="alert alert-info alert-comment-zero">{{ locale('No comments yet') }}</div>
                     {% else %}
                         {% for item_comment in item_comments %}
                             {% if loop.index > 1 %}
@@ -140,13 +140,13 @@
                             <textarea class="form-control" rows="3" name="content" required="required"></textarea>
                         </div>
                         <div class="form-submit text-right">
-                            <button class="btn btn-success">Leave a Comment</button>
+                            <button class="btn btn-success">{{ locale('Leave a Comment') }}</button>
                         </div>
                     </form>
                 {% else %}
                     <div class="panel-body">
-                        <div class="alert alert-info">Login is required</div>
-                        <a href="{{ urlFor('index.signin') }}" class="btn btn-success">Sign In</a>
+                        <div class="alert alert-info">{{ locale('Login is required') }}</div>
+                        <a href="{{ urlFor('index.signin') }}" class="btn btn-success">{{ locale('Sign In') }}</a>
                     </div>
                 {% endif %}
             </div>

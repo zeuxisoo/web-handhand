@@ -6,17 +6,17 @@
     <form method="post" action="{{ urlFor('user.account') }}">
         <input type="hidden" name="{{ csrf_key }}" value="{{ csrf_token }}">
         <div class="form-group">
-            <label for="username">Username</label>
+            <label for="username">{{ locale('Username') }}</label>
             <input type="username" class="form-control" name="username" id="username">
-            <span class="help-block"><strong>Current</strong>: {{ session.user.username }}</span>
+            <span class="help-block"><strong>{{ locale('Current') }}</strong>: {{ session.user.username }}</span>
         </div>
         <div class="form-group">
-            <label for="email">Email</label>
+            <label for="email">{{ locale('Email') }}</label>
             <input type="email" class="form-control" name="email" id="email">
-            <span class="help-block"><strong>Current</strong>: {{ session.user.email }}</span>
+            <span class="help-block"><strong>{{ locale('Current') }}</strong>: {{ session.user.email }}</span>
         </div>
-        <p class="text-danger">* When action completed, You need sign in again.</p>
-        <button type="submit" class="btn btn-default">Submit</button>
+        <p class="text-danger">{{ locale('* When action completed, You need sign in again') }}</p>
+        <button type="submit" class="btn btn-default">{{ locale('Submit') }}</button>
     </form>
 </fieldset>
 {% endblock %}

@@ -5,14 +5,14 @@
     <form method="post" class="form-horizontal" action="{{ urlFor('user.item.edit.image.upload', { item_id: item.id }) }}" enctype="multipart/form-data">
         <input type="hidden" name="{{ csrf_key }}" value="{{ csrf_token }}">
         <div class="form-group">
-            <label class="col-sm-2 control-label" for="delivery">Image</label>
+            <label class="col-sm-2 control-label" for="delivery">{{ locale('Image') }}</label>
             <div class="col-sm-10">
                 <input type="file" name="images[]" class="file-input" title="Choose file to upload" accept="image/gif, image/jpeg, image/png">
             </div>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-default">Submit</button>
+                <button type="submit" class="btn btn-default">{{ locale('Submit') }}</button>
             </div>
         </div>
     </form>

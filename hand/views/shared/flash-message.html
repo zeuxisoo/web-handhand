@@ -1,10 +1,10 @@
 {% if flash.error %}
     <div class="alert alert-danger">
-        <strong>Error!</strong> {{ flash.error }}
+        <strong>{{ locale('Error!') }}</strong> {{ flash.error }}
     </div>
 {% endif %}
 {% if flash.success %}
     <div class="alert alert-success">
-        <strong>Success!</strong> {{ flash.success }}
+        <strong>{{ locale('Success!') }}</strong> {{ flash.success }}
     </div>
 {% endif %}

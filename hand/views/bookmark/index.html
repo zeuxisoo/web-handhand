@@ -4,7 +4,7 @@
 <div class="bookmark">
     <div class="panel panel-default">
         <div class="panel-body">
-            <p class="lead">Bookmark</p>
+            <p class="lead">{{ locale('Bookmark') }}</p>
             <hr>
             <div class="row">
                 {% for bookmark in bookmarks %}
@@ -20,7 +20,7 @@
                     </div>
                 {% else %}
                     <div class="col-md-12">
-                        <div class="alert alert-info" role="alert">No item on the list.</div>
+                        <div class="alert alert-info" role="alert">{{ locale('No item on the list') }}</div>
                     </div>
                 {% endfor %}
             </div>

@@ -17,17 +17,19 @@
                         <div class="media-body">
                             <h2 class="media-heading">{{ user.username }}</h2>
                             {% if user.status == 'banned' %}
-                                <div class="alert alert-warning">The user was banned</div>
+                                <div class="alert alert-warning">{{ locale('The user was banned') }}</div>
                             {% else %}
                                 <small>
                                     <span class="glyphicon glyphicon-envelope"></span>
                                     <a href="{{ urlForExtra('message.create', {}, { username: user.username }) }}" class="text-muted">
-                                        Message
+                                        {{ locale('Message') }}
                                     </a>
                                     {% if isAdmin() %}
                                         &nbsp;-&nbsp;
                                         <span class="glyphicon glyphicon-ban-circle text-danger"></span>
-                                        <a href="{{ urlFor('user.ban', { username: user.username }) }}" class="text-danger">Ban</a>
+                                        <a href="{{ urlFor('user.ban', { username: user.username }) }}" class="text-danger">
+                                            {{ locale('Ban') }}
+                                        </a>
                                     {% endif %}
                                 </small>
                             {% endif %}
@@ -51,7 +53,8 @@
                         </div>
                     </div>
                     <div class="col-xs-12 col-md-12 text-center col-join-at">
-                        <span class="text-info">Join at</span>: <span class="text-muted">{{ user.created_at }}</span>
+                        <span class="text-info">{{ locale('Join at') }}</span>:
+                        <span class="text-muted">{{ user.created_at }}</span>
                     </div>
                 </div>
             </div>
@@ -65,17 +68,17 @@
                     <ul class="nav nav-pills" role="tablist">
                         <li>
                             <a href="{{ urlForExtra('user.profile', { username: user.username }, { tab: 'publish' }) }}" data-tab="publish" data-tab-param="tab">
-                                Publishs
+                                {{ locale('Publishs') }}
                             </a>
                         </li>
                         <li>
                             <a href="{{ urlForExtra('user.profile', { username: user.username }, { tab: 'bookmark' }) }}" data-tab="bookmark" data-tab-param="tab">
-                                Bookmarks
+                                {{ locale('Bookmarks') }}
                             </a>
                         </li>
                         <li>
                             <a href="{{ urlForExtra('user.profile', { username: user.username }, { tab: 'rate' }) }}" data-tab="rate" data-tab-param="tab">
-                                Rates
+                                {{ locale('Rates') }}
                             </a>
                         </li>
                     </ul>

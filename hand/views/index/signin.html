@@ -9,29 +9,29 @@
             <form method="post" action="{{ urlFor('index.signin') }}">
                 <input type="hidden" name="{{ csrf_key }}" value="{{ csrf_token }}">
                 <div class="form-group">
-                    <label for="account">Account</label>
-                    <input type="account" class="form-control" name="account" id="account" placeholder="Email / Username" required="required">
+                    <label for="account">{{ locale('Account') }}</label>
+                    <input type="account" class="form-control" name="account" id="account" placeholder="{{ locale('Email / Username') }}" required="required">
                 </div>
                 <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" class="form-control" name="password" id="password" placeholder="Please enter password" required="required">
+                    <label for="password">{{ locale('Password') }}</label>
+                    <input type="password" class="form-control" name="password" id="password" placeholder="{{ locale('Please enter password') }}" required="required">
                 </div>
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" name="remember" id="remember" value="y"> Remember
+                        <input type="checkbox" name="remember" id="remember" value="y"> {{ locale('Remember') }}
                     </label>
                 </div>
-                <button type="submit" class="btn btn-default">Submit</button>
+                <button type="submit" class="btn btn-default">{{ locale('Submit') }}</button>
             </form>
         </div>
     </div>
     <div class="panel panel-default">
         <div class="panel-body">
-            <p class="lead">Or Sign in with</p>
+            <p class="lead">{{ locale('Or Sign in with') }}</p>
             <hr>
             {% if config.oauth.providers.Facebook.enabled %}
                 <a class="btn btn-social btn-facebook" href="{{ urlFor('oauth.connect', { provider_name: 'facebook' }) }}">
-                    <i class="fa fa-facebook"></i> Sign in with Facebook
+                    <i class="fa fa-facebook"></i> {{ locale('Sign in with Facebook') }}
                 </a>
             {% endif %}
         </div>

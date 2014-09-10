@@ -4,26 +4,26 @@
 <div class="search-index">
     <div class="panel panel-default">
         <div class="panel-body">
-            <p class="lead">Search results</p>
+            <p class="lead">{{ locale('Search results') }}</p>
             <hr>
             <div class="alert alert-info" role="alert">
                 <div class="visible-lg-block">
-                    <strong>Results</strong>: <span class="text-muted">{{ total }}</span>
+                    <strong>{{ locale('Results') }}</strong>: <span class="text-muted">{{ total }}</span>
                     &nbsp;-&nbsp;
-                    <strong>Keyword</strong>: <span class="text-muted">{{ keyword }}</span>
+                    <strong>{{ locale('Keyword') }}</strong>: <span class="text-muted">{{ keyword }}</span>
                     &nbsp;-&nbsp;
-                    <strong>Category</strong>: <span class="text-muted">{{ category_name }}</span>
+                    <strong>{{ locale('Category') }}</strong>: <span class="text-muted">{{ category_name }}</span>
                 </div>
 
                 <div class="row hidden-lg">
                     <div class="col-md-4">
-                        <strong>Results</strong>: <span class="text-muted">{{ total }}</span>
+                        <strong>{{ locale('Results') }}</strong>: <span class="text-muted">{{ total }}</span>
                     </div>
                     <div class="col-md-4">
-                        <strong>Keyword</strong>: <span class="text-muted">{{ keyword }}</span>
+                        <strong>{{ locale('Keyword') }}</strong>: <span class="text-muted">{{ keyword }}</span>
                     </div>
                     <div class="col-md-4">
-                        <strong>Category</strong>: <span class="text-muted">{{ category_name }}</span>
+                        <strong>{{ locale('Category') }}</strong>: <span class="text-muted">{{ category_name }}</span>
                     </div>
                 </div>
             </div>
@@ -43,38 +43,38 @@
                         <hr>
                         <div>
                             <p class="visible-lg-block">
-                                <span class="label label-primary">Seller</span>
+                                <span class="label label-primary">{{ locale('Seller') }}</span>
                                 <a href="{{ urlFor('user.profile', { username: username }) }}">{{ item.user.username }}</a>
-                                <span class="label label-primary">Price</span>
+                                <span class="label label-primary">{{ locale('Price') }}</span>
                                 <span class="text-danger">{{ item.price | number_format(2, '.', ',') }}</span>
-                                <span class="label label-info">Category</span>
+                                <span class="label label-info">{{ locale('Category') }}</span>
                                 <span class="text-muted">{{ config.item.category[item.category] }}</span>
-                                <span class="label label-info">Property</span>
+                                <span class="label label-info">{{ locale('Property') }}</span>
                                 <span class="text-muted">{{ config.item.property[item.property] }}</span>
                             </p>
                             <p class="visible-lg-block">
-                                <small class="text-muted">Post at {{ item.created_at }}</small>
+                                <small class="text-muted">{{ locale('Post at') }} {{ item.created_at }}</small>
                             </p>
 
                             <div class="row hidden-lg">
                                 <div class="col-md-12">
-                                    <span class="label label-primary">Seller</span>
+                                    <span class="label label-primary">{{ locale('Seller') }}</span>
                                     <a href="{{ urlFor('user.profile', { username: username }) }}">{{ item.user.username }}</a>
                                 </div>
                                 <div class="col-md-12">
-                                    <span class="label label-primary">Price</span>
+                                    <span class="label label-primary">{{ locale('Price') }}</span>
                                     <span class="text-danger">{{ item.price | number_format(2, '.', ',') }}</span>
                                 </div>
                                 <div class="col-md-12">
-                                    <span class="label label-info">Category</span>
+                                    <span class="label label-info">{{ locale('Category') }}</span>
                                     <span class="text-muted">{{ config.item.category[item.category] }}</span>
                                 </div>
                                 <div class="col-md-12">
-                                    <span class="label label-info">Property</span>
+                                    <span class="label label-info">{{ locale('Property') }}</span>
                                     <span class="text-muted">{{ config.item.property[item.property] }}</span>
                                 </div>
                                 <div class="col-md-12">
-                                    <h6>Post at</h6>
+                                    <h6>{{ locale('Post at') }}</h6>
                                     <hr class="hr-md">
                                     <small class="text-muted">{{ item.created_at }}</small>
                                 </div>

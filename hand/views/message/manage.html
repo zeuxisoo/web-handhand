@@ -6,10 +6,10 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>Subject</th>
-                    <th>Sender</th>
-                    <th>Time</th>
-                    <th>Action</th>
+                    <th>{{ locale('Subject') }}</th>
+                    <th>{{ locale('Sender') }}</th>
+                    <th>{{ locale('Time') }}</th>
+                    <th>{{ locale('Action') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -31,7 +31,7 @@
                     </td>
                     <td>
                         {% if message.category == 'system' %}
-                            <small class="text-danger">System</small>
+                            <small class="text-danger">{{ locale('System') }}</small>
                         {% else %}
                             <a href="{{ urlFor('user.profile', { username: message.sender.username }) }}">
                                 {{ message.sender.username }}
@@ -41,7 +41,7 @@
                     <td>{{ message.created_at.diffForHumans() }}</td>
                     <td>
                         <a href="{{ urlFor('message.detail', { message_id: message.id }) }}" class="btn btn-info btn-xs">
-                            Read
+                            {{ locale('Read') }}
                         </a>
                         <a href="{{ urlFor('message.delete', { message_id: message.id }) }}" class="btn btn-danger btn-xs" delete="delete">
                             <span class="glyphicon glyphicon-trash"></span>

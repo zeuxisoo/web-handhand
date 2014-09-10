@@ -4,23 +4,23 @@
 <div id="user-item-manage">
     <div class="panel panel-default">
         <div class="panel-body">
-            <p class="lead">Manage Item</p>
+            <p class="lead">{{ locale('Manage Item') }}</p>
             <hr>
             <ul class="nav nav-pills nav-justified">
                 <li>
-                    <a href="{{ urlForExtra('user.item.manage', {}, { status: 'hide' }) }}" data-tab="hide" data-tab-param="status">Hide</a>
+                    <a href="{{ urlForExtra('user.item.manage', {}, { status: 'hide' }) }}" data-tab="hide" data-tab-param="status">{{ locale('Hide') }}</a>
                 </li>
                 <li>
-                    <a href="{{ urlForExtra('user.item.manage', {}, { status: 'publish' }) }}" data-tab="publish" data-tab-param="status">Publish</a>
+                    <a href="{{ urlForExtra('user.item.manage', {}, { status: 'publish' }) }}" data-tab="publish" data-tab-param="status">{{ locale('Publish') }}</a>
                 </li>
                 <li>
-                    <a href="{{ urlForExtra('user.item.manage', {}, { status: 'trade' }) }}" data-tab="trade" data-tab-param="status">Trade</a>
+                    <a href="{{ urlForExtra('user.item.manage', {}, { status: 'trade' }) }}" data-tab="trade" data-tab-param="status">{{ locale('Trade') }}</a>
                 </li>
                 <li>
-                    <a href="{{ urlForExtra('user.item.manage', {}, { status: 'done' }) }}" data-tab="done" data-tab-param="status">Done</a>
+                    <a href="{{ urlForExtra('user.item.manage', {}, { status: 'done' }) }}" data-tab="done" data-tab-param="status">{{ locale('Done') }}</a>
                 </li>
                 <li>
-                    <a href="{{ urlForExtra('user.item.manage', {}, { status: 'block' }) }}" data-tab="block" data-tab-param="status">Block</a>
+                    <a href="{{ urlForExtra('user.item.manage', {}, { status: 'block' }) }}" data-tab="block" data-tab-param="status">{{ locale('Block') }}</a>
                 </li>
             </ul>
             <br>
@@ -35,14 +35,14 @@
                             </div>
                             <div class="panel-footer text-center">
                                 {% if item.status == "hide" or item.status == "publish" %}
-                                    <a href="{{ urlFor('user.item.edit.detail', { item_id: item.id }) }}" class="btn btn-xs btn-info">Modify</a>
+                                    <a href="{{ urlFor('user.item.edit.detail', { item_id: item.id }) }}" class="btn btn-xs btn-info">{{ locale('Modify') }}</a>
                                     <a href="{{ urlFor('user.item.delete', { item_id: item.id }) }}" class="btn btn-xs btn-danger" delete="delete">
-                                        <span class="glyphicon glyphicon-trash"></span> Delete
+                                        <span class="glyphicon glyphicon-trash"></span> {{ locale('Delete') }}
                                     </a>
                                 {% endif %}
                                 {% if item.status == "trade" %}
-                                    <a href="{{ urlFor('user.item.trade.cancel', { item_id: item.id }) }}" class="btn btn-xs btn-danger">Cancel</a>
-                                    <a href="{{ urlFor('user.item.trade.done', { item_id: item.id }) }}" class="btn btn-xs btn-danger">Done</a>
+                                    <a href="{{ urlFor('user.item.trade.cancel', { item_id: item.id }) }}" class="btn btn-xs btn-danger">{{ locale('Cancel') }}</a>
+                                    <a href="{{ urlFor('user.item.trade.done', { item_id: item.id }) }}" class="btn btn-xs btn-danger">{{ locale('Done') }}</a>
                                 {% endif %}
                                 {% if item.status == "done" or item.status == "block" %}
                                     {{ item.title }}
@@ -52,7 +52,7 @@
                     </div>
                 {% else %}
                     <div class="col-md-12">
-                        <div class="alert alert-info" role="alert">No item in this list.</div>
+                        <div class="alert alert-info" role="alert">{{ locale('No item in this list') }}</div>
                     </div>
                 {% endfor %}
             </div>
