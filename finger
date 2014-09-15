@@ -2,6 +2,8 @@
 require_once dirname(__FILE__).'/vendor/autoload.php';
 
 use Symfony\Component\Console\Application;
+use Hand\Commands\Locale\Update as LocaleUpdate;
 
 $console = new Application('2Hand Console', 'v0.1.0');
+$console->add(new LocaleUpdate);
 $console->run();
