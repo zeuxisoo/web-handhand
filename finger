@@ -1,9 +1,24 @@
 <?php
-require_once dirname(__FILE__).'/vendor/autoload.php';
+date_default_timezone_set('Asia/Hong_Kong');
 
-use Symfony\Component\Console\Application;
+define('WWW_ROOT',    dirname(__FILE__));
+define('APP_ROOT',    WWW_ROOT.'/hand');
+define('CONFIG_ROOT', WWW_ROOT.'/config');
+define('VENDOR_ROOT', WWW_ROOT.'/vendor');
+define('DATA_ROOT',   WWW_ROOT.'/data');
+define('PUBLIC_ROOT', WWW_ROOT.'/public');
+define('STATIC_ROOT', PUBLIC_ROOT.'/static');
+
+require VENDOR_ROOT.'/autoload.php';
+require APP_ROOT.'/app.php';
+
+use Symfony\Component\Console\Application as ConsoleApplication;
+use Hand\App as HandApplication;
 use Hand\Commands\Locale\Update as LocaleUpdate;
 
-$console = new Application('2Hand Console', 'v0.1.0');
+$app = new HandApplication(CONFIG_ROOT.'/default.php');
+$db  = $app->registerAutoload();
+
+$console = new ConsoleApplication('2Hand Console', 'v0.1.0');
 $console->add(new LocaleUpdate);
 $console->run();
