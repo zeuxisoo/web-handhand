@@ -14,11 +14,13 @@ require APP_ROOT.'/app.php';
 
 use Symfony\Component\Console\Application as ConsoleApplication;
 use Hand\App as HandApplication;
+use Hand\Commands\Locale\Create as LocaleCreate;
 use Hand\Commands\Locale\Update as LocaleUpdate;
 
 $app = new HandApplication(CONFIG_ROOT.'/default.php');
 $app->registerAutoload();
 
 $console = new ConsoleApplication('2Hand Console', 'v0.1.0');
+$console->add(new LocaleCreate);
 $console->add(new LocaleUpdate);
 $console->run();
