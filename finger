@@ -17,6 +17,7 @@ use Hand\App as HandApplication;
 use Hand\Commands\Locale\Create as LocaleCreate;
 use Hand\Commands\Locale\Remove as LocaleRemove;
 use Hand\Commands\Locale\Update as LocaleUpdate;
+use Hand\Commands\Locale\Clear as LocaleClear;
 
 $app = new HandApplication(CONFIG_ROOT.'/default.php');
 $app->registerAutoload();
@@ -25,4 +26,5 @@ $console = new ConsoleApplication('2Hand Console', 'v0.1.0');
 $console->add(new LocaleCreate);
 $console->add(new LocaleRemove);
 $console->add(new LocaleUpdate);
+$console->add(new LocaleClear);
 $console->run();
