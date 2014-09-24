@@ -5,18 +5,47 @@ use Hand\Abstracts\Command;
 
 class Clear extends Command {
 
-    public function __construct($locale_path) {
-        $this->locale_path  = $locale_path;
+    public function __construct($locale_path, $locale_name) {
+        $this->locale_name = $locale_name;
+
+        if (empty($locale_name) == false) {
+            $this->locale_path = $locale_path.DIRECTORY_SEPARATOR.$locale_name;
+        }else{
+            $this->locale_path = $locale_path;
+        }
     }
 
     public function execute() {
-        $status = $this->deleteDirectory($this->locale_path);
+        if (empty($this->locale_name) === true) {
+            $this->newline();
 
-        if ($status === false) {
-            $this->fail('==> Failed, not found locale directory');
-        }else{
-            $this->createEmptyDriectory($this->locale_path);
+            foreach (scandir($this->locale_path) as $locale) {
+                if (in_array($locale , array("." , ".." )) === false) {
+                    $folder = $this->locale_path.$locale;
+
+                    if (is_dir($folder) === true) {
+                        $status = $this->deleteDirectory($folder);
+
+                        if ($status === false) {
+                            $this->fail('==> Failed, not found locale directory ('.$folder.')');
+                        }else{
+                            $this->createEmptyDriectory($folder);
+                            $this->message('==> locale ('.$locale.') cleanned');
+                        }
+                    }
+                }
+            }
+
             $this->success('==> Success, locale cleanned');
+        }else{
+            $status = $this->deleteDirectory($this->locale_path);
+
+            if ($status === false) {
+                $this->fail('==> Failed, not found locale directory');
+            }else{
+                $this->createEmptyDriectory($this->locale_path);
+                $this->success('==> Success, locale cleanned');
+            }
         }
     }
 

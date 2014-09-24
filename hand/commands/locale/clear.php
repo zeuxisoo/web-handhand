@@ -12,20 +12,26 @@ class Clear extends Command {
 
     protected function configure() {
         $this->setName('locale:clear')
-             ->setDescription('Clear message file in locale directory')
+             ->setDescription('Clear message in all/specified locale directory')
              ->setAliases(['localeclear'])
-             ->addArgument('locale_name', InputArgument::REQUIRED)
+             ->addArgument('locale_name', InputArgument::OPTIONAL)
              ->addOption('--locale_path', 'nn', InputOption::VALUE_REQUIRED);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) {
-        $locale_name = $input->getArgument('locale_name');
+        $locale_name = $input->getArgument('locale_name') ?: '';
         $locale_path = $input->getOption('locale_path') ?: WWW_ROOT.DIRECTORY_SEPARATOR.'locale';
 
-        $output->writeln(sprintf('Your locale name is <info>%s</info>', $locale_name));
-        $output->writeln(sprintf('Your locale path is <info>%s</info>', $locale_path));
+        if (empty($locale_name) === true) {
+            $output->writeln('Action: <info>clear all locale directory</info>');
+        }else{
+            $output->writeln('Action: <info>clear locale directory</info>');
+            $output->writeln('');
+            $output->writeln(sprintf('Your locale name is <info>%s</info>', $locale_name));
+            $output->writeln(sprintf('Your locale path is <info>%s</info>', $locale_path));
+        }
 
-        $clear_action = new ClearAction($locale_path.DIRECTORY_SEPARATOR.$locale_name);
+        $clear_action = new ClearAction($locale_path.DIRECTORY_SEPARATOR, $locale_name);
         $clear_action->setOutput($output);
         $clear_action->execute();
     }
