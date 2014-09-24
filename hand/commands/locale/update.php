@@ -6,25 +6,26 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Formatter\OutputFormatterStyle;
+use Hand\Commands\Locale\Action\Update as UpdateAction;
 
 class Update extends Command {
 
     protected function configure() {
         $this->setName('locale:update')
              ->setDescription('Update all locale files')
-             ->setAliases(['update-locale'])
-             ->addArgument('locale_name', InputArgument::REQUIRED)
+             ->setAliases(['localeupdate'])
              ->addOption('--locale_path', 'nn', InputOption::VALUE_REQUIRED);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) {
-        $locale_name = $input->getArgument('locale_name');
-        $locale_path   = $input->getOption('locale_path') ?: dirname(dirname(dirname(__DIR__))).DIRECTORY_SEPARATOR.'locale';
+        $locale_path = $input->getOption('locale_path') ?: WWW_ROOT.DIRECTORY_SEPARATOR.'locale';
 
-        $output->writeln(sprintf('Your locale name is <info>%s</info>', $locale_name));
         $output->writeln(sprintf('Your locale path is <info>%s</info>', $locale_path));
 
-        // TODO: extract all strings into locale files when find pattern /locale(string)/ in view and php
+        $update_action = new UpdateAction([APP_ROOT.'/controllers', APP_ROOT.'/views'], $locale_path);
+        $update_action->setOutput($output);
+        $update_action->execute();
     }
 
 }
