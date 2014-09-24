@@ -12,7 +12,7 @@ class Remove extends Command {
 
     protected function configure() {
         $this->setName('locale:remove')
-             ->setDescription('Remove locale files')
+             ->setDescription('Remove message file in locale directory')
              ->setAliases(['localeremove'])
              ->addArgument('locale_name', InputArgument::REQUIRED)
              ->addOption('--locale_path', 'nn', InputOption::VALUE_REQUIRED);

@@ -13,7 +13,7 @@ class Update extends Command {
 
     protected function configure() {
         $this->setName('locale:update')
-             ->setDescription('Update all locale files')
+             ->setDescription('Update message file in locale directory')
              ->setAliases(['localeupdate'])
              ->addOption('--locale_path', 'nn', InputOption::VALUE_REQUIRED);
     }

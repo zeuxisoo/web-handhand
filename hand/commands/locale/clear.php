@@ -12,7 +12,7 @@ class Clear extends Command {
 
     protected function configure() {
         $this->setName('locale:clear')
-             ->setDescription('Clear all locale files')
+             ->setDescription('Clear message file in locale directory')
              ->setAliases(['localeclear'])
              ->addArgument('locale_name', InputArgument::REQUIRED)
              ->addOption('--locale_path', 'nn', InputOption::VALUE_REQUIRED);

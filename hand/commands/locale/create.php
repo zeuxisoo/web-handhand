@@ -12,7 +12,7 @@ class Create extends Command {
 
     protected function configure() {
         $this->setName('locale:create')
-             ->setDescription('Create new locale files')
+             ->setDescription('Create new locale directory')
              ->setAliases(['localecreate'])
              ->addArgument('locale_name', InputArgument::REQUIRED)
              ->addOption('--locale_path', 'nn', InputOption::VALUE_REQUIRED);
