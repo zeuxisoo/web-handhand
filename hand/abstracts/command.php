@@ -6,7 +6,7 @@ use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 
 class Command {
 
-    private $output = null;
+    protected $output = null;
 
     public function setOutput(OutputInterface $output) {
         $this->output = $output;
@@ -22,6 +22,14 @@ class Command {
         $style = new OutputFormatterStyle('red', 'black', array('bold', 'underscore'));
         $this->output->writeln('');
         $this->output->writeln($style->apply($message));
+    }
+
+    public function message($message) {
+        $this->output->writeln($message);
+    }
+
+    public function newline() {
+        $this->output->writeln('');
     }
 
 }
