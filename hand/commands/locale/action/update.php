@@ -36,6 +36,9 @@ class Update extends Command {
 
         foreach (scandir($locale_folder) as $locale) {
             if (in_array($locale , array("." , ".." )) === false) {
+                $this->newline();
+                $this->message('<info>Locale</info>: '.$locale);
+
                 $language_folder = $locale_folder.DIRECTORY_SEPARATOR.$locale;
 
                 if (is_dir($language_folder) === true) {
@@ -75,18 +78,27 @@ class Update extends Command {
                     ksort($already_messages);
 
                     if (count($latest_messages) > 0) {
+                        $this->message('> latest message : '.count($latest_messages));
                         $final_messages = array_merge($final_messages, $latest_messages);
                     }
 
                     if (count($already_messages) > 0) {
+                        $this->message('> already message: '.count($already_messages));
                         $final_messages = array_merge($final_messages, $already_messages);
                     }
 
-                    // Not generate outdated message into message file
-                    //
-                    // if (count($outdate_messages) > 0) {
-                    //     $final_messages = array_merge($final_messages, $outdate_messages);
-                    // }
+                    if (count($outdate_messages) > 0) {
+                        $this->message('> outdate message: '.count($outdate_messages));
+                        $this->message(str_repeat('=', 50));
+
+                        $i = 1;
+                        foreach($outdate_messages as $outdate_message) {
+                            $this->message(sprintf("%2d. %s", $i++, $outdate_message));
+                        }
+
+                        // Not generate outdated message into message file
+                        // $final_messages = array_merge($final_messages, $outdate_messages);
+                    }
 
                     if (empty($final_messages) === false) {
                         $content = var_export($final_messages , true);
@@ -105,6 +117,10 @@ class Update extends Command {
             foreach ($job_list as $message_file => $file_content) {
                 file_put_contents($message_file , $file_content);
             }
+
+            $this->success('==> Success, locale updated');
+        }else{
+            $this->success('==> Success, locale no update available');
         }
     }
 
