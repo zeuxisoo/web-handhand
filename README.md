@@ -39,6 +39,20 @@ Clear messages in `all` or `target` locale directory
 Remove locale directory
 
 	php finger locale:remove en_US
+	
+Set default locale
+
+1. open settings file file ``
+
+		vim config/default.php
+	
+2. modify the `current` settings
+	
+		'locale'     => [
+		    'current'  => 'en_US',
+		    'fallback' => ['en_US'],
+		],
+
 
 ## License
 
