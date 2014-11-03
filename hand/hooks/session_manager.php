@@ -26,8 +26,6 @@ class SessionManager {
         }else if (empty($remember_token) === false) {
             list($user_id, $signin_token, $auth_key) = explode(":", Secure::makeAuth($remember_token, "DECODE"));
 
-            list($user_id, $signin_token, $auth_key) = explode(":", Secure::makeAuth($remember_token, "DECODE"));
-
             $user       = User::find($user_id);
             $key_verify = hash('sha256', $user_id.$signin_token.$this->app_config['cookie']['secret_key']) === $auth_key;
 
