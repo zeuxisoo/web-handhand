@@ -4,7 +4,7 @@
 <div class="search-index">
     <div class="panel panel-default">
         <div class="panel-body">
-            <p class="lead">Search</p>
+            <p class="lead">{{ locale('Search') }}</p>
             <hr>
             <form method="post" action="{{ urlFor('search.index') }}">
                 <input type="hidden" name="{{ csrf_key }}" value="{{ csrf_token }}">
