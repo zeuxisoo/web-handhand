@@ -12,6 +12,7 @@ use Symfony\Component\Translation\Loader\ArrayLoader;
 use Symfony\Bridge\Twig\Extension\TranslationExtension;
 use Hand\Middlewares\Route;
 use Hand\Middlewares\TurboLinks;
+use Hand\Middlewares\CloudFlareSSL;
 use Hand\Helpers\View;
 use Hand\Hooks\SessionManager;
 use Hand\Hooks\AssetManager;
@@ -76,6 +77,7 @@ class App {
     public function registerSlimMiddleware() {
         $this->slim->add(new Extras\Middleware\CsrfGuard());
         $this->slim->add(new TurboLinks());
+        $this->slim->add(new CloudFlareSSL());
     }
 
     public function registerSlimView() {
