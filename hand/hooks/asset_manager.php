@@ -19,8 +19,8 @@ class AssetManager {
     }
 
     public function makeCSS() {
-        $path_replace_bootstrap    = new PathReplace(['../fonts/' => $this->site_url.'/static/vendor/bootstrap/fonts/']);
-        $path_replace_font_awesome = new PathReplace(['../fonts/' => $this->site_url.'/static/vendor/font-awesome/fonts/']);
+        $path_replace_bootstrap    = new PathReplace(['../fonts/' => './static/vendor/bootstrap/fonts/']);
+        $path_replace_font_awesome = new PathReplace(['../fonts/' => './static/vendor/font-awesome/fonts/']);
 
         $collection = new AssetCollection([
             new FileAsset(STATIC_ROOT.'/vendor/bootstrap/css/bootstrap.min.css', [$path_replace_bootstrap]),
