@@ -3,7 +3,7 @@
     "description": "Call me 2hand application",
     "require": {
         "php": ">=5.4",
-        "slim/slim": "2.4.*",
+        "slim/slim": "2.6.*",
         "slim/views": "0.1.*",
         "slim/extras": "2.0.3",
         "twig/twig": "v1.16.0",
